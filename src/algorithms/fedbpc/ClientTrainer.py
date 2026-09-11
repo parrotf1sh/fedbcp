@@ -32,7 +32,7 @@ class ClientTrainer(BaseClientTrainer):
         self.prototype_valid = None
         self.prototype_payload = None
 
-    def train(self):
+    def train(self, collect_gradient_diagnostics=False):
         """Local training with balanced prototype calibration."""
         self.model.train()
         self.model.to(self.device)
@@ -42,7 +42,10 @@ class ClientTrainer(BaseClientTrainer):
             "ce_loss": [],
             "align_loss": [],
             "proto_loss": [],
+            "feature_norm": [],
         }
+        gradient_diagnostics = {}
+        gradient_diagnostics_collected = False
 
         for _ in range(self.local_epochs):
             for data, targets in self.trainloader:
@@ -50,19 +53,35 @@ class ClientTrainer(BaseClientTrainer):
 
                 data, targets = data.to(self.device), targets.to(self.device)
                 logits, features = self._forward_with_features(data)
-                loss, loss_dict = self.criterion(
+                should_collect_gradients = (
+                    collect_gradient_diagnostics
+                    and not gradient_diagnostics_collected
+                )
+                criterion_output = self.criterion(
                     logits,
                     targets,
                     features,
                     self.global_prototypes,
                     self.prototype_valid,
+                    return_raw=should_collect_gradients,
                 )
+                if should_collect_gradients:
+                    loss, loss_dict, raw_losses = criterion_output
+                    gradient_diagnostics = self._measure_gradient_diagnostics(
+                        raw_losses
+                    )
+                    gradient_diagnostics_collected = True
+                else:
+                    loss, loss_dict = criterion_output
 
                 loss.backward()
                 self.optimizer.step()
 
                 for key, item in loss_dict.items():
                     loss_results[key].append(item.item())
+                loss_results["feature_norm"].append(
+                    torch.norm(features.detach(), p=2, dim=1).mean().item()
+                )
 
         self.prototype_payload = self._build_prototype_payload()
         local_results = self._get_local_stats()
@@ -70,6 +89,10 @@ class ClientTrainer(BaseClientTrainer):
         local_results["mean_logit_norm"] = self.prototype_payload[
             "mean_logit_norm"
         ].item()
+        local_results["mean_feature_norm_payload"] = self.prototype_payload[
+            "mean_feature_norm"
+        ].item()
+        local_results.update(gradient_diagnostics)
 
         return local_results, local_size
 
@@ -119,11 +142,13 @@ class ClientTrainer(BaseClientTrainer):
         confidence_sums = torch.zeros(self.num_classes, device=self.device)
         class_counts = torch.zeros(self.num_classes, device=self.device)
         logit_norm_sum = torch.tensor(0.0, device=self.device)
+        feature_norm_sum = torch.tensor(0.0, device=self.device)
         logit_count = 0
 
         for data, targets in self.trainloader:
             data, targets = data.to(self.device), targets.to(self.device)
             logits, features = self._forward_with_features(data)
+            feature_norm_sum += torch.norm(features, p=2, dim=1).sum()
             features = F.normalize(features, dim=1)
             confidence = self._calibrated_confidence(logits, targets)
 
@@ -161,6 +186,7 @@ class ClientTrainer(BaseClientTrainer):
         prototypes[~prototype_valid] = 0
         confidence[~prototype_valid] = 0
         mean_logit_norm = logit_norm_sum / max(logit_count, 1)
+        mean_feature_norm = feature_norm_sum / max(logit_count, 1)
 
         return {
             "prototypes": prototypes.detach().cpu(),
@@ -168,6 +194,7 @@ class ClientTrainer(BaseClientTrainer):
             "confidence": confidence.detach().cpu(),
             "class_counts": class_counts.detach().cpu(),
             "mean_logit_norm": mean_logit_norm.detach().cpu(),
+            "mean_feature_norm": mean_feature_norm.detach().cpu(),
         }
 
     def _calibrated_confidence(self, logits, targets):
@@ -195,3 +222,83 @@ class ClientTrainer(BaseClientTrainer):
                 summarized[key] = sum(values) / len(values)
 
         return summarized
+
+    def _measure_gradient_diagnostics(self, raw_losses):
+        """Measure CE/auxiliary gradient interaction without changing .grad."""
+        head_keyword = self.algo_params.get("head_agg", {}).get(
+            "head_keyword", "classifier"
+        )
+        shared_parameters = [
+            parameter
+            for name, parameter in self.model.named_parameters()
+            if parameter.requires_grad and head_keyword not in name
+        ]
+        if len(shared_parameters) == 0:
+            return {}
+
+        ce_grads = torch.autograd.grad(
+            raw_losses["ce_loss"],
+            shared_parameters,
+            retain_graph=True,
+            allow_unused=True,
+        )
+        ce_norm = self._gradient_norm(ce_grads)
+        diagnostics = {"diag_grad_ce_norm": ce_norm.item()}
+
+        weighted_align = self.criterion.lambda_align * raw_losses["align_loss"]
+        weighted_proto = self.criterion.lambda_proto * raw_losses["proto_loss"]
+        weighted_aux = weighted_align + weighted_proto
+
+        for name, component in (
+            ("align", weighted_align),
+            ("proto", weighted_proto),
+            ("aux", weighted_aux),
+        ):
+            if not component.requires_grad:
+                diagnostics["diag_grad_{}_norm".format(name)] = 0.0
+                continue
+
+            component_grads = torch.autograd.grad(
+                component,
+                shared_parameters,
+                retain_graph=True,
+                allow_unused=True,
+            )
+            component_norm = self._gradient_norm(component_grads)
+            diagnostics["diag_grad_{}_norm".format(name)] = component_norm.item()
+
+            if name == "aux":
+                dot_product = self._gradient_dot(ce_grads, component_grads)
+                denominator = ce_norm * component_norm
+                diagnostics["diag_grad_aux_to_ce_ratio"] = (
+                    component_norm / ce_norm.clamp_min(1e-12)
+                ).item()
+                diagnostics["diag_grad_ce_aux_cosine"] = (
+                    dot_product / denominator.clamp_min(1e-12)
+                ).item()
+
+        return diagnostics
+
+    def _gradient_norm(self, gradients):
+        squared_norm = None
+        for gradient in gradients:
+            if gradient is None:
+                continue
+            item = torch.sum(gradient.detach().float() ** 2)
+            squared_norm = item if squared_norm is None else squared_norm + item
+
+        if squared_norm is None:
+            return torch.tensor(0.0, device=self.device)
+        return torch.sqrt(squared_norm)
+
+    def _gradient_dot(self, left_gradients, right_gradients):
+        dot_product = None
+        for left, right in zip(left_gradients, right_gradients):
+            if left is None or right is None:
+                continue
+            item = torch.sum(left.detach().float() * right.detach().float())
+            dot_product = item if dot_product is None else dot_product + item
+
+        if dot_product is None:
+            return torch.tensor(0.0, device=self.device)
+        return dot_product

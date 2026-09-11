@@ -32,6 +32,15 @@
                     "gamma_update": 0.5,
                     "eps": 1e-8,
                     "head_keyword": "classifier"
+                },
+                "diagnostics": {
+                    "enabled": true,
+                    "shadow_eval_interval": 1,
+                    "prototype_eval_interval": 1,
+                    "prototype_eval_batches": 10,
+                    "gradient_rounds": [1, 49, 99, 149, 199],
+                    "gradient_client_slots": [0],
+                    "log_client_slots": true
                 }
             }
         },

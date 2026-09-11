@@ -9,3 +9,4 @@ data/
 weights/
 wandb/
 nohup.out
+*.csv

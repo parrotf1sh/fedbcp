@@ -23,25 +23,25 @@ class BalancedPrototypeCalibrationLoss(nn.Module):
         self.class_balanced_loss = class_balanced_loss
         self.min_proto_classes = min_proto_classes
 
-    def forward(self, logits, targets, features, global_prototypes, prototype_valid):
+    def forward(
+        self,
+        logits,
+        targets,
+        features,
+        global_prototypes,
+        prototype_valid,
+        return_raw=False,
+    ):
         ce_loss = self._classification_loss(logits, targets)
 
         if global_prototypes is None or prototype_valid is None:
             zero = features.new_tensor(0.0)
-            return ce_loss, {
-                "ce_loss": ce_loss.detach(),
-                "align_loss": zero.detach(),
-                "proto_loss": zero.detach(),
-            }
+            return self._format_output(ce_loss, ce_loss, zero, zero, return_raw)
 
         prototype_valid = prototype_valid.to(device=features.device, dtype=torch.bool)
         if not prototype_valid.any():
             zero = features.new_tensor(0.0)
-            return ce_loss, {
-                "ce_loss": ce_loss.detach(),
-                "align_loss": zero.detach(),
-                "proto_loss": zero.detach(),
-            }
+            return self._format_output(ce_loss, ce_loss, zero, zero, return_raw)
 
         global_prototypes = global_prototypes.to(features.device)
         norm_features = F.normalize(features, dim=1)
@@ -60,13 +60,27 @@ class BalancedPrototypeCalibrationLoss(nn.Module):
             + self.lambda_align * align_loss
             + self.lambda_proto * proto_loss
         )
-        loss_dict = {
+        return self._format_output(
+            total_loss, ce_loss, align_loss, proto_loss, return_raw
+        )
+
+    def _format_output(
+        self, total_loss, ce_loss, align_loss, proto_loss, return_raw
+    ):
+        detached = {
             "ce_loss": ce_loss.detach(),
             "align_loss": align_loss.detach(),
             "proto_loss": proto_loss.detach(),
         }
+        if not return_raw:
+            return total_loss, detached
 
-        return total_loss, loss_dict
+        raw = {
+            "ce_loss": ce_loss,
+            "align_loss": align_loss,
+            "proto_loss": proto_loss,
+        }
+        return total_loss, detached, raw
 
     def _classification_loss(self, logits, targets):
         losses = F.cross_entropy(logits, targets, reduction="none")
