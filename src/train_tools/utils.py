@@ -20,10 +20,12 @@ NUM_CLASSES = {
 }
 
 
-def create_models(model_name, dataset_name):
+def create_models(model_name, dataset_name, **params):
     """Create a network model"""
 
     num_classes = NUM_CLASSES[dataset_name]
-    model = MODELS[model_name](num_classes=num_classes)
+    if model_name == "vgg11" and dataset_name == "tinyimagenet":
+        params.setdefault("img_size", 3 * 64 * 64)
+    model = MODELS[model_name](num_classes=num_classes, **params)
 
     return model

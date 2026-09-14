@@ -10,3 +10,4 @@ weights/
 wandb/
 nohup.out
 *.csv
+docs/

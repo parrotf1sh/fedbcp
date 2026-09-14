@@ -32,6 +32,7 @@ ALGO = {
     "fedlmd": algorithms.fedlmd.Server,
     "fedlmd_tf": algorithms.fedlmd_tf.Server,
     "fedbpc": algorithms.fedbpc.Server,
+    "fedbtr": algorithms.fedbtr.Server,
 }
 
 SCHEDULER = {
@@ -49,7 +50,15 @@ def _get_setups(args):
     random.seed(19940817)
 
     # Distribute the data to clients
-    data_distributed = data_distributer(**args.data_setups)
+    data_options = dict(args.data_setups)
+    pipeline = data_options.pop("pipeline", "legacy")
+    if pipeline == "longtail":
+        from train_tools.preprocessing.longtail_datasetter import longtail_data_distributer
+        data_distributed = longtail_data_distributer(**data_options)
+    elif pipeline == "legacy":
+        data_distributed = data_distributer(**data_options)
+    else:
+        raise ValueError("Unknown data pipeline: {}".format(pipeline))
 
     # Fix randomness for experiment
     _random_seeder(args.train_setups.seed)
@@ -70,6 +79,9 @@ def _get_setups(args):
 
     # Algorith-specific global server container
     algo_params = args.train_setups.algo.params
+    if args.train_setups.algo.name == "fedbtr":
+        algo_params = dict(algo_params)
+        algo_params.setdefault("experiment_seed", args.train_setups.seed)
     server = ALGO[args.train_setups.algo.name](
         algo_params,
         model,
@@ -78,6 +90,15 @@ def _get_setups(args):
         scheduler,
         **args.train_setups.scenario,
     )
+
+    if pipeline == "longtail":
+        # Some baseline constructors inspect training loaders. Do not let that
+        # consume the opt-in protocol's initial sampling/augmentation streams.
+        _random_seeder(args.train_setups.seed)
+        for loaders in [data_distributed["global"]] + list(data_distributed["local"].values()):
+            for loader in loaders.values():
+                if isinstance(loader, torch.utils.data.DataLoader) and loader.generator is not None:
+                    loader.generator.manual_seed(loader.generator.initial_seed())
 
     return server
 
@@ -96,9 +117,17 @@ def main(args):
 
     # Load the configuration
     server = _get_setups(args)
+    if args.train_setups.algo.name == "fedbtr":
+        # Preserve the resolved architecture/data/scenario as well as algo params.
+        server.set_experiment_config(args)
 
     # Conduct FL
     server.run()
+
+    if (args.data_setups.get("pipeline") == "longtail"
+            and args.train_setups.algo.name != "fedbtr"):
+        from longtail_report import save_baseline_report
+        save_baseline_report(server, args)
 
     # Save the final global model
     # model_path = os.path.join(wandb.run.dir, "model.pth")

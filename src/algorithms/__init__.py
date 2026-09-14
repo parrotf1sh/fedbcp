@@ -10,3 +10,4 @@ from .fedntd import *
 from .fedlmd import *
 from .fedlmd_tf import *
 from .fedbpc import *
+from .fedbtr import *

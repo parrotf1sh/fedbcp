@@ -1,5 +1,7 @@
 ## How to Run Codes?
 
+FedBTR 的新算法、独立长尾划分、配对消融和运行说明见 [FedBTR](../docs/FedBTR.md)，实现自审见 [对抗式审查记录](../docs/FedBTR_adversarial_review.md)。
+
 The configuration skeleton for each algorithm is in `./config/*.json`. 
 - `python ./main.py --config_path ./config/algorithm_name.json` conducts the experiment with the default setups.
 
