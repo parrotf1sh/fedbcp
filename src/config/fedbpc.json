@@ -1,6 +1,6 @@
 {
     "data_setups":{
-        "root": "./data",
+        "root": "../../data",
         "dataset_name": "cifar10",
         "batch_size": 50,
         "n_clients": 100,
@@ -17,6 +17,10 @@
                 "lambda_proto": 0.5,
                 "proto_tau": 0.5,
                 "proto_momentum": 0.5,
+                "singleton_proto_update": {
+                    "enabled": true,
+                    "update_scale": 0.6666667
+                },
                 "min_confidence": 0.05,
                 "min_proto_samples": 2,
                 "count_shrinkage": 5.0,
@@ -27,7 +31,7 @@
                 "class_balanced_loss": true,
                 "min_proto_classes": 2,
                 "head_agg": {
-                    "enabled": true,
+                    "enabled": false,
                     "gamma_logit": 0.5,
                     "gamma_update": 0.5,
                     "eps": 1e-8,

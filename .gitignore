@@ -11,3 +11,4 @@ wandb/
 nohup.out
 *.csv
 docs/
+fedbtr_run_metrics/

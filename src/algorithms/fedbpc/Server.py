@@ -38,6 +38,9 @@ class Server(BaseServer):
         }
         self._validate_algo_params(algo_params)
         self.head_agg_params = self._get_head_agg_params(algo_params)
+        self.singleton_proto_update_params = (
+            self._get_singleton_proto_update_params(algo_params)
+        )
         self.diagnostic_params = self._get_diagnostic_params(algo_params)
         self.head_agg_metrics = {}
         self._last_logit_norms = []
@@ -143,6 +146,10 @@ class Server(BaseServer):
             count_shrinkage=self.algo_params.get("count_shrinkage", 5.0),
             min_proto_contributors=self.algo_params.get("min_proto_contributors", 1),
             max_prototype_age=self.algo_params.get("max_prototype_age", None),
+            singleton_update_enabled=self.singleton_proto_update_params["enabled"],
+            singleton_update_scale=self.singleton_proto_update_params[
+                "update_scale"
+            ],
         )
 
         return updated_local_weights, client_sizes, round_results
@@ -214,6 +221,21 @@ class Server(BaseServer):
             raise ValueError("FedBPC count_shrinkage must be >= 0.")
         if algo_params.get("min_proto_contributors", 1) < 1:
             raise ValueError("FedBPC min_proto_contributors must be >= 1.")
+        singleton_update = algo_params.get("singleton_proto_update", {})
+        singleton_update_enabled = singleton_update.get("enabled", False)
+        singleton_update_scale = singleton_update.get("update_scale", 2.0 / 3.0)
+        if not 0 < singleton_update_scale <= 1:
+            raise ValueError(
+                "FedBPC singleton_proto_update.update_scale must be in (0, 1]."
+            )
+        if (
+            singleton_update_enabled
+            and algo_params.get("min_proto_contributors", 1) != 1
+        ):
+            raise ValueError(
+                "FedBPC singleton prototype updates require "
+                "min_proto_contributors == 1."
+            )
         if algo_params.get("max_prototype_age", None) is not None:
             if algo_params.max_prototype_age < 0:
                 raise ValueError("FedBPC max_prototype_age must be >= 0.")
@@ -246,6 +268,18 @@ class Server(BaseServer):
         for key in defaults.keys():
             if key in head_agg:
                 defaults[key] = head_agg[key]
+
+        return defaults
+
+    def _get_singleton_proto_update_params(self, algo_params):
+        defaults = {
+            "enabled": False,
+            "update_scale": 2.0 / 3.0,
+        }
+        singleton_update = algo_params.get("singleton_proto_update", {})
+        for key in defaults.keys():
+            if key in singleton_update:
+                defaults[key] = singleton_update[key]
 
         return defaults
 

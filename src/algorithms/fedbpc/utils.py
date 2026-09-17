@@ -15,6 +15,8 @@ def aggregate_prototypes(
     count_shrinkage=5.0,
     min_proto_contributors=1,
     max_prototype_age=None,
+    singleton_update_enabled=False,
+    singleton_update_scale=2.0 / 3.0,
 ):
     """Aggregate class prototypes with confidence and small-sample safeguards."""
     if len(prototype_payloads) == 0:
@@ -87,7 +89,16 @@ def aggregate_prototypes(
     )
     update_cosines = torch.zeros(num_classes, device=device)
     update_cosine_valid = torch.zeros(num_classes, dtype=torch.bool, device=device)
+    applied_update_cosines = torch.zeros(num_classes, device=device)
+    applied_update_cosine_valid = torch.zeros(
+        num_classes, dtype=torch.bool, device=device
+    )
+    effective_momenta = torch.zeros(num_classes, device=device)
+    singleton_damped = torch.zeros(num_classes, dtype=torch.bool, device=device)
     if class_has_update.any():
+        updated_class_indices = torch.nonzero(
+            class_has_update, as_tuple=False
+        ).view(-1)
         round_prototypes = weighted_sums[class_has_update] / confidence_sums[
             class_has_update
         ].view(-1, 1)
@@ -96,9 +107,6 @@ def aggregate_prototypes(
         previously_valid = prototype_valid[class_has_update]
         old_prototypes = global_prototypes[class_has_update]
         if previously_valid.any():
-            updated_class_indices = torch.nonzero(
-                class_has_update, as_tuple=False
-            ).view(-1)
             previous_class_indices = updated_class_indices[previously_valid]
             update_cosines[previous_class_indices] = F.cosine_similarity(
                 old_prototypes[previously_valid],
@@ -106,12 +114,52 @@ def aggregate_prototypes(
                 dim=1,
             )
             update_cosine_valid[previous_class_indices] = True
+
+        updated_momenta = torch.full(
+            (updated_class_indices.numel(),),
+            float(proto_momentum),
+            device=device,
+        )
+        singleton_in_update = contributor_counts[class_has_update].eq(1)
+        singleton_damping_active = (
+            singleton_update_enabled
+            and float(singleton_update_scale) < 1.0
+            and float(proto_momentum) < 1.0
+        )
+        damped_in_update = (
+            previously_valid & singleton_in_update & singleton_damping_active
+        )
+        if damped_in_update.any():
+            base_update_weight = 1.0 - float(proto_momentum)
+            singleton_momentum = 1.0 - (
+                base_update_weight * float(singleton_update_scale)
+            )
+            updated_momenta[damped_in_update] = singleton_momentum
+
+        # A class without an existing global prototype must be initialized from
+        # the available round prototype; there is no prior estimate to retain.
+        updated_momenta[~previously_valid] = 0.0
+        effective_momenta[updated_class_indices] = updated_momenta
+        singleton_damped[updated_class_indices] = damped_in_update
+
         merged = torch.where(
             previously_valid.view(-1, 1),
-            proto_momentum * old_prototypes + (1.0 - proto_momentum) * round_prototypes,
+            updated_momenta.view(-1, 1) * old_prototypes
+            + (1.0 - updated_momenta).view(-1, 1) * round_prototypes,
             round_prototypes,
         )
-        global_prototypes[class_has_update] = F.normalize(merged, dim=1)
+        merged = F.normalize(merged, dim=1)
+        global_prototypes[class_has_update] = merged
+
+        if previously_valid.any():
+            previous_class_indices = updated_class_indices[previously_valid]
+            applied_update_cosines[previous_class_indices] = F.cosine_similarity(
+                old_prototypes[previously_valid],
+                merged[previously_valid],
+                dim=1,
+            )
+            applied_update_cosine_valid[previous_class_indices] = True
+
         prototype_valid[class_has_update] = True
         prototype_age[class_has_update] = 0
 
@@ -135,6 +183,10 @@ def aggregate_prototypes(
         raw_confidence_sums[has_contributors]
         / contributor_counts[has_contributors]
     )
+    singleton_updates = class_has_update & contributor_counts.eq(1)
+    multi_updates = class_has_update & contributor_counts.ge(2)
+    singleton_update_valid = update_cosine_valid & contributor_counts.eq(1)
+    multi_update_valid = update_cosine_valid & contributor_counts.ge(2)
 
     metrics = {
         "prototype_coverage": prototype_valid.float().mean().item(),
@@ -163,6 +215,43 @@ def aggregate_prototypes(
         if update_cosine_valid.any()
         else 0.0,
         "prototype_update_cosine_count": update_cosine_valid.float().sum().item(),
+        "prototype_applied_update_cosine_mean": _masked_mean(
+            applied_update_cosines, applied_update_cosine_valid
+        ),
+        "prototype_applied_update_cosine_min": _masked_min(
+            applied_update_cosines, applied_update_cosine_valid
+        ),
+        "prototype_applied_update_cosine_count": (
+            applied_update_cosine_valid.float().sum().item()
+        ),
+        "prototype_singleton_update_count": singleton_updates.float().sum().item(),
+        "prototype_singleton_damped_count": singleton_damped.float().sum().item(),
+        "prototype_multi_update_count": multi_updates.float().sum().item(),
+        "prototype_singleton_raw_update_cosine_mean": _masked_mean(
+            update_cosines, singleton_update_valid
+        ),
+        "prototype_singleton_applied_update_cosine_mean": _masked_mean(
+            applied_update_cosines,
+            applied_update_cosine_valid & contributor_counts.eq(1),
+        ),
+        "prototype_multi_raw_update_cosine_mean": _masked_mean(
+            update_cosines, multi_update_valid
+        ),
+        "prototype_multi_applied_update_cosine_mean": _masked_mean(
+            applied_update_cosines,
+            applied_update_cosine_valid & contributor_counts.ge(2),
+        ),
+        "prototype_effective_momentum_mean": _masked_mean(
+            effective_momenta, applied_update_cosine_valid
+        ),
+        "prototype_singleton_effective_momentum_mean": _masked_mean(
+            effective_momenta,
+            applied_update_cosine_valid & contributor_counts.eq(1),
+        ),
+        "prototype_multi_effective_momentum_mean": _masked_mean(
+            effective_momenta,
+            applied_update_cosine_valid & contributor_counts.ge(2),
+        ),
         "prototype_same_class_client_cosine_mean": (
             torch.sum(pair_cosines * pair_counts)
             / pair_counts.sum().clamp_min(1.0)
@@ -190,6 +279,18 @@ def aggregate_prototypes(
         metrics[prefix + "_pair_count"] = pair_counts[class_idx].item()
         metrics[prefix + "_update_cosine"] = update_cosines[class_idx].item()
         metrics[prefix + "_update_cosine_valid"] = update_cosine_valid[
+            class_idx
+        ].float().item()
+        metrics[prefix + "_applied_update_cosine"] = applied_update_cosines[
+            class_idx
+        ].item()
+        metrics[prefix + "_applied_update_cosine_valid"] = (
+            applied_update_cosine_valid[class_idx].float().item()
+        )
+        metrics[prefix + "_effective_momentum"] = effective_momenta[
+            class_idx
+        ].item()
+        metrics[prefix + "_singleton_damped"] = singleton_damped[
             class_idx
         ].float().item()
 
@@ -257,6 +358,20 @@ def _min_updated_contributors(contributor_counts, class_has_update):
     return contributor_counts[class_has_update].min().item()
 
 
+def _masked_mean(values, mask):
+    if not mask.any():
+        return 0.0
+
+    return values[mask].mean().item()
+
+
+def _masked_min(values, mask):
+    if not mask.any():
+        return 0.0
+
+    return values[mask].min().item()
+
+
 def _same_class_pair_cosines(local_prototypes_by_class, num_classes):
     pair_cosines = torch.zeros(num_classes)
     pair_cosine_mins = torch.zeros(num_classes)
@@ -306,6 +421,19 @@ def _empty_metrics(num_classes):
         "prototype_update_cosine_mean": 0.0,
         "prototype_update_cosine_min": 0.0,
         "prototype_update_cosine_count": 0.0,
+        "prototype_applied_update_cosine_mean": 0.0,
+        "prototype_applied_update_cosine_min": 0.0,
+        "prototype_applied_update_cosine_count": 0.0,
+        "prototype_singleton_update_count": 0.0,
+        "prototype_singleton_damped_count": 0.0,
+        "prototype_multi_update_count": 0.0,
+        "prototype_singleton_raw_update_cosine_mean": 0.0,
+        "prototype_singleton_applied_update_cosine_mean": 0.0,
+        "prototype_multi_raw_update_cosine_mean": 0.0,
+        "prototype_multi_applied_update_cosine_mean": 0.0,
+        "prototype_effective_momentum_mean": 0.0,
+        "prototype_singleton_effective_momentum_mean": 0.0,
+        "prototype_multi_effective_momentum_mean": 0.0,
         "prototype_same_class_client_cosine_mean": 0.0,
         "prototype_same_class_client_cosine_min": 0.0,
         "prototype_same_class_pair_count": 0.0,
@@ -323,5 +451,9 @@ def _empty_metrics(num_classes):
         metrics[prefix + "_pair_count"] = 0.0
         metrics[prefix + "_update_cosine"] = 0.0
         metrics[prefix + "_update_cosine_valid"] = 0.0
+        metrics[prefix + "_applied_update_cosine"] = 0.0
+        metrics[prefix + "_applied_update_cosine_valid"] = 0.0
+        metrics[prefix + "_effective_momentum"] = 0.0
+        metrics[prefix + "_singleton_damped"] = 0.0
 
     return metrics
