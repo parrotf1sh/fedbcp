@@ -12,6 +12,8 @@ DEFAULTS = dict(
     warmup_rounds=0, diagnostic_interval=10, diagnostic_clients=1,
     eval_interval=1, test_interval=0, output_dir="./results/fedbtr",
     save_checkpoints=False, save_local_history=False, experiment_seed=2022,
+    transfer_diagnostics=False, transfer_shadow_branches=True,
+    transfer_followup_rounds=(1, 5, 10),
 )
 
 
@@ -43,7 +45,8 @@ def resolve_config(params):
     if int(cfg["eval_interval"]) != cfg["eval_interval"] or cfg["eval_interval"] < 1:
         raise ValueError("eval_interval must be a positive integer")
     cfg["eval_interval"] = int(cfg["eval_interval"])
-    for key in ("uniform_support", "save_checkpoints", "save_local_history"):
+    for key in ("uniform_support", "save_checkpoints", "save_local_history",
+                "transfer_diagnostics", "transfer_shadow_branches"):
         if type(cfg[key]) is not bool:
             raise ValueError("{} must be a JSON boolean".format(key))
     if cfg["band_min"] > cfg["band_max"]:
@@ -53,4 +56,18 @@ def resolve_config(params):
             raise ValueError("teacher_mode=none requires retention_mode=none and student_init=global")
     if cfg["teacher_mode"] == "balanced" and cfg["teacher_lr"] == 0:
         raise ValueError("Use teacher_mode=global for an uncalibrated teacher")
+    lags = cfg["transfer_followup_rounds"]
+    if not isinstance(lags, (list, tuple)) or any(
+            type(value) is not int or value < 1 for value in lags):
+        raise ValueError("transfer_followup_rounds must be a list of positive integer round offsets")
+    if len(set(lags)) != len(lags):
+        raise ValueError("transfer_followup_rounds must not contain duplicates")
+    cfg["transfer_followup_rounds"] = sorted(lags)
+    if cfg["transfer_diagnostics"]:
+        if (cfg["teacher_mode"] != "balanced" or cfg["retention_mode"] != "band"
+                or cfg["student_init"] != "global" or cfg["retention_weight"] <= 0):
+            raise ValueError("Transfer diagnostics require balanced teacher, band retention, "
+                             "global student initialization and positive retention_weight")
+        if cfg["diagnostic_interval"] < 1 or cfg["diagnostic_clients"] < 1:
+            raise ValueError("Transfer diagnostics require positive diagnostic_interval/clients")
     return cfg

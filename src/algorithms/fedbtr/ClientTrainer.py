@@ -13,7 +13,7 @@ class ClientTrainer(BaseClientTrainer):
         self.cfg = cfg
         self.criterion = RetentionLoss(global_counts, cfg).to(self.device)
 
-    def train_client(self, state, optimizer_state, data, teacher, round_idx):
+    def train_client(self, state, optimizer_state, data, teacher, round_idx, probe=None, batch_trace=None):
         self.model.load_state_dict(state)
         self.model.to(self.device)
         # Fresh local optimizer per selected client; never share momentum between clients.
@@ -32,6 +32,8 @@ class ClientTrainer(BaseClientTrainer):
                        and self.cfg["retention_weight"] > 0 and strength > 0)
         for _ in range(self.local_epochs):
             for images, targets in data["train"]:
+                if batch_trace is not None:
+                    batch_trace.observe(images, targets)
                 images, targets = images.to(self.device), targets.to(self.device)
                 self.optimizer.zero_grad(set_to_none=True)
                 logits = self.model(images)
@@ -40,6 +42,8 @@ class ClientTrainer(BaseClientTrainer):
                     with torch.no_grad():
                         teacher_logits = teacher(images)
                 loss, metrics = self.criterion(logits, targets, teacher_logits, counts, strength)
+                if probe is not None and teacher_logits is not None:
+                    probe.observe(logits.detach(), teacher_logits.detach(), targets)
                 if not torch.isfinite(loss):
                     raise FloatingPointError("Non-finite FedBTR training loss")
                 loss.backward()

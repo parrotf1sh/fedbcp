@@ -16,6 +16,7 @@ from experiment_logging import configure_tracking, log_final, log_round, trackin
 from ..BaseServer import BaseServer
 from .ClientTrainer import ClientTrainer
 from .config import resolve_config
+from .diagnostics import BatchTrace, RandomSnapshot, TrainingProbe, TransferDiagnostics
 from .teacher import BalancedReadoutTeacher
 from .utils import (aggregate_states, classifier_module, cpu_state, evaluate,
                     groups_from_counts, sync_device, tensor_bytes)
@@ -61,6 +62,13 @@ class Server(BaseServer):
                                     algo_params=self.cfg, model=copy.deepcopy(model),
                                     local_epochs=self.local_epochs, device=self.device,
                                     num_classes=self.num_classes)
+        self.transfer = None
+        if self.cfg["transfer_diagnostics"]:
+            for data in data_distributed["local"].values():
+                if getattr(data["train"], "persistent_workers", False):
+                    raise ValueError("Transfer shadow replay requires non-persistent train workers")
+            self.transfer = TransferDiagnostics(self.validation, self.groups, self.cfg,
+                                                self.counts, self.local_epochs, self.device)
         run_name = "{}-{}".format(time.strftime("%Y%m%d-%H%M%S"), uuid.uuid4().hex[:8])
         self.output_dir = os.path.abspath(os.path.join(self.cfg["output_dir"], run_name))
         os.makedirs(self.output_dir, exist_ok=False)
@@ -82,6 +90,14 @@ class Server(BaseServer):
             selection="validation macro accuracy; no test-based selection",
             privacy="Simulation holds all data; deployed teacher needs global counts and client sizes. Local support is computed client-side; optional diagnostics expose support-bin summaries.",
         )
+        if self.transfer is not None:
+            self.run_metadata["transfer_diagnostics"] = dict(
+                version=1, data="ordered held-out validation; augmented training exposures for band probe",
+                cohort="global wrong and calibrated teacher correct, fixed at origin round",
+                shadows="same global/optimizer state and replayed RNG; selected clients only; never aggregated",
+                followups="endpoint observations, not proof of uninterrupted correctness",
+                privacy="Simulation-only central evaluation of local/shadow models; no raw records uploaded to W&B",
+            )
         self.set_experiment_config(None)
         configure_tracking(wandb.run, self.run_metadata)
         print(">>> FedBTR results: {}".format(self.output_dir))
@@ -156,6 +172,8 @@ class Server(BaseServer):
                 evaluate_round = ((round_idx + 1) % self.cfg["eval_interval"] == 0 or
                                   round_idx == self.n_rounds - 1)
                 evaluation_seconds = 0.0
+                transfer_seconds = 0.0
+                cohort = None
                 if diagnostic:
                     start = time.perf_counter()
                     record["global_before_validation"] = self._evaluate(self.model)
@@ -165,16 +183,61 @@ class Server(BaseServer):
                     sync_device(self.device)
                     evaluation_seconds += time.perf_counter() - start
 
+                if diagnostic and self.transfer is not None:
+                    sync_device(self.device)
+                    stage_start = time.perf_counter()
+                    cohort = self.transfer.start(round_idx + 1, self.model, teacher)
+                    record["transfer"] = dict(origin_round=round_idx + 1,
+                                              reference=cohort.score(cohort.teacher), clients=[])
+                    sync_device(self.device)
+                    transfer_seconds += time.perf_counter() - stage_start
+
                 states, sizes, training = [], [], []
                 record["local_diagnostics"] = []
                 start = time.perf_counter()
                 local_evaluation_seconds = 0.0
+                local_transfer_seconds = 0.0
                 for slot, (index, data) in enumerate(zip(sampled, clients)):
-                    state, metrics = self.client.train_client(original_state, optimizer_state,
-                                                               data, teacher, round_idx)
+                    probe = replay = entry = batch_trace = None
+                    if cohort is not None and slot < self.cfg["diagnostic_clients"]:
+                        sync_device(self.device)
+                        stage_start = time.perf_counter()
+                        entry = dict(client=index, retention_enabled=int(round_idx >= self.cfg["warmup_rounds"]),
+                                     validation_band=cohort.band(data["class_counts"]))
+                        probe = TrainingProbe(teacher, self.model, data["class_counts"], self.cfg, self.device)
+                        batch_trace = BatchTrace()
+                        replay = RandomSnapshot(data["train"], device=self.device)
+                        sync_device(self.device)
+                        local_transfer_seconds += time.perf_counter() - stage_start
+                    try:
+                        state, metrics = self.client.train_client(original_state, optimizer_state,
+                                                                 data, teacher, round_idx, probe=probe,
+                                                                 batch_trace=batch_trace)
+                    finally:
+                        if probe is not None:
+                            probe.close()
                     states.append(state)
                     sizes.append(data["datasize"])
                     training.append(metrics)
+                    if cohort is not None:
+                        sync_device(self.device)
+                        stage_start = time.perf_counter()
+                        actual_logits = self.transfer.predict(self.client.model)
+                        cohort.add_local(actual_logits, data["datasize"])
+                        if entry is not None:
+                            self.client.model.cpu()
+                            entry["training_band"] = probe.result()
+                            entry["replayed_batches"] = batch_trace.batches
+                            entry["replayed_examples"] = batch_trace.examples
+                            entry["branches"] = self.transfer.shadows(
+                                cohort, self.model, actual_logits, original_state, optimizer_state,
+                                data, round_idx, replay, batch_trace)
+                            record["transfer"]["clients"].append(entry)
+                        sync_device(self.device)
+                        local_transfer_seconds += time.perf_counter() - stage_start
+                        if probe is not None:
+                            local_transfer_seconds += probe.seconds + batch_trace.seconds
+                        del probe, replay, actual_logits, batch_trace
                     if diagnostic and slot < self.cfg["diagnostic_clients"]:
                         evaluation_start = time.perf_counter()
                         after = self._evaluate(self.client.model)
@@ -196,7 +259,9 @@ class Server(BaseServer):
                         sync_device(self.device)
                         local_evaluation_seconds += time.perf_counter() - evaluation_start
                 sync_device(self.device)
-                record["local_training_seconds"] = time.perf_counter() - start - local_evaluation_seconds
+                record["local_training_seconds"] = (time.perf_counter() - start
+                                                    - local_evaluation_seconds - local_transfer_seconds)
+                transfer_seconds += local_transfer_seconds
                 evaluation_seconds += local_evaluation_seconds
                 self.client.model.cpu()
                 if teacher is not None:
@@ -235,6 +300,21 @@ class Server(BaseServer):
                 evaluation_seconds += time.perf_counter() - start
                 self.model.cpu()
                 record["evaluation_seconds"] = evaluation_seconds
+                if self.transfer is not None:
+                    sync_device(self.device)
+                    stage_start = time.perf_counter()
+                    if cohort is not None or self.transfer.needs_prediction(round_idx + 1):
+                        logits = self.transfer.predict(self.model)
+                        # Finish older origins before registering this round's cohort.
+                        followups = self.transfer.followups(round_idx + 1, logits)
+                        if followups:
+                            record["transfer_followup"] = followups
+                        if cohort is not None:
+                            record["transfer"]["aggregate"] = self.transfer.aggregate(cohort, logits)
+                        del logits
+                    sync_device(self.device)
+                    transfer_seconds += time.perf_counter() - stage_start
+                    record["transfer_diagnostic_seconds"] = transfer_seconds
                 if self.scheduler is not None:
                     self.scheduler.step()
                 record["round_seconds"] = time.perf_counter() - round_start
@@ -248,6 +328,8 @@ class Server(BaseServer):
         final = dict(best_round=self.best_round, best_validation_macro=self.best_accuracy,
                      last_global_test=self._evaluate(self.model, self.testloader),
                      cumulative_uplink_bytes=total_uplink, cumulative_downlink_bytes=total_downlink)
+        if self.transfer is not None:
+            final["transfer_diagnostics"] = self.transfer.final(self.n_rounds)
         self.model.load_state_dict(self.best_state)
         final["best_validation_selected_test"] = self._evaluate(self.model, self.testloader)
         self.model.load_state_dict(last_state)
