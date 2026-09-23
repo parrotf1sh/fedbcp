@@ -21,16 +21,7 @@ torch.set_printoptions(10)
 
 ALGO = {
     "fedavg": algorithms.fedavg.Server,
-    "fedcurv": algorithms.fedcurv.Server,
-    "fedprox": algorithms.fedprox.Server,
-    "fedavgm": algorithms.fedavgm.Server,
-    "fedntd": algorithms.fedntd.Server,
-    "fednova": algorithms.fednova.Server,
-    "scaffold": algorithms.scaffold.Server,
     "moon": algorithms.moon.Server,
-    "feddyn": algorithms.feddyn.Server,
-    "fedlmd": algorithms.fedlmd.Server,
-    "fedlmd_tf": algorithms.fedlmd_tf.Server,
     "fedbpc": algorithms.fedbpc.Server,
     "fedbtr": algorithms.fedbtr.Server,
 }
