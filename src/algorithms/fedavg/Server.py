@@ -29,3 +29,9 @@ class Server(BaseServer):
         )
 
         print("\n>>> FedAvg Server initialized...\n")
+
+    def run(self):
+        if self.algo_params.get("metrics_only", False):
+            from .reporting import run_metrics
+            return run_metrics(self)
+        return super().run()

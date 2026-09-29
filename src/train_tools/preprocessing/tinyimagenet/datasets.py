@@ -34,7 +34,11 @@ class TinyImageNet_Truncated(data.Dataset):
         target_transform=None,
         in_memory=False,
     ):
-        self.root = os.path.expanduser(root)
+        root = os.path.expanduser(root)
+        if (not os.path.isfile(os.path.join(root, CLASS_LIST_FILE))
+                and os.path.isfile(os.path.join(root, "tiny-imagenet-200", CLASS_LIST_FILE))):
+            root = os.path.join(root, "tiny-imagenet-200")
+        self.root = root
         self.train = train
         self.split = "train" if train else "val"
         self.dataidxs = dataidxs

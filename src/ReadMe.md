@@ -1,5 +1,8 @@
 ## How to Run Codes?
 
+FedAvg 的 66 任务串行实验队列（300 轮、三训练种子、自动下载、仅指标）见
+[批量运行说明](../scripts/README_fedavg.md)。入口：`python scripts/run_fedavg_experiments.py`（项目根目录）。
+
 FedBTR 的新算法、独立长尾划分、配对消融和运行说明见 [FedBTR](../docs/FedBTR.md)，实现自审见 [对抗式审查记录](../docs/FedBTR_adversarial_review.md)。
 
 The configuration skeleton for each algorithm is in `./config/*.json`. 

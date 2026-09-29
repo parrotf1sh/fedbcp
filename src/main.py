@@ -24,6 +24,7 @@ ALGO = {
     "moon": algorithms.moon.Server,
     "fedbpc": algorithms.fedbpc.Server,
     "fedbtr": algorithms.fedbtr.Server,
+    "fedproc": algorithms.fedproc.Server,
 }
 
 SCHEDULER = {
@@ -60,7 +61,21 @@ def _get_setups(args):
     )
 
     # Optimization setups
-    optimizer = optim.SGD(model.parameters(), **args.train_setups.optimizer.params)
+    if args.train_setups.algo.name == "fedproc":
+        algo_params = args.train_setups.algo.params
+        if algo_params.get("use_project_head", False):
+            model = algorithms.fedproc.ModelWithProjection(
+                model, out_dim=algo_params.get("out_dim", 256)
+            )
+        else:
+            model = algorithms.fedproc.ModelWithFeatures(model)
+        optimizer = algorithms.fedproc.create_optimizer(
+            model,
+            name=args.train_setups.optimizer.get("name", "sgd"),
+            **args.train_setups.optimizer.params,
+        )
+    else:
+        optimizer = optim.SGD(model.parameters(), **args.train_setups.optimizer.params)
     scheduler = None
 
     if args.train_setups.scheduler.enabled:
@@ -108,6 +123,8 @@ def main(args):
 
     # Load the configuration
     server = _get_setups(args)
+    if args.get("batch_protocol"):
+        server.experiment_config = args
     if args.train_setups.algo.name == "fedbtr":
         # Preserve the resolved architecture/data/scenario as well as algo params.
         server.set_experiment_config(args)
@@ -126,6 +143,8 @@ def main(args):
 
     # Upload model to wandb
     # wandb.save(model_path)
+
+    return getattr(server, "batch_summary", None)
 
 
 # Parser arguments for terminal execution
@@ -167,11 +186,11 @@ if __name__ == "__main__":
     pp.pprint(opt)
     print("=" * 120)
 
-    # Initialize W&B
-    wandb.init(config=opt, **opt.wandb_setups)
-
-    # How many batches to wait before logging training status
-    wandb.config.log_interval = 10
-
-    # Execute expreiment
-    main(opt)
+    if opt.get("batch_protocol"):
+        from fedavg_batch import run_tracked
+        run_tracked(opt, main)
+    else:
+        # Preserve the existing entry point for all other experiments.
+        wandb.init(config=opt, **opt.wandb_setups)
+        wandb.config.log_interval = 10
+        main(opt)

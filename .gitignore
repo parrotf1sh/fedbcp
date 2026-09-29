@@ -12,3 +12,4 @@ nohup.out
 *.csv
 docs/
 fedbtr_run_metrics/
+fedavg_experiments/
