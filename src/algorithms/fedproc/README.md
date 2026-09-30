@@ -1,5 +1,9 @@
 # FedProc integration
 
+两种子批量对比实验见 [FedProc 队列说明](../../../scripts/README_fedproc.md)。
+该队列按确认采用 `aggregation="sampled"`、`use_project_head=true`、`out_dim=256`，
+接入公共指标模式；下文的 `source` / 无投影头默认值指旧的独立 JSON 入口。
+
 本实现以仓库内 `FedProc-main` 为对照，接入现有 `BaseServer` / `BaseClientTrainer` 框架。
 默认采用原源码的 `ModelFedCon_noheader` 分支语义：使用项目模型分类层之前的原始特征，
 不增加投影头、不归一化样本特征、不改动模型的分类前向路径。
@@ -77,6 +81,8 @@ FedProc 的适配层也支持项目 ResNet；现有 FedBPC 仅接受带 `get_fea
 - `use_project_head=true`：保留原源码带头分支，`out_dim=256`，在优化器创建前安装投影头；
   此设置改变分类头结构，不属于默认的同模型对比。骨干仍使用项目模型。
 - `server_momentum=0.0`：默认关闭；非零时保留原始 FedAvgM 更新公式。
+- `metrics_only=false`：旧入口保留原有评估流程；批量队列设为 true，记录在线训练统计，
+  每轮聚合后执行一次公共全局评估，省去逐客户端额外评估。批量路径增加非有限损失检查。
 - `train_setups.optimizer.name`：省略即 `sgd`，也支持源码中的 `adam` 和 `amsgrad`。
   `params` 使用所选 PyTorch 优化器的参数；切换 Adam 时移除 SGD 的 `momentum`。
   本地优化器按客户端重新初始化，再下载本轮优化器设置，不共享客户端动量。
@@ -88,6 +94,9 @@ TensorBoard 启动线程、特征 CSV 导出及独立 checkpoint 命令行；这
 原始 `FedProc-main` 保留作对照，不作为运行时依赖。未新增第三方库。
 
 ## 验证范围
+
+批量队列另有非训练测试，覆盖矩阵、参数校验、损失权重边界、原型提取顺序和通信计数等。
+这些测试使用配置/索引或模拟对象，不替代真实 PyTorch/GPU 训练验证。
 
 仅检查 Python 语法/编译、AST 接口和注册、JSON 参数及与研究配置的一致性、依赖引用、
 源码差异，并人工逐项核对上述损失、调度、提取顺序、缺类回退和服务器动量分支。

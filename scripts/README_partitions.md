@@ -1,7 +1,7 @@
 # 各算法共用的数据划分
 
 标准数据入口 `src/train_tools/preprocessing/datasetter.py` 默认启用公共划分缓存。
-FedAvg、MOON、FedBPC 及其他通过该入口使用 LDA/分片的算法都会采用同一规则。
+FedAvg、MOON、FedProc、FedBPC 及其他通过该入口使用 LDA/分片的算法都会采用同一规则。
 独立的 longtail pipeline 继续使用自己的划分协议，不与此处的 LDA 混用。
 
 ## LDA 最小样本规则
@@ -22,7 +22,7 @@ FedAvg、MOON、FedBPC 及其他通过该入口使用 LDA/分片的算法都会�
 论文应交代上述规则，并报告补足数量/比例。少量转移仍可能明显影响个别小客户端的类别构成；
 公平性依靠各算法使用同一份最终索引，而不是只设置相同 alpha。
 
-默认队列中只改变训练种子，划分种子和客户端采样规则保持不变。每个算法仍是 66 次训练、每次 300 轮。
+默认队列中只改变训练种子，划分种子和客户端采样规则保持不变。FedAvg 默认 66 次训练，MOON/FedProc 默认各两种子共 44 次训练，每次均为 300 轮。
 
 ## 8 核 CPU 预生成
 
@@ -36,11 +36,11 @@ python scripts/run_moon_experiments.py --data-root /absolute/path/to/data
 
 前一条训练命令结束后再执行后一条，避免争抢 GPU。
 预生成命令先检查/下载缺失数据集，再用最多 8 个 CPU 进程并行生成不同实验条件的划分；
-不启动训练、不使用 GPU、不创建 W&B run。66 个任务去重后只需生成 18 份划分。
+不启动训练、不使用 GPU、不创建 W&B run。FedAvg 的 66 个任务或 MOON/FedProc 的 44 个任务去重后都只需生成 18 份划分。
 并行发生在不同划分之间，每份划分内部仍按固定顺序生成候选，因此 worker 数量不改变结果。
 预生成可重复执行，已有缓存直接验证并复用。省略预生成时，训练入口也会自动生成/读取缓存。
 
-预生成默认读取 FedAvg 脚本头部配置；如以 MOON 配置为准，增加 `--source moon`。
+预生成默认读取 FedAvg 脚本头部配置；如以 MOON 或 FedProc 配置为准，增加 `--source moon` 或 `--source fedproc`。
 `--dry-run` 只列出划分条件，不读取或下载数据。准备结果写入数据根目录的 `partition_cache_manifest.json`。
 
 ## 缓存与复现
@@ -52,7 +52,7 @@ python scripts/run_moon_experiments.py --data-root /absolute/path/to/data
 缓存键包含数据集名称、按顺序排列的标签摘要、样本数、客户端数、划分种子、方法、有效参数及实现版本。
 LDA 参数包括 alpha、最小样本数、候选次数和补足策略；分片包含每客户端分片数及对应测试标签摘要。
 算法名、训练种子、本地 epoch、参与率、batch size 和模型不参与缓存键。
-因此配对算法和三个训练种子复用同一份缓存；改变划分设置时自动生成另一份。
+因此配对算法和各训练种子复用同一份缓存；改变划分设置时自动生成另一份。
 标签摘要不校验图像内容本身，跨机器复用仍需确保数据版本和样本顺序相同。
 
 LDA 保持全局测试集不变；分片缓存包含配对的训练/客户端测试索引。
@@ -60,13 +60,13 @@ LDA 保持全局测试集不变；分片缓存包含配对的训练/客户端测
 初次生成所用 NumPy 版本记录在元数据中；跨环境严格复现优先复制已有缓存。
 
 W&B 的 `resolved_partition` 记录完整划分元数据，summary 记录缓存键、索引指纹、补足数量和比例。
-FedAvg/MOON 每次运行另写 `partition_metadata.json`，并保留每客户端类别计数与标签熵。
+FedAvg/MOON/FedProc 每次运行另写 `partition_metadata.json`，并保留每客户端类别计数与标签熵。
 比较算法时核对 `indices_sha256`。日志将标签加载、划分、构建客户端 DataLoader 分阶段打印；
 缓存仅省去重复划分，不省去图像读取或 DataLoader 初始化。
 
 ## 配置项
 
-FedAvg/MOON 脚本头部提供：
+FedAvg/MOON/FedProc 脚本头部提供：
 
 ```python
 PARTITION_SEED = 19940817

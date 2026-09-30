@@ -1,4 +1,4 @@
-"""Shared metrics-only evaluation for the FedAvg and MOON experiment queues.
+"""Shared metrics-only evaluation for the baseline experiment queues.
 
 No model/optimizer serialization is performed here. All metrics are fractions.
 """
@@ -123,6 +123,9 @@ def run_metrics(server):
             evaluation_seconds = time.perf_counter() - tick
             train_seconds += round_training
             round_bytes = len(sampled) * (2 * model_size + optimizer_size)
+            extra_communication = getattr(server, "batch_communication_bytes", None)
+            if extra_communication is not None:
+                round_bytes += extra_communication()
             communication += round_bytes
             seen = sum(local["seen"])
             processed += seen
@@ -177,4 +180,7 @@ def run_metrics(server):
             "communication_definition": server.batch_summary["communication_definition"]
                 + "; MOON history is client-local state; CPU/GPU transfers are not network traffic",
         })
+    extra_summary = getattr(server, "batch_summary_metrics", None)
+    if extra_summary is not None:
+        server.batch_summary.update(extra_summary(metrics))
     wandb.run.summary.update(server.batch_summary)

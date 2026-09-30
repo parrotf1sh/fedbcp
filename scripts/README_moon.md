@@ -13,19 +13,23 @@ python scripts/run_moon_experiments.py --data-root /absolute/path/to/data
 
 ## 实验矩阵与公平比较
 
-默认 **66 次训练，每次 300 轮**，与 FedAvg 一一对应：
+默认 **44 次训练（36 个主实验 + 8 个补充实验），每次 300 轮**，
+与 FedAvg 中训练种子为 2022/2023 的任务对应：
 
 | 实验 | 设置 | 次数 |
 | --- | --- | ---: |
-| LDA 主实验 | CIFAR10/CIFAR100/Tiny-ImageNet × α={0.03,0.1,0.3} × 3 种子 | 27 |
-| 分片主实验 | 同上三个数据集 × 每客户端分片数={2,4,6} × 3 种子 | 27 |
-| 参与率补充 | CIFAR100、LDA α=0.1、q={0.05,0.2} × 3 种子 | 6 |
-| 本地 epoch 补充 | CIFAR100、LDA α=0.1、E={1,10} × 3 种子 | 6 |
+| LDA 主实验 | CIFAR10/CIFAR100/Tiny-ImageNet × α={0.03,0.1,0.3} × 2 种子 | 18 |
+| 分片主实验 | 同上三个数据集 × 每客户端分片数={2,4,6} × 2 种子 | 18 |
+| 参与率补充 | CIFAR100、LDA α=0.1、q={0.05,0.2} × 2 种子 | 4 |
+| 本地 epoch 补充 | CIFAR100、LDA α=0.1、E={1,10} × 2 种子 | 4 |
 
 默认 N=100、q=0.1、E=5、batch size=50。
 补充实验中的 q=0.1 和 E=5 复用主实验，不重复训练。
-只改变训练种子 **2022/2023/2024**；划分固定为 19940817，客户端采样仍按从 0 开始的轮次编号设种子。
+只改变训练种子 **2022/2023**；划分固定为 19940817，客户端采样仍按从 0 开始的轮次编号设种子。
 因此重复实验的标准差只体现固定数据划分/采样下的训练随机性。
+两个种子的均值/标准差估计比三个更不稳定，论文中应明确报告 n=2。FedAvg 默认仍保留三个种子。
+减少种子不会改变保留任务的配置哈希；相同配置和输出目录下，已成功的 2022/2023 任务仍会跳过。
+旧的 2024 结果保留在磁盘上，但不纳入本次队列及重新生成的汇总。
 
 CIFAR 使用 `fedavg_cifar`，Tiny-ImageNet 使用 `fedavg_tiny`。
 SGD lr=0.01、momentum=0.9、weight decay=1e-5；StepLR step_size=1、gamma=0.99。
@@ -86,7 +90,7 @@ MOON 另外记录：
 moon_cifar100_lda-a0.1_n100_q0.1_e5_r300_mu0.1_tau0.5_seed2022
 ```
 
-同一条件三个种子归入同一个 MOON group；算法、数据集、种子、实验组写入 tags，
+同一条件两个种子归入同一个 MOON group；算法、数据集、种子、实验组写入 tags，
 完整参数、特征类型、历史缓存/初始化/通信策略写入 config。
 
 ## 调度、输出与恢复
@@ -100,7 +104,7 @@ moon_cifar100_lda-a0.1_n100_q0.1_e5_r300_mu0.1_tau0.5_seed2022
 `manifest.json`、`queue_summary.json`、`aggregate.csv`，每任务独立的 config、metrics、summary、日志、
 划分统计和参与名单。默认跳过已成功任务；失败任务从第 1 轮重训，并创建新的 W&B run。
 `--rerun-successful` 强制重跑。修改代码或 W&B 目标后希望重新开始时，使用新的 `--output-root`。
-`aggregate.csv` 对公共结果按三种子计算 mean / sample std，并注明成功种子数。
+`aggregate.csv` 对公共结果按两种子计算 mean / sample std，并注明成功种子数。
 MOON 专有损失与缓存指标保存在逐轮 CSV 和每次运行 summary 中。
 
 ## 非训练验证

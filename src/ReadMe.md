@@ -6,8 +6,11 @@
 FedAvg 的 66 任务串行实验队列（300 轮、三训练种子、自动下载、仅指标）见
 [批量运行说明](../scripts/README_fedavg.md)。入口：`python scripts/run_fedavg_experiments.py`（项目根目录）。
 
-MOON 的对应 66 任务队列见 [MOON 批量运行说明](../scripts/README_moon.md)。
+MOON 的两训练种子、44 任务队列见 [MOON 批量运行说明](../scripts/README_moon.md)。
 入口：`python scripts/run_moon_experiments.py`（项目根目录），默认 μ=0.1、τ=0.5，历史模型只保存在 CPU 内存。
+
+FedProc 的两训练种子、44 任务队列见 [FedProc 批量运行说明](../scripts/README_fedproc.md)。
+入口：`python scripts/run_fedproc_experiments.py`，采用 sampled 聚合和 256 维投影头，每次 300 轮。
 
 FedProto 的移植说明、总体测试性能定义和输出字段见 [FedProto](algorithms/fedproto/README.md)。
 在 `src` 目录运行 `python main.py --config_path ./config/fedproto.json`。

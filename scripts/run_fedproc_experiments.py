@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""44 serial MOON experiments using two training seeds and the FedAvg protocol."""
+"""44 serial FedProc experiments with sampled aggregation and a projection head."""
 import argparse
-import math
+import runpy
 from pathlib import Path
 import sys
 
@@ -14,7 +14,7 @@ import run_fedavg_experiments as queue
 REPO_ROOT = Path(__file__).resolve().parents[1]
 PYTHON = sys.executable
 DATA_ROOT = REPO_ROOT / "data"
-OUTPUT_ROOT = REPO_ROOT / "moon_experiments"
+OUTPUT_ROOT = REPO_ROOT / "fedproc_experiments"
 DATASETS = ["cifar10", "cifar100", "tiny-imagenet"]
 LDA_ALPHAS = [0.03, 0.1, 0.3]
 SHARDS_PER_CLIENT = [2, 4, 6]
@@ -30,8 +30,11 @@ SCHEDULER = {"enabled": True, "name": "step",
              "params": {"gamma": 0.99, "step_size": 1}}
 MODELS = {"cifar10": "fedavg_cifar", "cifar100": "fedavg_cifar",
           "tinyimagenet": "fedavg_tiny"}
-MU = 0.1
-TAU = 0.5
+ALPHA_ROUNDS = 100
+SERVER_MOMENTUM = 0.0
+AGGREGATION = "sampled"
+USE_PROJECT_HEAD = True
+OUT_DIM = 256
 DOWNLOAD_IF_MISSING = True
 INCLUDE_SUPPLEMENTARY = True
 SUPPLEMENTARY_DATASET = "cifar100"
@@ -40,7 +43,7 @@ PARTICIPATION_RATES = [0.05, 0.1, 0.2]
 LOCAL_EPOCH_VALUES = [1, 5, 10]
 WANDB_PROJECT = "Point1"
 WANDB_ENTITY = None
-BATCH_NAME = "moon-300rounds"
+BATCH_NAME = "fedproc-300rounds"
 SKIP_SUCCESSFUL = True
 # Keep the same fixed partition/sampling protocol as FedAvg.
 PARTITION_SEED = 19940817
@@ -54,19 +57,30 @@ LDA_INSUFFICIENT_POLICY = "repair"
 
 
 def build_tasks(data_root=None):
-    if not math.isfinite(MU) or MU < 0 or not math.isfinite(TAU) or TAU <= 0:
-        raise ValueError("MOON requires finite mu >= 0 and finite tau > 0")
+    # This config module is stdlib-only; dry-run never imports torch or CUDA.
+    resolve = runpy.run_path(str(REPO_ROOT / "src/algorithms/fedproc/config.py"))["resolve_config"]
+    params = resolve({"metrics_only": True, "alpha_rounds": ALPHA_ROUNDS,
+                      "server_momentum": SERVER_MOMENTUM, "aggregation": AGGREGATION,
+                      "use_project_head": USE_PROJECT_HEAD, "out_dim": OUT_DIM})
     settings = dict(globals())
+    head = "proj{}".format(OUT_DIM) if USE_PROJECT_HEAD else "nohead"
     settings.update(
-        ALGO_NAME="moon", ALGO_PARAMS={"metrics_only": True, "mu": MU, "tau": TAU},
-        RUN_SUFFIX="_mu{:g}_tau{:g}".format(MU, TAU),
-        PROTOCOL_EXTRAS={"representation": "backbone_features_no_projection_head",
-                         "history_storage": "cpu_memory_only",
-                         "history_initialization": "initial_global_model",
-                         "reference_models": "frozen_eval_no_grad",
-                         "history_communication": "client_local_state_not_network_payload"},
+        ALGO_NAME="fedproc", ALGO_PARAMS=params,
+        RUN_SUFFIX="_{}_{}_ar{}_sm{:g}".format(AGGREGATION, head, ALPHA_ROUNDS, SERVER_MOMENTUM),
+        PROTOCOL_EXTRAS={
+            "representation": "normalized_projection_features" if USE_PROJECT_HEAD else "classifier_input_features",
+            "prototype_storage": "memory_only",
+            "prototype_extraction": "selected_clients_train_mode_no_grad_before_first_training_and_after_each_round",
+            "prototype_missing_classes": "preserve_previous_or_zero_if_never_observed",
+            "prototype_communication": "feature_sum_plus_int64_label_count_upload_and_dense_center_download_v1",
+            "fedproc_metrics_version": 1,
+        },
     )
-    return queue.build_tasks(data_root, settings=settings)
+    tasks = queue.build_tasks(data_root, settings=settings)
+    for task in tasks:
+        task["config"]["wandb_setups"]["tags"].extend([
+            "aggregation-" + AGGREGATION, head, "alpha-rounds-{}".format(ALPHA_ROUNDS)])
+    return tasks
 
 
 def main():
@@ -78,9 +92,9 @@ def main():
     parser.add_argument("--rerun-successful", action="store_true")
     args = parser.parse_args()
     tasks = build_tasks(args.data_root)
-    print("{} MOON tasks; {} main, {} additional; {} rounds; train seeds {}; mu={}, tau={}".format(
+    print("{} FedProc tasks; {} main, {} additional; {} rounds; train seeds {}; aggregation={}, projection={}, out_dim={}".format(
         len(tasks), sum("main" in t["categories"] for t in tasks),
-        sum("main" not in t["categories"] for t in tasks), N_ROUNDS, TRAIN_SEEDS, MU, TAU))
+        sum("main" not in t["categories"] for t in tasks), N_ROUNDS, TRAIN_SEEDS, AGGREGATION, USE_PROJECT_HEAD, OUT_DIM))
     output = args.output_root.expanduser().resolve()
     output.mkdir(parents=True, exist_ok=True)
     with queue.queue_lock(output):

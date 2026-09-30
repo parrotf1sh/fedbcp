@@ -15,7 +15,7 @@
             "params": {
                 "alpha_rounds": 100,
                 "server_momentum": 0.0,
-                "aggregation": "source",
+                "aggregation": "sampled",
                 "use_project_head": false,
                 "out_dim": 256
             }

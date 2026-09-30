@@ -28,9 +28,12 @@ class MoonQueueTests(unittest.TestCase):
     def test_exact_pairing_with_fedavg(self):
         moon_tasks = moon.build_tasks("/data/paired")
         fedavg_tasks = moon.queue.build_tasks("/data/paired")
-        self.assertEqual(len(moon_tasks), 66)
-        self.assertEqual(sum("main" in t["categories"] for t in moon_tasks), 54)
-        self.assertEqual(len({t["id"] for t in moon_tasks}), 66)
+        self.assertEqual(len(fedavg_tasks), 66)
+        fedavg_tasks = [t for t in fedavg_tasks if t["config"]["train_setups"]["seed"] in moon.TRAIN_SEEDS]
+        self.assertEqual(len(moon_tasks), 44)
+        self.assertEqual(len(fedavg_tasks), 44)
+        self.assertEqual(sum("main" in t["categories"] for t in moon_tasks), 36)
+        self.assertEqual(len({t["id"] for t in moon_tasks}), 44)
         groups = {}
         for ours, reference in zip(moon_tasks, fedavg_tasks):
             a, b = ours["config"], reference["config"]
@@ -48,7 +51,14 @@ class MoonQueueTests(unittest.TestCase):
             self.assertIn("moon", a["wandb_setups"]["tags"])
             groups.setdefault(a["wandb_setups"]["group"], []).append(a["train_setups"]["seed"])
         self.assertEqual(len(groups), 22)
-        self.assertTrue(all(seeds == [2022, 2023, 2024] for seeds in groups.values()))
+        self.assertTrue(all(seeds == [2022, 2023] for seeds in groups.values()))
+
+    def test_retained_seeds_keep_existing_task_identity(self):
+        current = moon.build_tasks("/data/paired")
+        with mock.patch.object(moon, "TRAIN_SEEDS", [2022, 2023, 2024]):
+            previous = moon.build_tasks("/data/paired")
+        retained = [t for t in previous if t["config"]["train_setups"]["seed"] in moon.TRAIN_SEEDS]
+        self.assertEqual(current, retained)
 
     def test_mu_tau_change_identity_without_mutating_fedavg(self):
         originals = {t["id"] for t in moon.build_tasks()}
@@ -70,7 +80,7 @@ class MoonQueueTests(unittest.TestCase):
         with mock.patch.object(moon, "N_ROUNDS", 400), mock.patch.object(moon, "LOCAL_EPOCHS", 2), \
                 mock.patch.object(moon, "INCLUDE_SUPPLEMENTARY", False):
             tasks = moon.build_tasks()
-        self.assertEqual(len(tasks), 54)
+        self.assertEqual(len(tasks), 36)
         self.assertTrue(all(t["config"]["train_setups"]["scenario"]["n_rounds"] == 400
                             and t["config"]["train_setups"]["scenario"]["local_epochs"] == 2 for t in tasks))
 

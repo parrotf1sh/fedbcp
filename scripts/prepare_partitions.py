@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prepare the 18 shared FedAvg/MOON splits in parallel, without training."""
+"""Prepare the 18 shared baseline splits in parallel, without training."""
 import argparse
 from concurrent.futures import ProcessPoolExecutor, as_completed
 import copy
@@ -42,7 +42,7 @@ def prepare_one(job):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--source", choices=("fedavg", "moon"), default="fedavg",
+    parser.add_argument("--source", choices=("fedavg", "moon", "fedproc"), default="fedavg",
                         help="Read the experiment settings from this scheduler")
     parser.add_argument("--data-root", type=Path, default=ROOT / "data")
     parser.add_argument("--workers", type=int, default=min(8, os.cpu_count() or 1))
@@ -52,6 +52,8 @@ def main():
         parser.error("--workers must be positive")
     if args.source == "moon":
         import run_moon_experiments as scheduler
+    elif args.source == "fedproc":
+        import run_fedproc_experiments as scheduler
     else:
         import run_fedavg_experiments as scheduler
     configs = unique_configs(scheduler.build_tasks(args.data_root))
@@ -102,7 +104,8 @@ def main():
                 print("[prepare] FAILED {}: {}".format(description, exc), flush=True)
     manifest = {"ready": results, "failed": failures, "seconds": time.perf_counter() - started}
     destination = args.data_root.expanduser().resolve() / "partition_cache_manifest.json"
-    scheduler.queue.write_json(destination, manifest) if args.source == "moon" else scheduler.write_json(destination, manifest)
+    writer = scheduler if args.source == "fedavg" else scheduler.queue
+    writer.write_json(destination, manifest)
     print("[prepare] {} ready, {} failed ({:.2f}s); {}".format(
         len(results), len(failures), manifest["seconds"], destination), flush=True)
     return 1 if failures else 0

@@ -81,8 +81,8 @@ def write_json(path, value):
 def build_tasks(data_root=None, settings=None):
     """Deduplicate on all effective training settings, independently of labels."""
     s = SimpleNamespace(**(globals() if settings is None else settings))
-    if len(s.TRAIN_SEEDS) != 3 or len(set(s.TRAIN_SEEDS)) != 3:
-        raise ValueError("TRAIN_SEEDS must contain three distinct training seeds")
+    if not s.TRAIN_SEEDS or len(set(s.TRAIN_SEEDS)) != len(s.TRAIN_SEEDS):
+        raise ValueError("TRAIN_SEEDS must contain at least one seed, with no duplicates")
     if min(s.N_CLIENTS, s.LOCAL_EPOCHS, s.N_ROUNDS, s.BATCH_SIZE) < 1:
         raise ValueError("Clients, epochs, rounds and batch size must be positive")
     tasks = {}

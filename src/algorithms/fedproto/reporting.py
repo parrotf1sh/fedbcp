@@ -41,11 +41,6 @@ def run_experiment(server):
             split_sha256=server.data_distributed["split_manifest"]["sha256"],
             split_manifest_path=server.data_distributed["split_manifest_path"],
         )
-    run.config.update(config if config is not None else dict(
-        algo_params=server.cfg, n_rounds=server.n_rounds,
-        sample_ratio=server.sample_ratio, local_epochs=server.local_epochs,
-        device=str(server.device),
-    ))
     run.config.update({"fedproto_runtime": metadata})
     run.define_metric("round")
     run.define_metric("*", step_metric="round")

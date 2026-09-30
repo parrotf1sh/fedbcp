@@ -7,6 +7,7 @@ DEFAULTS = dict(
     aggregation="source",
     use_project_head=False,
     out_dim=256,
+    metrics_only=False,
 )
 
 
@@ -22,6 +23,13 @@ def resolve_config(params):
         raise ValueError("server_momentum must be in [0, 1]")
     if cfg["aggregation"] not in ("sampled", "source"):
         raise ValueError("aggregation must be sampled or source")
-    if type(cfg["use_project_head"]) is not bool:
-        raise ValueError("use_project_head must be a JSON boolean")
+    for key in ("use_project_head", "metrics_only"):
+        if type(cfg[key]) is not bool:
+            raise ValueError("{} must be a JSON boolean".format(key))
     return cfg
+
+
+def loss_weights(round_idx, alpha_rounds):
+    """Effective weights; the first round is CE-only despite scheduled alpha=0."""
+    ce_weight = 1.0 if round_idx == 0 else min(round_idx / alpha_rounds, 1.0)
+    return ce_weight, 1.0 - ce_weight
