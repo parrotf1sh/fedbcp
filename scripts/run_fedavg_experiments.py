@@ -14,6 +14,7 @@ import sys
 import time
 import traceback
 from contextlib import contextmanager
+from types import SimpleNamespace
 
 
 # ======================== Experiment settings ========================
@@ -49,6 +50,15 @@ SKIP_SUCCESSFUL = True
 # These describe the existing protocol; they are deliberately NOT swept.
 PARTITION_SEED = 19940817
 CLIENT_SAMPLING_RULE = "numpy.seed(round_index), zero_based"
+ALGO_NAME = "fedavg"
+ALGO_PARAMS = {"metrics_only": True}
+RUN_SUFFIX = ""
+PROTOCOL_EXTRAS = {}
+PARTITION_CACHE_ENABLED = True
+PARTITION_CACHE_DIR = None  # Default: <data-root>/<dataset>/.partition_cache
+LDA_MIN_SAMPLES = 10
+LDA_MAX_ATTEMPTS = 128
+LDA_INSUFFICIENT_POLICY = "repair"  # Shared by all algorithms; transfers are recorded.
 # =====================================================================
 
 
@@ -68,53 +78,64 @@ def write_json(path, value):
     temporary.replace(path)
 
 
-def build_tasks(data_root=None):
+def build_tasks(data_root=None, settings=None):
     """Deduplicate on all effective training settings, independently of labels."""
-    if len(TRAIN_SEEDS) != 3 or len(set(TRAIN_SEEDS)) != 3:
+    s = SimpleNamespace(**(globals() if settings is None else settings))
+    if len(s.TRAIN_SEEDS) != 3 or len(set(s.TRAIN_SEEDS)) != 3:
         raise ValueError("TRAIN_SEEDS must contain three distinct training seeds")
-    if min(N_CLIENTS, LOCAL_EPOCHS, N_ROUNDS, BATCH_SIZE) < 1:
+    if min(s.N_CLIENTS, s.LOCAL_EPOCHS, s.N_ROUNDS, s.BATCH_SIZE) < 1:
         raise ValueError("Clients, epochs, rounds and batch size must be positive")
     tasks = {}
     classes = {"cifar10": 10, "cifar100": 100, "tinyimagenet": 200}
 
-    def add(dataset, partition, category, ratio=SAMPLE_RATIO, epochs=LOCAL_EPOCHS):
+    def add(dataset, partition, category, ratio=None, epochs=None):
+        ratio = s.SAMPLE_RATIO if ratio is None else ratio
+        epochs = s.LOCAL_EPOCHS if epochs is None else epochs
         dataset = canonical_dataset(dataset)
-        if dataset not in classes or dataset not in MODELS:
+        if dataset not in classes or dataset not in s.MODELS:
             raise ValueError("Unsupported dataset: " + dataset)
         if not 0 < ratio <= 1 or epochs < 1:
             raise ValueError("Participation must be in (0, 1]; epochs must be positive")
         if partition["method"] == "sharding":
             shards = partition["shard_per_user"]
-            per_class, remainder = divmod(N_CLIENTS * shards, classes[dataset])
+            per_class, remainder = divmod(s.N_CLIENTS * shards, classes[dataset])
             test_per_class = 1000 if dataset == "cifar10" else (100 if dataset == "cifar100" else 50)
             if shards < 1 or remainder or not 1 <= per_class <= test_per_class:
                 raise ValueError("Invalid sharding for {}: N={} and shards={}; "
                                  "N * shards must be divisible by the class count "
-                                 "and not create empty test shards".format(dataset, N_CLIENTS, shards))
+                                 "and not create empty test shards".format(dataset, s.N_CLIENTS, shards))
             label = "shards-{}".format(shards)
         else:
             if partition["alpha"] <= 0:
                 raise ValueError("Dirichlet alpha must be positive")
             label = "lda-a{:g}".format(partition["alpha"])
-        for seed in TRAIN_SEEDS:
+            partition = dict(partition, min_samples=s.LDA_MIN_SAMPLES,
+                             max_attempts=s.LDA_MAX_ATTEMPTS,
+                             insufficient_policy=s.LDA_INSUFFICIENT_POLICY)
+        for seed in s.TRAIN_SEEDS:
             config = {
-                "data_setups": {"root": str(Path(data_root or DATA_ROOT).expanduser().resolve()),
-                                "dataset_name": dataset, "batch_size": BATCH_SIZE,
-                                "n_clients": N_CLIENTS, "partition": copy.deepcopy(partition)},
+                "data_setups": {"root": str(Path(data_root or s.DATA_ROOT).expanduser().resolve()),
+                                "dataset_name": dataset, "batch_size": s.BATCH_SIZE,
+                                "n_clients": s.N_CLIENTS, "partition": copy.deepcopy(partition),
+                                "partition_seed": s.PARTITION_SEED,
+                                "partition_cache": {"enabled": s.PARTITION_CACHE_ENABLED,
+                                                    "directory": str(s.PARTITION_CACHE_DIR) if s.PARTITION_CACHE_DIR else None}},
                 "train_setups": {
-                    "algo": {"name": "fedavg", "params": {"metrics_only": True}},
-                    "scenario": {"n_rounds": N_ROUNDS, "sample_ratio": ratio,
-                                 "local_epochs": epochs, "device": DEVICE},
-                    "model": {"name": MODELS[dataset], "params": {}},
-                    "optimizer": {"params": copy.deepcopy(OPTIMIZER)},
-                    "scheduler": copy.deepcopy(SCHEDULER), "seed": seed},
-                "batch_protocol": {"version": 1, "partition_seed": PARTITION_SEED,
-                                   "client_sampling_rule": CLIENT_SAMPLING_RULE,
-                                   "download_if_missing": DOWNLOAD_IF_MISSING,
+                    "algo": {"name": s.ALGO_NAME, "params": copy.deepcopy(s.ALGO_PARAMS)},
+                    "scenario": {"n_rounds": s.N_ROUNDS, "sample_ratio": ratio,
+                                 "local_epochs": epochs, "device": s.DEVICE},
+                    "model": {"name": s.MODELS[dataset], "params": {}},
+                    "optimizer": {"params": copy.deepcopy(s.OPTIMIZER)},
+                    "scheduler": copy.deepcopy(s.SCHEDULER), "seed": seed},
+                "batch_protocol": {"version": 1, "partition_seed": s.PARTITION_SEED,
+                                   "client_sampling_rule": s.CLIENT_SAMPLING_RULE,
+                                   "download_if_missing": s.DOWNLOAD_IF_MISSING,
                                    "save_checkpoints": False,
                                    "evaluation": "global_each_round",
                                    "accuracy_unit": "fraction"},
             }
+            config["batch_protocol"]["partition_implementation"] = "shared_partition_cache_v1"
+            config["batch_protocol"].update(copy.deepcopy(s.PROTOCOL_EXTRAS))
             task_id = digest(config)
             if task_id in tasks:
                 if category not in tasks[task_id]["categories"]:
@@ -123,32 +144,33 @@ def build_tasks(data_root=None):
             group_config = copy.deepcopy(config)
             del group_config["train_setups"]["seed"]
             condition = digest(group_config)
-            name = "fedavg_{}_{}_n{}_q{:g}_e{}_r{}_seed{}".format(
-                dataset, label, N_CLIENTS, ratio, epochs, N_ROUNDS, seed)
+            name = "{}_{}_{}_n{}_q{:g}_e{}_r{}{}_seed{}".format(
+                s.ALGO_NAME, dataset, label, s.N_CLIENTS, ratio, epochs,
+                s.N_ROUNDS, s.RUN_SUFFIX, seed)
             tasks[task_id] = {"id": task_id, "condition_id": condition, "name": name,
                               "categories": [category], "config": config}
 
-    for alpha in LDA_ALPHAS:
-        for dataset in DATASETS:
+    for alpha in s.LDA_ALPHAS:
+        for dataset in s.DATASETS:
             add(dataset, {"method": "lda", "alpha": alpha}, "main")
-    for shards in SHARDS_PER_CLIENT:
-        for dataset in DATASETS:
+    for shards in s.SHARDS_PER_CLIENT:
+        for dataset in s.DATASETS:
             add(dataset, {"method": "sharding", "shard_per_user": shards}, "main")
-    if INCLUDE_SUPPLEMENTARY:
-        partition = {"method": "lda", "alpha": SUPPLEMENTARY_ALPHA}
-        for ratio in PARTICIPATION_RATES:
-            add(SUPPLEMENTARY_DATASET, partition, "participation", ratio=ratio)
-        for epochs in LOCAL_EPOCH_VALUES:
-            add(SUPPLEMENTARY_DATASET, partition, "local_epochs", epochs=epochs)
+    if s.INCLUDE_SUPPLEMENTARY:
+        partition = {"method": "lda", "alpha": s.SUPPLEMENTARY_ALPHA}
+        for ratio in s.PARTICIPATION_RATES:
+            add(s.SUPPLEMENTARY_DATASET, partition, "participation", ratio=ratio)
+        for epochs in s.LOCAL_EPOCH_VALUES:
+            add(s.SUPPLEMENTARY_DATASET, partition, "local_epochs", epochs=epochs)
     for task in tasks.values():
         cfg = task["config"]
         cfg["wandb_setups"] = {
-            "project": WANDB_PROJECT, "entity": WANDB_ENTITY, "mode": "online", "force": True,
-            "name": task["name"], "group": BATCH_NAME + "-" + task["condition_id"],
-            "job_type": "fedavg", "save_code": False,
-            "tags": ["fedavg", cfg["data_setups"]["dataset_name"],
+            "project": s.WANDB_PROJECT, "entity": s.WANDB_ENTITY, "mode": "online", "force": True,
+            "name": task["name"], "group": s.BATCH_NAME + "-" + task["condition_id"],
+            "job_type": s.ALGO_NAME, "save_code": False,
+            "tags": [s.ALGO_NAME, cfg["data_setups"]["dataset_name"],
                      cfg["data_setups"]["partition"]["method"],
-                     "seed-{}".format(cfg["train_setups"]["seed"]), BATCH_NAME] + task["categories"],
+                     "seed-{}".format(cfg["train_setups"]["seed"]), s.BATCH_NAME] + task["categories"],
         }
     return list(tasks.values())
 

@@ -5,6 +5,9 @@ from collections import Counter
 import random
 import numpy as np
 import os
+import time
+
+from .partition_cache import load_or_create_partition, lda_indices, DEFAULT_SEED
 
 from .mnist.loader import get_all_targets_mnist, get_dataloader_mnist
 from .cifar10.loader import get_all_targets_cifar10, get_dataloader_cifar10
@@ -41,21 +44,36 @@ def data_distributer(
     partition,
     oracle_size=0,
     oracle_batch_size=None,
+    partition_seed=DEFAULT_SEED,
+    partition_cache=None,
 ):
     """
     Distribute dataloaders for server and locals by the given partition method.
     """
 
     root = os.path.join(root, dataset_name)
+    stage_start = time.perf_counter()
+    print("[data] Loading labels for {}...".format(dataset_name), flush=True)
     all_targets = DATA_INSTANCES[dataset_name](root)
+    print("[data] Labels ready: {} samples ({:.2f}s)".format(
+        len(all_targets), time.perf_counter() - stage_start), flush=True)
     num_classes = len(np.unique(all_targets))
     net_dataidx_map_test = None
+    partition_info = None
+    cache_options = {} if partition_cache is None else dict(partition_cache)
 
     local_loaders = {
         i: {"datasize": 0, "train": None, "test": None} for i in range(n_clients)
     }
 
-    if partition.method == "centralized":
+    if partition.method in ("lda", "sharding") and cache_options.get("enabled", True):
+        all_targets_test = (DATA_INSTANCES[dataset_name](root, train=False)
+                            if partition.method == "sharding" else None)
+        cache_directory = cache_options.get("directory") or os.path.join(root, ".partition_cache")
+        net_dataidx_map, net_dataidx_map_test, partition_info = load_or_create_partition(
+            all_targets, n_clients, partition, dataset_name, cache_directory,
+            seed=partition_seed, test_targets=all_targets_test)
+    elif partition.method == "centralized":
         net_dataidx_map = centralized_partition(all_targets)
     elif partition.method == "iid":
         net_dataidx_map = iid_partition(all_targets, n_clients)
@@ -73,16 +91,22 @@ def data_distributer(
     elif partition.method == "sharding_max":
         net_dataidx_map = sharding_max_partition(all_targets, n_clients, partition.K)
     elif partition.method == "lda":
-        net_dataidx_map = lda_partition(all_targets, n_clients, partition.alpha)
+        net_dataidx_map, details = lda_indices(all_targets, n_clients, partition, seed=partition_seed)
+        partition_info = {"cache_hit": False, "cache_path": None, "details": details,
+                          "identity": {"seed": partition_seed, "partition": dict(partition)}}
     else:
         raise NotImplementedError
 
-    print(">>> Distributing client train data...")
+    stage_start = time.perf_counter()
+    print(">>> Distributing client train data (partition is already complete)...", flush=True)
     for client_idx, dataidxs in net_dataidx_map.items():
         local_loaders[client_idx]["datasize"] = len(dataidxs)
         local_loaders[client_idx]["train"] = DATA_LOADERS[dataset_name](
             root, train=True, batch_size=batch_size, dataidxs=dataidxs,
         )
+        if (client_idx + 1) % 10 == 0 or client_idx + 1 == n_clients:
+            print("[data] Train loaders {}/{} ({:.1f}s)".format(
+                client_idx + 1, n_clients, time.perf_counter() - stage_start), flush=True)
 
     print(">>> Distributing client test data...")
     if net_dataidx_map_test is not None:
@@ -108,6 +132,7 @@ def data_distributer(
         "local": local_loaders,
         "data_map": data_map,
         "num_classes": num_classes,
+        "partition_metadata": partition_info,
     }
 
     # Set oracle loader for CL-like memory
@@ -155,15 +180,14 @@ def iid_partition(all_targets, n_clients):
 def sharding_partition(all_targets, n_clients, shard_per_user, rand_set_all=[]):
     net_dataidx_map = {i: np.array([], dtype="int64") for i in range(n_clients)}
     idxs_dict = {}
+    num_classes = len(np.unique(all_targets))
+    shard_per_class = int(shard_per_user * n_clients / num_classes)
 
     for i in range(len(all_targets)):
         label = torch.tensor(all_targets[i]).item()
         if label not in idxs_dict.keys():
             idxs_dict[label] = []
         idxs_dict[label].append(i)
-
-        num_classes = len(np.unique(all_targets))
-        shard_per_class = int(shard_per_user * n_clients / num_classes)
 
     for label in idxs_dict.keys():
         x = idxs_dict[label]
@@ -251,35 +275,9 @@ def sharding_max_partition(all_targets, n_clients, K):
 
 
 def lda_partition(all_targets, n_clients, alpha):
-    labels = all_targets
-    length = int(len(labels) / n_clients)
-    net_dataidx_map = {}
-
-    unique_classes = np.unique(labels)
-
-    tot_idx_by_label = []
-    for i in unique_classes:
-        idx_by_label = np.where(labels == i)[0]
-        tot_idx_by_label.append(idx_by_label)
-
-    min_size = 0
-
-    while min_size < 10:
-        idx_batch = [[] for _ in range(n_clients)]
-        N, K = len(all_targets), len(np.unique(all_targets))
-
-        for k in range(K):
-            # get a list of batch indexes which are belong to label k
-            idx_k = np.where(all_targets == k)[0]
-            idx_batch, min_size = partition_class_samples_with_dirichlet_distribution(
-                N, alpha, n_clients, idx_batch, idx_k
-            )
-
-    for i in range(n_clients):
-        np.random.shuffle(idx_batch[i])
-        net_dataidx_map[i] = idx_batch[i]
-
-    return net_dataidx_map
+    # Kept as a compatibility entry point; never retry without a bound.
+    result, _ = lda_indices(all_targets, n_clients, {"method": "lda", "alpha": alpha})
+    return result
 
 
 def partition_class_samples_with_dirichlet_distribution(

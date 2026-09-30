@@ -3,3 +3,4 @@ from .moon import *
 from .fedbpc import *
 from .fedbtr import *
 from .fedproc import *
+from .fedproto import *

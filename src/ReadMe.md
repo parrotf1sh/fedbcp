@@ -1,7 +1,17 @@
 ## How to Run Codes?
 
+所有使用标准 LDA/分片数据入口的算法共享[最小样本补足与划分缓存](../scripts/README_partitions.md)。
+8 核实验机可先运行 `python scripts/prepare_partitions.py --workers 8` 预生成 18 份公共划分。
+
 FedAvg 的 66 任务串行实验队列（300 轮、三训练种子、自动下载、仅指标）见
 [批量运行说明](../scripts/README_fedavg.md)。入口：`python scripts/run_fedavg_experiments.py`（项目根目录）。
+
+MOON 的对应 66 任务队列见 [MOON 批量运行说明](../scripts/README_moon.md)。
+入口：`python scripts/run_moon_experiments.py`（项目根目录），默认 μ=0.1、τ=0.5，历史模型只保存在 CPU 内存。
+
+FedProto 的移植说明、总体测试性能定义和输出字段见 [FedProto](algorithms/fedproto/README.md)。
+在 `src` 目录运行 `python main.py --config_path ./config/fedproto.json`。
+主指标是所有客户端在完整测试集上的原型预测准确率均值，实验结果仅保存到 W&B 的 history 和 summary。
 
 FedBTR 的新算法、独立长尾划分、配对消融和运行说明见 [FedBTR](../docs/FedBTR.md)，实现自审见 [对抗式审查记录](../docs/FedBTR_adversarial_review.md)。
 

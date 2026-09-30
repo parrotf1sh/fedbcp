@@ -41,7 +41,8 @@ python scripts/run_fedavg_experiments.py --data-root /absolute/path/to/data
 - CIFAR 数据缺失时由 torchvision 下载并校验。
 - Tiny-ImageNet 数据缺失时从 Stanford 下载 ZIP 并解压；自动检查训练/验证图像数量。
 - Tiny-ImageNet 使用有标签的官方 val 集作为评测集，不使用无标签 test 集。
-- 不修改现有划分算法；分片数仍是每客户端分片数，不保证每客户端类别数恰好等于该值。
+- LDA 采用有次数上限的采样及最小样本数补足，所有算法共享最终索引缓存，见[公共划分协议](README_partitions.md)。
+- 分片数仍是每客户端分片数，不保证每客户端类别数恰好等于该值。
 - 改 N 后会校验 `N * shards` 是否能被类别数整除，避免实际分片数与配置不一致。
 
 默认准备为：
@@ -93,6 +94,7 @@ fedavg_experiments/
       metrics.csv
       clients.jsonl             # 每轮实际参与客户端名单
       partition_stats.json      # 每客户端类别计数、标签熵等
+      partition_metadata.json   # 划分指纹、缓存命中、补足数量和比例
       summary.json
       wandb/...
 ```

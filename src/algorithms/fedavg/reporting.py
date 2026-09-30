@@ -1,4 +1,4 @@
-"""Metrics-only evaluation for the optional FedAvg experiment queue.
+"""Shared metrics-only evaluation for the FedAvg and MOON experiment queues.
 
 No model/optimizer serialization is performed here. All metrics are fractions.
 """
@@ -69,6 +69,8 @@ def evaluate(model, loader, num_classes, device):
 
 
 def log_partition(server, output):
+    if server.data_distributed.get("partition_metadata") is not None:
+        write_json(output / "partition_metadata.json", server.data_distributed["partition_metadata"])
     counts = torch.as_tensor(server.data_distributed["data_map"], dtype=torch.float64)
     sizes = counts.sum(1)
     probabilities = counts / sizes.clamp_min(1).unsqueeze(1)
@@ -137,6 +139,9 @@ def run_metrics(server):
                             "time/elapsed_seconds": time.perf_counter() - start,
                             "communication/round_bytes": round_bytes,
                             "communication/cumulative_bytes": communication})
+            extra_metrics = getattr(server, "batch_round_metrics", None)
+            if extra_metrics is not None:
+                metrics.update(extra_metrics(local))
             if server.scheduler is not None:
                 server.scheduler.step()
             if writer is None:
@@ -163,4 +168,13 @@ def run_metrics(server):
         "communication_definition": "sum over clients of model upload + model download + optimizer tensor download; excludes transport overhead",
         "seed": config["train_setups"]["seed"],
     }
+    if config["train_setups"]["algo"]["name"] == "moon":
+        server.batch_summary.update({
+            "final_train_ce_loss": metrics["train/ce_loss"],
+            "final_train_contrastive_loss": metrics["train/contrastive_loss"],
+            "final_train_total_loss": metrics["train/total_loss"],
+            "history_cache_bytes": metrics["moon/history_cache_bytes"],
+            "communication_definition": server.batch_summary["communication_definition"]
+                + "; MOON history is client-local state; CPU/GPU transfers are not network traffic",
+        })
     wandb.run.summary.update(server.batch_summary)

@@ -43,7 +43,7 @@ class SchedulerTests(unittest.TestCase):
                              "numpy.seed(round_index), zero_based")
             self.assertFalse(cfg["batch_protocol"]["save_checkpoints"])
             partition = cfg["data_setups"]["partition"]
-            self.assertEqual(set(partition), {"method", "alpha"} if partition["method"] == "lda"
+            self.assertEqual(set(partition), {"method", "alpha", "min_samples", "max_attempts", "insufficient_policy"} if partition["method"] == "lda"
                              else {"method", "shard_per_user"})
             groups.setdefault(task["condition_id"], []).append(cfg["train_setups"]["seed"])
         self.assertEqual(len(groups), 22)

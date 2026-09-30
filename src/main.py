@@ -25,6 +25,7 @@ ALGO = {
     "fedbpc": algorithms.fedbpc.Server,
     "fedbtr": algorithms.fedbtr.Server,
     "fedproc": algorithms.fedproc.Server,
+    "fedproto": algorithms.fedproto.Server,
 }
 
 SCHEDULER = {
@@ -38,8 +39,9 @@ def _get_setups(args):
     """Get train configuration"""
 
     # Fix randomness for data distribution
-    np.random.seed(19940817)
-    random.seed(19940817)
+    partition_seed = args.data_setups.get("partition_seed", 19940817)
+    np.random.seed(partition_seed)
+    random.seed(partition_seed)
 
     # Distribute the data to clients
     data_options = dict(args.data_setups)
@@ -53,6 +55,16 @@ def _get_setups(args):
         raise ValueError("Unknown data pipeline: {}".format(pipeline))
 
     # Fix randomness for experiment
+    metadata = data_distributed.get("partition_metadata")
+    if metadata is not None and wandb.run is not None:
+        wandb.config.update({"resolved_partition": metadata}, allow_val_change=True)
+        wandb.run.summary.update({
+            "partition/cache_hit": metadata["cache_hit"],
+            "partition/cache_key": metadata.get("cache_key"),
+            "partition/indices_sha256": metadata.get("indices_sha256"),
+            "partition/repaired_samples": metadata["details"].get("repaired_samples", 0),
+            "partition/repaired_fraction": metadata["details"].get("repaired_fraction", 0.0),
+        })
     _random_seeder(args.train_setups.seed)
     model = create_models(
         args.train_setups.model.name,
@@ -70,6 +82,12 @@ def _get_setups(args):
         else:
             model = algorithms.fedproc.ModelWithFeatures(model)
         optimizer = algorithms.fedproc.create_optimizer(
+            model,
+            name=args.train_setups.optimizer.get("name", "sgd"),
+            **args.train_setups.optimizer.params,
+        )
+    elif args.train_setups.algo.name == "fedproto":
+        optimizer = algorithms.fedproto.create_optimizer(
             model,
             name=args.train_setups.optimizer.get("name", "sgd"),
             **args.train_setups.optimizer.params,
@@ -123,7 +141,7 @@ def main(args):
 
     # Load the configuration
     server = _get_setups(args)
-    if args.get("batch_protocol"):
+    if args.get("batch_protocol") or args.train_setups.algo.name == "fedproto":
         server.experiment_config = args
     if args.train_setups.algo.name == "fedbtr":
         # Preserve the resolved architecture/data/scenario as well as algo params.
@@ -133,7 +151,7 @@ def main(args):
     server.run()
 
     if (args.data_setups.get("pipeline") == "longtail"
-            and args.train_setups.algo.name != "fedbtr"):
+            and args.train_setups.algo.name not in ("fedbtr", "fedproto")):
         from longtail_report import save_baseline_report
         save_baseline_report(server, args)
 
