@@ -26,6 +26,7 @@ ALGO = {
     "fedbtr": algorithms.fedbtr.Server,
     "fedproc": algorithms.fedproc.Server,
     "fedproto": algorithms.fedproto.Server,
+    "fednh": algorithms.fednh.Server,
 }
 
 SCHEDULER = {
@@ -82,6 +83,15 @@ def _get_setups(args):
         else:
             model = algorithms.fedproc.ModelWithFeatures(model)
         optimizer = algorithms.fedproc.create_optimizer(
+            model,
+            name=args.train_setups.optimizer.get("name", "sgd"),
+            **args.train_setups.optimizer.params,
+        )
+    elif args.train_setups.algo.name == "fednh":
+        model = algorithms.fednh.ModelWithNormalizedHead(
+            model, args.train_setups.algo.params
+        )
+        optimizer = algorithms.fednh.create_optimizer(
             model,
             name=args.train_setups.optimizer.get("name", "sgd"),
             **args.train_setups.optimizer.params,

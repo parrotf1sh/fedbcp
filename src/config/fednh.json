@@ -5,19 +5,27 @@
         "batch_size": 50,
         "n_clients": 100,
         "partition": {
-            "method": "sharding",
-            "shard_per_user": 2
+            "method": "lda",
+            "alpha": 0.1
         }
     },
     "train_setups": {
         "algo": {
-            "name": "fedproc",
+            "name": "fednh",
             "params": {
-                "alpha_rounds": 100,
-                "server_momentum": 0.0,
-                "aggregation": "sampled",
-                "use_project_head": true,
-                "out_dim": 256
+                "head_init": "orthogonal",
+                "smoothing": 0.9,
+                "client_adv_prototype_agg": false,
+                "server_adv_prototype_agg": false,
+                "fix_scaling": false,
+                "scaling_init": null,
+                "fixed_scaling": 30.0,
+                "max_grad_norm": 10.0,
+                "server_lr": 1.0,
+                "server_lr_decay": 1.0,
+                "client_lr_scheduler": "project",
+                "client_lr_decay": 0.99,
+                "exclude": []
             }
         },
         "scenario": {
@@ -34,7 +42,7 @@
             "params": {
                 "lr": 0.01,
                 "momentum": 0.9,
-                "weight_decay": 1e-05
+                "weight_decay": 1e-5
             }
         },
         "scheduler": {
@@ -49,7 +57,7 @@
     },
     "wandb_setups": {
         "project": "FedClsimb",
-        "group": "fedproc",
-        "name": "fedproc_cifar10_sharding_source"
+        "group": "fednh",
+        "name": "fednh_test"
     }
 }

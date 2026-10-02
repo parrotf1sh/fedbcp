@@ -4,3 +4,4 @@ from .fedbpc import *
 from .fedbtr import *
 from .fedproc import *
 from .fedproto import *
+from .fednh import *
