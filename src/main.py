@@ -27,6 +27,8 @@ ALGO = {
     "fedproc": algorithms.fedproc.Server,
     "fedproto": algorithms.fedproto.Server,
     "fednh": algorithms.fednh.Server,
+    "fedrcl": algorithms.fedrcl.Server,
+    "fedsc": algorithms.fedsc.Server,
 }
 
 SCHEDULER = {
@@ -74,6 +76,8 @@ def _get_setups(args):
     )
 
     # Optimization setups
+    if args.train_setups.algo.name == "fedrcl":
+        model = algorithms.fedrcl.ModelWithLayerFeatures(model)
     if args.train_setups.algo.name == "fedproc":
         algo_params = args.train_setups.algo.params
         if algo_params.get("use_project_head", False):

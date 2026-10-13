@@ -1,4 +1,5 @@
 import copy
+import time
 
 import torch
 import torch.nn.functional as F
@@ -20,6 +21,7 @@ class ClientTrainer(BaseClientTrainer):
         self.class_counts = None
         self.prototype_payload = None
         self.round_idx = None
+        self.prototype_samples = 0
 
     def download_global(self, server_weights, server_optimizer, round_idx):
         self.model.load_state_dict(server_weights)
@@ -45,11 +47,15 @@ class ClientTrainer(BaseClientTrainer):
         self.model.train()
         self.model.to(self.device)
         self.criterion.to(self.device)
+        metrics_only = self.cfg["metrics_only"]
+        totals = {"loss_sum": 0.0, "correct": 0, "seen": 0}
         for _ in range(self.local_epochs):
             for data, targets in self.trainloader:
                 data, targets = data.to(self.device), targets.to(self.device)
                 logits = self.model(data)
                 loss = self.criterion(logits, targets)
+                if metrics_only and not torch.isfinite(loss).item():
+                    raise FloatingPointError("Non-finite FedNH loss in round {}".format(self.round_idx + 1))
                 self.model.zero_grad(set_to_none=True)
                 loss.backward()
                 torch.nn.utils.clip_grad_norm_(
@@ -57,12 +63,32 @@ class ClientTrainer(BaseClientTrainer):
                     max_norm=self.cfg["max_grad_norm"],
                 )
                 self.optimizer.step()
+                if metrics_only:
+                    count = targets.numel()
+                    totals["loss_sum"] += loss.detach().item() * count
+                    totals["correct"] += (logits.detach().argmax(1) == targets).sum().item()
+                    totals["seen"] += count
 
+        if metrics_only:
+            if not totals["seen"]:
+                raise ValueError("Selected FedNH client processed no training samples")
+            from ..fedavg.reporting import synchronize
+            synchronize(self.device)
+            started = time.perf_counter()
+            self.prototype_samples = 0
         if self.cfg["client_adv_prototype_agg"]:
             self.prototype_payload = self._estimate_prototype_adv()
         else:
             self.prototype_payload = self._estimate_prototype()
-        local_results = self._get_local_stats()
+        if metrics_only:
+            synchronize(self.device)
+            totals["prototype_seconds"] = time.perf_counter() - started
+            totals["prototype_samples"] = self.prototype_samples
+            if not all(torch.isfinite(value).all().item() for value in self.prototype_payload.values()):
+                raise FloatingPointError("Non-finite FedNH prototype payload")
+            local_results = totals
+        else:
+            local_results = self._get_local_stats()
         return local_results, self.datasize
 
     def _count_by_class_full(self):
@@ -77,6 +103,8 @@ class ClientTrainer(BaseClientTrainer):
         prototype = torch.zeros_like(self.model.prototype)
         for data, targets in self.trainloader:
             data, targets = data.to(self.device), targets.to(self.device)
+            if self.cfg["metrics_only"]:
+                self.prototype_samples += targets.numel()
             _, features = self.model(data, get_features=True)
             for class_idx in torch.unique(targets).cpu().tolist():
                 prototype[class_idx] += torch.sum(features[targets == class_idx], dim=0)
@@ -96,6 +124,8 @@ class ClientTrainer(BaseClientTrainer):
         prototype = torch.zeros_like(self.model.prototype)
         for data, targets in self.trainloader:
             data, targets = data.to(self.device), targets.to(self.device)
+            if self.cfg["metrics_only"]:
+                self.prototype_samples += targets.numel()
             logits, features = self.model(data, get_features=True)
             probabilities = F.softmax(logits, dim=1)
             weights.append(torch.gather(probabilities, dim=1, index=targets.view(-1, 1)))
@@ -126,3 +156,4 @@ class ClientTrainer(BaseClientTrainer):
         self.class_counts = None
         self.prototype_payload = None
         self.round_idx = None
+        self.prototype_samples = 0

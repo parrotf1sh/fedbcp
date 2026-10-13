@@ -6,6 +6,7 @@
 wandb login
 python scripts/run_fedavg_experiments.py --dry-run
 python scripts/run_fedavg_experiments.py --data-root /absolute/path/to/data
+nohup python scripts/run_fedavg_experiments.py --data-root /root/data > /root/log/fedavg_batch.log 2>&1 &
 ```
 
 脚本头部集中配置超参数、GPU、数据路径、模型、W&B project/entity 和实验开关。

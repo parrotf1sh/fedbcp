@@ -5,3 +5,5 @@ from .fedbtr import *
 from .fedproc import *
 from .fedproto import *
 from .fednh import *
+from .fedrcl import *
+from .fedsc import *

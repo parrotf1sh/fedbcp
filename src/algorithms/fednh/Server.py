@@ -1,4 +1,5 @@
 import copy
+import torch
 
 from ..BaseServer import BaseServer
 from .ClientTrainer import ClientTrainer
@@ -43,6 +44,9 @@ class Server(BaseServer):
         }
         self.client_private_weights = {}
         self.prototype_payloads = []
+        self.prototype_total_bytes = 0
+        self.prototype_total_samples = 0
+        self.prototype_total_seconds = 0.0
         self.client = ClientTrainer(
             optimizer_class=type(optimizer),
             initial_lr=optimizer.param_groups[0]["lr"],
@@ -53,6 +57,12 @@ class Server(BaseServer):
             device=self.device,
             num_classes=self.num_classes,
         )
+
+    def run(self):
+        if self.cfg["metrics_only"]:
+            from ..fedavg.reporting import run_metrics
+            return run_metrics(self)
+        return super().run()
 
     def _set_client_data(self, client_idx):
         super()._set_client_data(client_idx)
@@ -70,6 +80,10 @@ class Server(BaseServer):
         updated_local_weights, client_sizes = [], []
         round_results = {}
         self.prototype_payloads = []
+        if self.cfg["metrics_only"]:
+            from ..fedavg.reporting import tensor_bytes
+            self.round_prototype_bytes = 0
+            covered_classes = set()
         for client_idx in sampled_clients:
             self._set_client_data(client_idx)
             weights = dict(self.server_weights)
@@ -80,6 +94,9 @@ class Server(BaseServer):
             local_weights = self.client.upload_local()
             updated_local_weights.append(local_weights)
             self.prototype_payloads.append(self.client.upload_prototypes())
+            if self.cfg["metrics_only"]:
+                self.round_prototype_bytes += tensor_bytes(self.prototype_payloads[-1])
+                covered_classes.update(i for i, count in enumerate(self.client.class_counts) if count > 0)
             if self.exclude_layer_keys:
                 self.client_private_weights[client_idx] = {
                     key: local_weights[key].detach().cpu().clone()
@@ -88,6 +105,11 @@ class Server(BaseServer):
             client_sizes.append(local_size)
             round_results = self._results_updater(round_results, local_results)
             self.client.reset()
+        if self.cfg["metrics_only"]:
+            self.prototype_total_bytes += self.round_prototype_bytes
+            self.prototype_total_samples += sum(round_results["prototype_samples"])
+            self.prototype_total_seconds += sum(round_results["prototype_seconds"])
+            self.round_covered_classes = len(covered_classes)
         return updated_local_weights, client_sizes, round_results
 
     def _aggregation(self, w, ns):
@@ -98,7 +120,59 @@ class Server(BaseServer):
             self.cfg, round_idx, self.exclude_layer_keys,
         )
         self.prototype_payloads = []
+        if self.cfg["metrics_only"]:
+            prototype = self.server_weights["prototype"].detach()
+            scaling = self.server_weights["scaling"].detach()
+            if not torch.isfinite(prototype).all().item() or not torch.isfinite(scaling).all().item():
+                raise FloatingPointError("Non-finite FedNH aggregated head")
+            norms = torch.norm(prototype, p=2, dim=1)
+            self.head_metrics = {
+                "fednh/scaling": scaling.item(),
+                "fednh/prototype_norm_min": norms.min().item(),
+                "fednh/prototype_norm_mean": norms.mean().item(),
+                "fednh/prototype_norm_max": norms.max().item(),
+                "fednh/prototype_head_bytes": prototype.numel() * prototype.element_size(),
+            }
         return copy.deepcopy(self.server_weights)
+
+    def batch_communication_bytes(self):
+        # Head download/upload already belongs to the full model state counted
+        # by the common reporter. Only the separate prototype payload is extra.
+        return self.round_prototype_bytes
+
+    def batch_round_metrics(self, local):
+        step = len(self.server_results["client_history"]) - 1
+        return dict(self.head_metrics, **{
+            "train/ce_loss": sum(local["loss_sum"]) / sum(local["seen"]),
+            "fednh/server_lr": self.cfg["server_lr"] * self.cfg["server_lr_decay"] ** step,
+            "fednh/prototype_covered_classes": self.round_covered_classes,
+            "fednh/prototype_missing_classes": self.num_classes - self.round_covered_classes,
+            "fednh/prototype_estimation_seconds": sum(local["prototype_seconds"]),
+            "fednh/prototype_processed_samples": sum(local["prototype_samples"]),
+            "fednh/prototype_upload_bytes": self.round_prototype_bytes,
+            "fednh/prototype_cumulative_upload_bytes": self.prototype_total_bytes,
+            "fednh/prototype_cumulative_samples": self.prototype_total_samples,
+            "fednh/prototype_cumulative_seconds": self.prototype_total_seconds,
+        })
+
+    def batch_summary_metrics(self, metrics):
+        return {
+            "final_train_ce_loss": metrics["train/ce_loss"],
+            "final_scaling": metrics["fednh/scaling"],
+            "prototype_upload_bytes": self.prototype_total_bytes,
+            "prototype_processed_samples": self.prototype_total_samples,
+            "prototype_estimation_seconds": self.prototype_total_seconds,
+            "model_parameter_count": sum(p.numel() for p in self.model.parameters()),
+            "trainable_parameter_count": sum(p.numel() for p in self.model.parameters() if p.requires_grad),
+            "aggregation": "fednh_equal_client_model_update_and_smoothed_prototypes",
+            "smoothing": self.cfg["smoothing"],
+            "fix_scaling": self.cfg["fix_scaling"],
+            "advanced_prototype_aggregation": self.cfg["server_adv_prototype_agg"],
+            "communication_definition": (
+                "full model upload + full model download + optimizer tensor download per participant; "
+                "full model includes prototype head and scaling; add the separate dense prototype/count "
+                "payload upload once, no additional prototype download; excludes transport and simulator CPU/GPU transfers"),
+        }
 
     def _update_and_evaluate(self, ag_weights, round_results, round_idx, start_time):
         # Upstream's server-side evaluation client also skips excluded tensors

@@ -15,6 +15,7 @@ DEFAULTS = dict(
     client_lr_scheduler="project",
     client_lr_decay=0.99,
     exclude=[],
+    metrics_only=False,
 )
 
 
@@ -23,7 +24,7 @@ def resolve_config(params):
     if unknown:
         raise ValueError("Unknown FedNH settings: {}".format(sorted(unknown)))
     cfg = dict(DEFAULTS, **params)
-    for key in ("client_adv_prototype_agg", "server_adv_prototype_agg", "fix_scaling"):
+    for key in ("client_adv_prototype_agg", "server_adv_prototype_agg", "fix_scaling", "metrics_only"):
         if type(cfg[key]) is not bool:
             raise ValueError("{} must be a JSON boolean".format(key))
     if cfg["client_adv_prototype_agg"] != cfg["server_adv_prototype_agg"]:
@@ -52,4 +53,9 @@ def resolve_config(params):
             or any(not isinstance(key, str) or not key for key in cfg["exclude"])):
         raise ValueError("exclude must be a list of nonempty parameter key substrings")
     cfg["exclude"] = list(cfg["exclude"])
+    if cfg["metrics_only"]:
+        if cfg["exclude"]:
+            raise ValueError("FedNH metrics-only global comparison requires exclude=[]")
+        if cfg["client_lr_scheduler"] != "project":
+            raise ValueError("FedNH metrics-only comparison requires client_lr_scheduler='project'")
     return cfg

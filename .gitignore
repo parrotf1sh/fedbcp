@@ -15,4 +15,5 @@ fedbtr_run_metrics/
 fedavg_experiments/
 moon_experiments/
 fedproc_experiments/
+fednh_experiments/
 result/

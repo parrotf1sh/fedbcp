@@ -42,7 +42,7 @@ def prepare_one(job):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--source", choices=("fedavg", "moon", "fedproc"), default="fedavg",
+    parser.add_argument("--source", choices=("fedavg", "moon", "fedproc", "fednh"), default="fedavg",
                         help="Read the experiment settings from this scheduler")
     parser.add_argument("--data-root", type=Path, default=ROOT / "data")
     parser.add_argument("--workers", type=int, default=min(8, os.cpu_count() or 1))
@@ -54,6 +54,8 @@ def main():
         import run_moon_experiments as scheduler
     elif args.source == "fedproc":
         import run_fedproc_experiments as scheduler
+    elif args.source == "fednh":
+        import run_fednh_experiments as scheduler
     else:
         import run_fedavg_experiments as scheduler
     configs = unique_configs(scheduler.build_tasks(args.data_root))

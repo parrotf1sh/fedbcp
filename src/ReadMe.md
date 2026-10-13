@@ -1,5 +1,8 @@
 ## How to Run Codes?
 
+FedNH 的两训练种子、44 任务队列见 [FedNH 批量运行说明](../scripts/README_fednh.md)。
+入口：`python scripts/run_fednh_experiments.py`；每次 300 轮，使用等权客户端更新和归一化原型分类头。
+
 所有使用标准 LDA/分片数据入口的算法共享[最小样本补足与划分缓存](../scripts/README_partitions.md)。
 8 核实验机可先运行 `python scripts/prepare_partitions.py --workers 8` 预生成 18 份公共划分。
 
@@ -16,7 +19,18 @@ FedProto 的移植说明、总体测试性能定义和输出字段见 [FedProto]
 在 `src` 目录运行 `python main.py --config_path ./config/fedproto.json`。
 主指标是所有客户端在完整测试集上的原型预测准确率均值，实验结果仅保存到 W&B 的 history 和 summary。
 
+FedRCL 的模型层级映射、原始损失分支、等权聚合及学习率适配见
+[FedRCL 移植说明](algorithms/fedrcl/README.md)。在 `src` 目录运行
+`python main.py --config_path ./config/fedrcl.json`，默认数据、模型及公共训练配置与 FedBPC 一致，
+保留本地学习率衰减 `0.998`。本次移植仅进行静态验证。
+
 FedBTR 的新算法、独立长尾划分、配对消融和运行说明见 [FedBTR](../docs/FedBTR.md)，实现自审见 [对抗式审查记录](../docs/FedBTR_adversarial_review.md)。
+
+FedSC 的源码行为、原型与损失流程及实验设置适配见
+[FedSC 移植说明](algorithms/fedsc/README.md)。在 `src` 目录运行
+`python main.py --config_path ./config/fedsc.json`，公共数据、模型与训练配置和 FedBPC 一致。
+保留原源码的正原型异常回退（正常有限特征下 CPDR 为零）、原型修正未写回及位置权重行为。
+本次移植仅进行静态验证。
 
 The configuration skeleton for each algorithm is in `./config/*.json`. 
 - `python ./main.py --config_path ./config/algorithm_name.json` conducts the experiment with the default setups.
