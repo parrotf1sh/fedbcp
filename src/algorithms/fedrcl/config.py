@@ -41,6 +41,15 @@ PAIR_OVERRIDES = (
 )
 
 
+def _copy_config(value):
+    """Copy nested JSON without probing ConfLoader dictionaries for copy hooks."""
+    if isinstance(value, dict):
+        return {key: _copy_config(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [_copy_config(item) for item in value]
+    return copy.deepcopy(value)
+
+
 def _finite(value, name):
     if type(value) not in (int, float) or not math.isfinite(value):
         raise ValueError("{} must be a finite number".format(name))
@@ -92,9 +101,9 @@ def resolve_config(params, num_layers):
             unknown = set(value) - set(cfg[key])
             if unknown:
                 raise ValueError("Unknown FedRCL {} settings: {}".format(key, sorted(unknown)))
-            cfg[key].update(copy.deepcopy(value))
+            cfg[key].update(_copy_config(value))
         else:
-            cfg[key] = copy.deepcopy(value)
+            cfg[key] = _copy_config(value)
 
     for key in ("use_amp", "metrics_only"):
         if type(cfg[key]) is not bool:

@@ -13,6 +13,9 @@ python main.py --config_path ./config/fedrcl.json
 ```
 
 配置结构、命令行覆盖方式、评估和 W&B 生命周期沿用项目现有实现。
+配置合并时递归复制 JSON 字典和列表，将 `ConfLoader` 的属性访问字典转为普通字典，
+包括 `rcl_loss.pairs` 列表中的嵌套字典，避免 `deepcopy` 查询 `__deepcopy__` 时触发
+`KeyError`。复制后的配置与输入及默认配置独立；参数值和原始回退规则保持不变。
 默认配置的 `data_setups`、`scenario`、`model`、`optimizer`、`scheduler`
 及训练种子与 `config/fedbpc.json` 一致。默认不是原论文的 ResNet-18 实验设置。
 
@@ -156,3 +159,7 @@ pair 名称必须唯一，不能与 `cls/prox/cossim/total` 的损失或统计�
 另外通过 AST 对照检查原始 top-k 方向、归一化和 beta/log-softmax 分支、
 客户端归约调用、梯度更新顺序、epoch 调度位置、当轮学习率重置、等权聚合
 及 hooks 清理结构，并人工审查特征层映射和源实现的边界处理。
+
+2026-10-13 修复配置复制兼容问题，补充 `tests/test_fedrcl_config.py`，覆盖真实
+`ConfLoader` 输入、嵌套 pair/list 的复制独立性和 false/null/零值保留。
+本次修复仅进行静态检查，未执行这些回归用例或训练。
