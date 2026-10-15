@@ -66,4 +66,34 @@ class Server(BaseServer):
         for name, values in local.items():
             if name.endswith("_loss_sum"):
                 metrics["train/" + name[:-4]] = sum(values) / seen
+        # cls is the source name; also expose the shared CE metric name.
+        metrics["train/ce_loss"] = metrics["train/cls_loss"]
+        initial_lr = self.optimizer.param_groups[0]["lr"]
+        metrics.update({
+            "fedrcl/local_first_epoch_lr": initial_lr,
+            "fedrcl/local_last_epoch_lr": initial_lr * self.cfg["local_lr_decay"] ** (self.local_epochs - 1),
+        })
         return metrics
+
+    def batch_summary_metrics(self, metrics):
+        result = {"final_" + name.replace("/", "_"): value
+                  for name, value in metrics.items()
+                  if name.startswith("train/") and name.endswith("_loss")}
+        result.update({
+            "aggregation": "equal_participant_full_state_mean",
+            "fedrcl_implementation": "project_source_behavior_v1",
+            "local_lr_decay": self.cfg["local_lr_decay"],
+            "final_local_first_epoch_lr": metrics["fedrcl/local_first_epoch_lr"],
+            "final_local_last_epoch_lr": metrics["fedrcl/local_last_epoch_lr"],
+            "use_amp_requested": self.cfg["use_amp"],
+            "autocast_enabled": torch.device(self.device).type == "cuda" and self.cfg["use_amp"],
+            "grad_scaler_enabled": torch.device(self.device).type == "cuda",
+            "rcl_branch_levels": self.cfg["rcl_loss"]["branch_level"],
+            "model_parameter_count": sum(p.numel() for p in self.model.parameters()),
+            "loss_component_definition": "sample-weighted raw losses before objective weights; cls is CE",
+            "communication_definition": (
+                "model upload + model download + optimizer tensor download per participant; "
+                "reference model is copied locally from the downloaded model; "
+                "layer features stay local; excludes transport overhead and CPU/GPU transfers"),
+        })
+        return result

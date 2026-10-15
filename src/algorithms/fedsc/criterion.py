@@ -62,8 +62,10 @@ class InfoNCELoss(nn.Module):
 class SemanticCollaborationLoss(nn.Module):
     """Preserve CE + RPCL + CPDR and the source prototype lookup fallback."""
 
-    def __init__(self, cl_tau=0.05):
+    def __init__(self, cl_tau=0.05, collect_metrics=False):
         super().__init__()
+        self.collect_metrics = collect_metrics
+        self.last_metrics = {}
         self.ce_loss = nn.CrossEntropyLoss()
         self.rpcl_loss = InfoNCELoss(cl_tau)
 
@@ -71,6 +73,8 @@ class SemanticCollaborationLoss(nn.Module):
         self, logits, features, targets, relational_prototypes,
         consistent_prototypes, round_idx,
     ):
+        if self.collect_metrics:
+            self.last_metrics = {"fallback_count": 0, "lookup_count": 0, "negative_pool_size": 0}
         ce_loss = self.ce_loss(logits, targets)
         rpcl_loss = features.new_zeros(())
         cpdr_loss = features.new_zeros(())
@@ -79,6 +83,8 @@ class SemanticCollaborationLoss(nn.Module):
             pos_key, neg_keys, reg_vector = [], [], []
             for sample_idx in range(len(targets)):
                 label = targets[sample_idx].item()
+                if self.collect_metrics:
+                    self.last_metrics["lookup_count"] += 1
                 try:
                     # Intentionally do not stack this list: the source falls back.
                     pos_key.append(torch.mean(relational_prototypes[label], dim=0))
@@ -87,12 +93,16 @@ class SemanticCollaborationLoss(nn.Module):
                     # Preserve the original broad fallback and append order.
                     pos_key.append(features[sample_idx].detach())
                     reg_vector.append(features[sample_idx].detach())
+                    if self.collect_metrics:
+                        self.last_metrics["fallback_count"] += 1
                 negatives = [
                     value for key, value in relational_prototypes.items()
                     if key != label
                 ]
                 for class_prototypes in negatives:
                     neg_keys.append(class_prototypes)
+            if self.collect_metrics:
+                self.last_metrics["negative_pool_size"] = sum(len(values) for values in neg_keys)
             rpcl_loss = self.rpcl_loss.infonce_lcl_loss(features, pos_key, neg_keys)
             cpdr_loss = F.mse_loss(features, torch.stack(reg_vector))
             loss = ce_loss + rpcl_loss + cpdr_loss

@@ -144,9 +144,13 @@ pair 名称必须唯一，不能与 `cls/prox/cossim/total` 的损失或统计�
 `penalty_loss`、`cossim_loss`、`prox_loss`、`total_loss` 等本地训练均值。
 统计使用训练样本数加权，不改变 batch 损失的反向传播归约。
 若使用现有 `batch_protocol`，同时开启 `metrics_only`，复用公共指标报告；
-本次不新增实验队列或启动任何训练。
+批量队列及运行方式见 [FedRCL 批量运行说明](../../../scripts/README_fedrcl.md)。
+批量配置使用两个训练种子、44 次训练、每次 300 轮，并启用 `metrics_only`；
+不改变本文件所述损失、聚合、本地学习率和 AMP 行为。
+批量日志补充 `train/ce_loss`（`train/cls_loss` 的同值别名）、每轮首末本地 epoch 学习率及最终汇总。
+近端项和对齐项为乘权重前的原始损失，默认权重为 0，不贡献总目标。
 
-## 验证范围
+## 初次移植的验证范围（批量队列另见运行说明）
 
 本次仅做静态验证：Python AST/语法、JSON、导入目标与入口注册、公共配置一致性、
 源文件计算分支对照、模型特征位置和 scheduler 生命周期审查。

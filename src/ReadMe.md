@@ -54,3 +54,9 @@ There are two ways to change the configurations:
 - `--wd`: weight decay for optimization (default: `1e-5`)
 - `--algo_name`: algorithm name of the experiment (e.g., `fedavg`, `fedntd`)
 - `--seed`: random seed
+
+FedSC 的两训练种子、44 任务批量队列见 [FedSC 批量运行说明](../scripts/README_fedsc.md)。
+入口：`python scripts/run_fedsc_experiments.py`，每次 300 轮，保留所提供源码行为，温度 0.05，无投影头。
+
+FedRCL 两训练种子、44 任务批量队列见 [FedRCL 批量运行说明](../scripts/README_fedrcl.md)。
+入口：`python scripts/run_fedrcl_experiments.py`，每次 300 轮，保留等权聚合、本地学习率衰减 0.998 和默认 AMP。
