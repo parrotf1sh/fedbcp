@@ -29,6 +29,8 @@ ALGO = {
     "fednh": algorithms.fednh.Server,
     "fedrcl": algorithms.fedrcl.Server,
     "fedsc": algorithms.fedsc.Server,
+    "fedsa": algorithms.fedsa.Server,
+    "fedhpro": algorithms.fedhpro.Server,
 }
 
 SCHEDULER = {
@@ -107,6 +109,12 @@ def _get_setups(args):
             **args.train_setups.optimizer.params,
         )
     else:
+        if (args.train_setups.algo.name == "fedsa"
+                and args.train_setups.optimizer.get("name", "sgd") != "sgd"):
+            raise ValueError("FedSA supports only the source SGD optimizer")
+        if (args.train_setups.algo.name == "fedhpro"
+                and args.train_setups.optimizer.get("name", "sgd") != "sgd"):
+            raise ValueError("FedHPro supports only the source SGD optimizer")
         optimizer = optim.SGD(model.parameters(), **args.train_setups.optimizer.params)
     scheduler = None
 
@@ -155,7 +163,7 @@ def main(args):
 
     # Load the configuration
     server = _get_setups(args)
-    if args.get("batch_protocol") or args.train_setups.algo.name == "fedproto":
+    if args.get("batch_protocol") or args.train_setups.algo.name in ("fedproto", "fedsa"):
         server.experiment_config = args
     if args.train_setups.algo.name == "fedbtr":
         # Preserve the resolved architecture/data/scenario as well as algo params.
@@ -165,7 +173,7 @@ def main(args):
     server.run()
 
     if (args.data_setups.get("pipeline") == "longtail"
-            and args.train_setups.algo.name not in ("fedbtr", "fedproto")):
+            and args.train_setups.algo.name not in ("fedbtr", "fedproto", "fedsa")):
         from longtail_report import save_baseline_report
         save_baseline_report(server, args)
 

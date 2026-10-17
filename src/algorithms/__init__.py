@@ -7,3 +7,5 @@ from .fedproto import *
 from .fednh import *
 from .fedrcl import *
 from .fedsc import *
+from .fedsa import *
+from .fedhpro import *

@@ -1,5 +1,10 @@
 ## How to Run Codes?
 
+FedHPro 的双梯度匹配、元原型分类头重训及已确认的独立权重快照修正见
+[FedHPro 移植说明](algorithms/fedhpro/README.md)。在 `src` 目录运行
+`python main.py --config_path ./config/fedhpro.json`，公共数据、模型和训练配置与 FedBPC 一致。
+本次移植仅进行静态验证。
+
 FedNH 的两训练种子、44 任务队列见 [FedNH 批量运行说明](../scripts/README_fednh.md)。
 入口：`python scripts/run_fednh_experiments.py`；每次 300 轮，使用等权客户端更新和归一化原型分类头。
 
