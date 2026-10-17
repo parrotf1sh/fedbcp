@@ -1,5 +1,12 @@
 ## How to Run Codes?
 
+TinyProto 的 CPS/APS、已确认的源码缺陷修复、缺类适配与评估口径见
+[TinyProto 移植说明](algorithms/tinyproto/README.md)。在 `src` 目录运行
+`python main.py --config_path ./config/tinyproto.json`。
+数据与模型沿用 FedBPC，保留 TinyProto 固定学习率普通 SGD，不启用 momentum、
+weight decay 或 scheduler；主指标为所有客户端在完整测试集上的原型预测准确率均值。
+本次移植仅进行静态验证。
+
 FedHPro 的双梯度匹配、元原型分类头重训及已确认的独立权重快照修正见
 [FedHPro 移植说明](algorithms/fedhpro/README.md)。在 `src` 目录运行
 `python main.py --config_path ./config/fedhpro.json`，公共数据、模型和训练配置与 FedBPC 一致。

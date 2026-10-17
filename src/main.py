@@ -31,6 +31,7 @@ ALGO = {
     "fedsc": algorithms.fedsc.Server,
     "fedsa": algorithms.fedsa.Server,
     "fedhpro": algorithms.fedhpro.Server,
+    "tinyproto": algorithms.tinyproto.Server,
 }
 
 SCHEDULER = {
@@ -108,6 +109,14 @@ def _get_setups(args):
             name=args.train_setups.optimizer.get("name", "sgd"),
             **args.train_setups.optimizer.params,
         )
+    elif args.train_setups.algo.name == "tinyproto":
+        if args.train_setups.scheduler.enabled:
+            raise ValueError("TinyProto preserves a fixed learning rate; disable scheduler")
+        optimizer = algorithms.tinyproto.create_optimizer(
+            model,
+            name=args.train_setups.optimizer.get("name", "sgd"),
+            **args.train_setups.optimizer.params,
+        )
     else:
         if (args.train_setups.algo.name == "fedsa"
                 and args.train_setups.optimizer.get("name", "sgd") != "sgd"):
@@ -163,7 +172,7 @@ def main(args):
 
     # Load the configuration
     server = _get_setups(args)
-    if args.get("batch_protocol") or args.train_setups.algo.name in ("fedproto", "fedsa"):
+    if args.get("batch_protocol") or args.train_setups.algo.name in ("fedproto", "fedsa", "tinyproto"):
         server.experiment_config = args
     if args.train_setups.algo.name == "fedbtr":
         # Preserve the resolved architecture/data/scenario as well as algo params.
@@ -173,7 +182,7 @@ def main(args):
     server.run()
 
     if (args.data_setups.get("pipeline") == "longtail"
-            and args.train_setups.algo.name not in ("fedbtr", "fedproto", "fedsa")):
+            and args.train_setups.algo.name not in ("fedbtr", "fedproto", "fedsa", "tinyproto")):
         from longtail_report import save_baseline_report
         save_baseline_report(server, args)
 
