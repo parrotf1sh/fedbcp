@@ -42,6 +42,8 @@ StepLR gamma=0.99、step_size=1、seed=2022。
 
 | 参数 | 默认值 | 含义 |
 | --- | --- | --- |
+| metrics_only | false | 批量模式使用统一全局指标，跳过额外客户端评估 |
+| dsa_seed_mode | wall_clock | wall_clock / deterministic；批量队列采用后者 |
 | length_of_hp | 5 | 每类超原型数量 |
 | rounds_of_hp | 30 | 每轮超原型梯度匹配步数 |
 | hp_info_t | 0.05 | 本地对比温度 |
@@ -64,7 +66,10 @@ ratio_rotate=15、ratio_crop_pad=0.125、ratio_cutout=0.5、ratio_noise=0.05、
 brightness=1、saturation=2、contrast=0.5。ratio_noise 在原代码中未使用，本实现同样不启用它。
 保留 S 随机选一种策略、M 顺序执行全部策略，以及空字符串/none/None 返回原输入的分支。
 DSA 保留源码 `int(time.time() * 1000) % 100000` 种子及全局 Torch 重置行为，
-包括同一批内共享随机参数；因此固定实验 seed 不保证启用 DSA 后完全可重复。
+包括同一批内共享随机参数；因此固定实验 seed 不保证在默认时间戳模式下启用 DSA 后完全可重复。
+批量队列显式改用 `dsa_seed_mode=deterministic`，以训练种子、零起始轮次、客户端、
+重复编号和类别确定性派生 seed；保留增强算子、参数、共享随机参数和全局 Torch 重置方式。
+单次入口默认仍为 `wall_clock`。详见 [批量说明](../../../scripts/README_fedhpro.md)。
 
 ## 轮次与核心计算
 
@@ -114,7 +119,16 @@ DSA 保留源码 `int(time.time() * 1000) % 100000` 种子及全局 Torch 重置
 每次训练完成后立即保存独立快照。这是已确认的源码缺陷修正，不是原共享覆盖行为的复现。
 该问题在上游复用模型的流程中也存在，并非仅由目标框架不同导致。
 
-## 模块对应与验证范围
+## 批量实验
+
+批量入口 `python scripts/run_fedhpro_experiments.py` 使用两训练种子、44 次训练、每次 300 轮。
+已确认的服务器预算为 meta_rounds=20、meta_epochs=10、rounds_of_hp=10；
+这属于计算预算适配，不是原 100/100/30 默认配置复现。单次 JSON 默认参数保持不变。
+批量运行逐轮评估分类头修正后的全局模型，并按处理样本数加权汇总在线训练损失；
+不改变反向传播的原损失归约。服务器匹配/分类头损失明确记录为内层最后一步值。
+阶段计时和通信定义、恢复原预算方式及验证范围见 [批量说明](../../../scripts/README_fedhpro.md)。
+
+## 初次移植的模块对应与验证范围
 
 Global 的聚合、set_meta_params、meta_revised、obtain_hyper_prototypes 对应 Server；
 Local 对应 ClientTrainer；两类 InfoNCE、HPAL 和 gradient_matching 对应 criterion；

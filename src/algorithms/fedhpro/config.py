@@ -2,6 +2,8 @@ import math
 
 
 DEFAULTS = {
+    "metrics_only": False,
+    "dsa_seed_mode": "wall_clock",
     "length_of_hp": 5,
     "rounds_of_hp": 30,
     "hp_info_t": 0.05,
@@ -52,6 +54,10 @@ def resolve_config(params):
         value = cfg[name]
         if type(value) not in (int, float) or not math.isfinite(value) or value <= 0:
             raise ValueError("FedHPro {} must be finite and positive".format(name))
+    if type(cfg["metrics_only"]) is not bool:
+        raise ValueError("FedHPro metrics_only must be a boolean")
+    if cfg["dsa_seed_mode"] not in ("wall_clock", "deterministic"):
+        raise ValueError("FedHPro dsa_seed_mode must be wall_clock or deterministic")
     if type(cfg["use_margin"]) is not bool:
         raise ValueError("FedHPro use_margin must be a boolean")
     if cfg["dis_metric"] not in ("matching", "mse", "cos"):

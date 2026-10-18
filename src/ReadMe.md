@@ -72,3 +72,9 @@ FedSC 的两训练种子、44 任务批量队列见 [FedSC 批量运行说明](.
 
 FedRCL 两训练种子、44 任务批量队列见 [FedRCL 批量运行说明](../scripts/README_fedrcl.md)。
 入口：`python scripts/run_fedrcl_experiments.py`，每次 300 轮，保留等权聚合、本地学习率衰减 0.998 和默认 AMP。
+
+FedSA 两训练种子、44 任务批量队列见 [FedSA 批量运行说明](../scripts/README_fedsa.md)。
+入口：`python scripts/run_fedsa_experiments.py`，每次 300 轮，固定锚点种子 0，默认 40 个轮次评估全部客户端。
+
+FedHPro 两种子、44 任务批量队列见 [FedHPro 批量运行说明](../scripts/README_fedhpro.md)。
+入口：`python scripts/run_fedhpro_experiments.py`，每次 300 轮，采用已确认的 20/10/10 服务器预算、确定性 DSA 和独立快照 B 修正。

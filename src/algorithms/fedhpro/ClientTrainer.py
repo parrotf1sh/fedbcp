@@ -1,5 +1,6 @@
 import copy
 import time
+import math
 
 import torch
 import torch.nn.functional as F
@@ -8,6 +9,7 @@ from torch.utils.data import DataLoader
 from ..BaseClientTrainer import BaseClientTrainer
 from .augmentation import AugmentParams, diff_augment
 from .criterion import HyperPrototypeLoss
+from .batch import derive_dsa_seed
 from .utils import classifier_module, forward_with_features, preserve_evaluation_rng
 
 __all__ = ["ClientTrainer"]
@@ -22,6 +24,7 @@ class ClientTrainer(BaseClientTrainer):
         self.feature_dim = classifier_module(self.model).in_features
         self.hyper_prototypes = None
         self.k_margin = 0.0
+        self.dsa_context = None
 
     def download_global(self, server_weights, server_optimizer, hyper_prototypes):
         self.model.load_state_dict(server_weights)
@@ -32,6 +35,13 @@ class ClientTrainer(BaseClientTrainer):
         self.optimizer.state.clear()
         self.hyper_prototypes = hyper_prototypes.detach().clone().to(self.device)
         self.k_margin = 0.0
+
+    def _dsa_seed(self, repeat_idx, label):
+        if self.cfg["dsa_seed_mode"] == "wall_clock":
+            return int(time.time() * 1000) % 100000
+        if self.dsa_context is None:
+            raise RuntimeError("Set FedHPro training seed, round and client before deterministic DSA")
+        return derive_dsa_seed(*self.dsa_context, repeat_idx, label)
 
     def compute_gradient(self, global_meta_params, class_counts):
         """Collect real feature/head gradients BEFORE any local optimization."""
@@ -61,7 +71,7 @@ class ClientTrainer(BaseClientTrainer):
         feature_gradients = {label: [] for label in classes}
         meta_gradients = {label: [] for label in classes}
 
-        for _ in range(self.cfg["repeat_num"]):
+        for repeat_idx in range(self.cfg["repeat_num"]):
             batch_images, batch_ranges = [], []
             start = 0
             for label in classes:
@@ -69,8 +79,8 @@ class ClientTrainer(BaseClientTrainer):
                 shuffled = torch.randperm(indices.numel(), device=self.device)
                 images = images_all[indices[shuffled[:self.cfg["batch_real"]]]]
                 if self.cfg["method"] == "DSA":
-                    # Preserve upstream wall-clock seeding and Siamese DSA.
-                    seed = int(time.time() * 1000) % 100000
+                    # Only seed provenance changes; Siamese DSA and RNG resets stay intact.
+                    seed = self._dsa_seed(repeat_idx, label)
                     images = diff_augment(
                         images, self.cfg["dsa_strategy"], seed=seed,
                         param=self.augmentation,
@@ -140,6 +150,8 @@ class ClientTrainer(BaseClientTrainer):
         hp_class_norm_mean = F.normalize(hp_stack, dim=2).mean(dim=1)
         hp_avg = hp_stack.mean(dim=1)
         loss_results = {name: [] for name in ("ce_loss", "hpcl_loss", "hpal_loss", "total_loss")}
+        totals = {"seen": 0, "correct": 0, "loss_sum": 0.0}
+        totals.update({name + "_sum": 0.0 for name in loss_results})
         for _ in range(self.local_epochs):
             for data, targets in self.trainloader:
                 data, targets = data.to(self.device), targets.to(self.device)
@@ -151,11 +163,25 @@ class ClientTrainer(BaseClientTrainer):
                 loss, losses = self.criterion(
                     loss_ce, features, targets, hp_class_norm_mean, hp_avg, self.k_margin
                 )
+                if self.cfg["metrics_only"] and not math.isfinite(loss.detach().item()):
+                    raise FloatingPointError("Non-finite FedHPro local loss")
                 self.optimizer.zero_grad(set_to_none=True)
                 loss.backward()
                 self.optimizer.step()
-                for name, value in losses.items():
-                    loss_results[name].append(value.detach().item())
+                if self.cfg["metrics_only"]:
+                    count = targets.numel()
+                    totals["seen"] += count
+                    totals["correct"] += (logits.detach().argmax(1) == targets).sum().item()
+                    totals["loss_sum"] += loss.detach().item() * count
+                    for name, value in losses.items():
+                        totals[name + "_sum"] += value.detach().item() * count
+                else:
+                    for name, value in losses.items():
+                        loss_results[name].append(value.detach().item())
+        if self.cfg["metrics_only"]:
+            if not totals["seen"]:
+                raise ValueError("FedHPro client training produced no batches")
+            return totals, self.datasize
         if not loss_results["total_loss"]:
             raise ValueError("FedHPro client training produced no batches")
         with preserve_evaluation_rng([self.trainloader, self.testloader]):
@@ -165,5 +191,6 @@ class ClientTrainer(BaseClientTrainer):
 
     def reset(self):
         super().reset()
+        self.dsa_context = None
         self.hyper_prototypes = None
         self.k_margin = 0.0

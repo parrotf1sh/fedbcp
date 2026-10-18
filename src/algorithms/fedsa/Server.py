@@ -72,6 +72,9 @@ class Server(BaseServer):
             raise ValueError("FedSA requires at least one selected client")
         uploads, round_results = [], {}
         server_optimizer = self.optimizer.state_dict()
+        if getattr(self, "batch_tracking", False):
+            from .batch import prototype_bytes
+            self.batch_round_upload_bytes = 0
         for client_idx in sampled_clients:
             client_idx = int(client_idx)
             self._set_client_data(client_idx)
@@ -83,6 +86,8 @@ class Server(BaseServer):
             local_results, _ = self.client.train()
             self.local_weights[client_idx] = self.client.upload_local()
             prototypes = self.client.upload_prototypes()
+            if getattr(self, "batch_tracking", False):
+                self.batch_round_upload_bytes += prototype_bytes(prototypes)
             uploads.append(prototypes)
             self.local_prototypes[client_idx] = cpu_snapshot(prototypes)
             round_results = self._results_updater(round_results, local_results)
@@ -117,6 +122,10 @@ class Server(BaseServer):
                     self.num_classes, self.groups, self.device,
                 )
                 records.append(dict(client_idx=client_idx, **result))
+        if getattr(self, "batch_tracking", False):
+            from .batch import prototype_bytes
+            # One logical distribution per evaluated client per evaluation call.
+            self.batch_eval_bytes += len(records) * prototype_bytes(self.global_prototypes or {})
         if local:
             return records
         return dict(prototype=average_client_metrics(records, "prototype"),

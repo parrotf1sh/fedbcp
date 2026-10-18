@@ -8,6 +8,7 @@ from torch.utils.data import DataLoader, TensorDataset
 from ..BaseServer import BaseServer
 from .ClientTrainer import ClientTrainer
 from .config import resolve_config
+from .batch import stage_timer, sparse_payload_bytes
 from .criterion import match_loss, match_meta
 from .utils import classifier_module, replace_classifier
 
@@ -22,6 +23,11 @@ class Server(BaseServer):
             algo_params, model, data_distributed, optimizer, scheduler, **kwargs
         )
         self.cfg = resolve_config(algo_params)
+        # Capture once, before any DSA resets Torch's global RNG.
+        self.training_seed = torch.initial_seed()
+        self.stage_seconds = {}
+        self.total_stage_seconds = {}
+        self.total_extra_communication = 0
         classifier = classifier_module(model)
         self.feature_dim = classifier.in_features
         for name in ("num_classes", "n_clients", "n_rounds", "local_epochs"):
@@ -79,9 +85,21 @@ class Server(BaseServer):
         self.client_meta_gradients = []
         self.prototype_metrics = {}
 
+    def run(self):
+        if self.cfg["metrics_only"]:
+            if not getattr(self, "experiment_config", {}).get("batch_protocol"):
+                raise ValueError("FedHPro metrics_only requires batch_protocol")
+            from ..fedavg.reporting import run_metrics
+            return run_metrics(self)
+        return super().run()
+
     def _clients_training(self, sampled_clients):
         if len(sampled_clients) == 0:
             raise ValueError("FedHPro requires at least one selected client")
+        round_idx = len(self.server_results["client_history"]) - 1
+        if round_idx < 0:
+            raise RuntimeError("Record sampled clients before FedHPro local training")
+        self.stage_seconds = {}
         server_weights = copy.deepcopy(self.model.state_dict())
         server_optimizer = self.optimizer.state_dict()
         hyper_prototypes = self.hyper_prototypes.detach().clone()
@@ -90,17 +108,31 @@ class Server(BaseServer):
         )
         self.client_gradients, self.client_meta_gradients = [], []
         updated_local_weights, client_sizes, round_results = [], [], {}
+        if self.cfg["metrics_only"]:
+            from ..fedavg.reporting import tensor_bytes
+            self.communication_metrics = {
+                "fedhpro/hyper_download_bytes": len(sampled_clients) * tensor_bytes(hyper_prototypes),
+                "fedhpro/meta_head_download_bytes": len(sampled_clients) * tensor_bytes(self.meta_weights),
+                "fedhpro/feature_gradient_upload_bytes": 0,
+                "fedhpro/head_gradient_upload_bytes": 0,
+            }
         for client_idx in sampled_clients:
             client_idx = int(client_idx)
             self._set_client_data(client_idx)
-            gradients, meta_gradients = self.client.compute_gradient(
-                self.global_meta_weights, self.data_distributed["data_map"][client_idx]
-            )
+            self.client.dsa_context = (self.training_seed, round_idx, client_idx)
+            with stage_timer(self.stage_seconds, "real_gradient_seconds", self.device, self.cfg["metrics_only"]):
+                gradients, meta_gradients = self.client.compute_gradient(
+                    self.global_meta_weights, self.data_distributed["data_map"][client_idx]
+                )
+            if self.cfg["metrics_only"]:
+                self.communication_metrics["fedhpro/feature_gradient_upload_bytes"] += sparse_payload_bytes(gradients)
+                self.communication_metrics["fedhpro/head_gradient_upload_bytes"] += sparse_payload_bytes(meta_gradients)
             self.client_gradients.append(gradients)
             self.client_meta_gradients.append(meta_gradients)
             # Restore the original global head after collecting meta gradients.
             self.client.download_global(server_weights, server_optimizer, hyper_prototypes)
-            local_results, local_size = self.client.train()
+            with stage_timer(self.stage_seconds, "local_train_seconds", self.device, self.cfg["metrics_only"]):
+                local_results, local_size = self.client.train()
             # B: BaseClientTrainer.upload_local deep-copies each state_dict.
             # Upstream's reused Local returned aliased tensors instead.
             updated_local_weights.append(self.client.upload_local())
@@ -119,12 +151,15 @@ class Server(BaseServer):
         for name in w[0]:
             values = [weights[name] * size for weights, size in zip(w, ns)]
             aggregated[name] = sum(values) / sum(ns)
-        self._update_meta_prototypes()
-        self.meta_weights, aggregated = self._revise_classifier(aggregated)
+        with stage_timer(self.stage_seconds, "meta_matching_seconds", self.device, self.cfg["metrics_only"]):
+            self._update_meta_prototypes()
+        with stage_timer(self.stage_seconds, "classifier_revision_seconds", self.device, self.cfg["metrics_only"]):
+            self.meta_weights, aggregated = self._revise_classifier(aggregated)
         self.model.load_state_dict(aggregated)
         # Real gradients came from the PREVIOUS meta head, but synthetic HP
         # gradients use this NEWLY fitted head, exactly as in the source.
-        self._update_hyper_prototypes()
+        with stage_timer(self.stage_seconds, "hyper_matching_seconds", self.device, self.cfg["metrics_only"]):
+            self._update_hyper_prototypes()
         self.global_meta_weights = None
         self.client_gradients, self.client_meta_gradients = [], []
         return aggregated
@@ -233,3 +268,55 @@ class Server(BaseServer):
             for name, values in round_results.items() if name.endswith("_loss")
         })
         wandb.log(metrics, step=round_idx)
+
+    def batch_communication_bytes(self):
+        # Common reporter already counts full model up/down and optimizer tensors.
+        # The shared backbone in global_meta_weights is reconstructed locally.
+        return sum(self.communication_metrics.values())
+
+    def batch_round_metrics(self, local):
+        from ..fedavg.reporting import tensor_bytes
+        seen = sum(local["seen"])
+        metrics = {"train/" + name: sum(local[name + "_sum"]) / seen
+                   for name in ("ce_loss", "hpcl_loss", "hpal_loss", "total_loss")}
+        for name, value in self.prototype_metrics.items():
+            # These are last inner-step losses, not averages over an entire stage.
+            metrics[name + "_last_step" if name.endswith("_loss") else name] = value
+        metrics.update(self.communication_metrics)
+        for name, value in self.stage_seconds.items():
+            metrics["time/fedhpro_" + name] = value
+            self.total_stage_seconds[name] = self.total_stage_seconds.get(name, 0.0) + value
+        self.total_extra_communication += self.batch_communication_bytes()
+        metrics.update({
+            "fedhpro/extra_communication_cumulative_bytes": self.total_extra_communication,
+            "fedhpro/hyper_prototype_bytes": tensor_bytes(self.hyper_prototypes),
+            "fedhpro/meta_prototype_bytes": tensor_bytes(self.meta_prototypes),
+            "fedhpro/classifier_updates_per_round": self.cfg["meta_epochs"] * math.ceil(
+                self.num_classes * self.cfg["meta_length"] / self.cfg["meta_batch_size"]),
+        })
+        return metrics
+
+    def batch_summary_metrics(self, metrics):
+        summary = {"final_train_" + name: metrics["train/" + name]
+                   for name in ("ce_loss", "hpcl_loss", "hpal_loss", "total_loss")}
+        summary.update({
+            "fedhpro_implementation": "independent_client_snapshot_B",
+            "dsa_seed_mode": self.cfg["dsa_seed_mode"],
+            "training_seed_for_dsa": self.training_seed,
+            "meta_rounds": self.cfg["meta_rounds"],
+            "meta_epochs": self.cfg["meta_epochs"],
+            "rounds_of_hp": self.cfg["rounds_of_hp"],
+            "extra_communication_bytes": self.total_extra_communication,
+            "stage_seconds": dict(self.total_stage_seconds),
+            "model_parameter_count": sum(p.numel() for p in self.model.parameters()),
+            "communication_definition": (
+                "full global model down + client model up + optimizer tensor down per participant; "
+                "add old meta head and hyper-prototype down, per-class feature/head gradient up; "
+                "each sparse gradient dictionary includes int64 class IDs; shared backbone sent once; "
+                "meta-prototypes remain server-local; excludes control metadata, transport overhead "
+                "and simulator CPU/GPU transfers"),
+        })
+        for name, value in metrics.items():
+            if name.startswith("fedhpro/") and name.endswith("_loss_last_step"):
+                summary["final_" + name.replace("/", "_")] = value
+        return summary

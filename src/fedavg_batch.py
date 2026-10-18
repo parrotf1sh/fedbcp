@@ -11,7 +11,11 @@ from fedavg_data import prepare_data, TINY_URL
 
 def run_tracked(config, train):
     output = None
-    if config["train_setups"]["algo"]["name"] not in ("fedproto", "fedsa", "tinyproto"):
+    algorithm = config["train_setups"]["algo"]["name"]
+    fedsa_metrics_files = (algorithm == "fedsa"
+                           and config["batch_protocol"].get("fedsa_batch") is True
+                           and config["batch_protocol"].get("write_metrics_files") is True)
+    if algorithm not in ("fedproto", "fedsa", "tinyproto") or fedsa_metrics_files:
         output = Path(config["batch_protocol"]["output_dir"])
         output.mkdir(parents=True, exist_ok=True)
     config["runtime"] = {"python": platform.python_version(), "torch": str(torch.__version__),
