@@ -1,0 +1,80 @@
+[
+  {
+    "partition": "sharding",
+    "method": "fedavg",
+    "n": 3,
+    "global/top1_mean": 0.9475911458333334,
+    "global/top1_std": 0.006502273553202533,
+    "global/macro_f1_mean": 0.9475797578364132,
+    "global/macro_f1_std": 0.006582666674323743,
+    "global/worst20_recall_mean": 0.890625,
+    "global/worst20_recall_std": 0.01790068630842125,
+    "last5_top1_mean": 0.9587239583333333,
+    "last5_top1_std": 0.0027436598314720803
+  },
+  {
+    "partition": "sharding",
+    "method": "complete",
+    "n": 3,
+    "global/top1_mean": 0.9423828125,
+    "global/top1_std": 0.006403748558888672,
+    "global/macro_f1_mean": 0.9423876971039713,
+    "global/macro_f1_std": 0.006504847592713394,
+    "global/worst20_recall_mean": 0.8684895833333334,
+    "global/worst20_recall_std": 0.026009094212810127,
+    "last5_top1_mean": 0.9546223958333333,
+    "last5_top1_std": 0.00509811769543017
+  },
+  {
+    "partition": "sharding",
+    "method": "control_variate",
+    "n": 3,
+    "global/top1_mean": 0.884765625,
+    "global/top1_std": 0.10516086426540472,
+    "global/macro_f1_mean": 0.8727803836470538,
+    "global/macro_f1_std": 0.12580499341475831,
+    "global/worst20_recall_mean": 0.6666666666666666,
+    "global/worst20_recall_std": 0.3883986031577557,
+    "last5_top1_mean": 0.9427083333333334,
+    "last5_top1_std": 0.026145868997942127
+  },
+  {
+    "partition": "lda",
+    "method": "fedavg",
+    "n": 3,
+    "global/top1_mean": 0.9244791666666666,
+    "global/top1_std": 0.0259540355016636,
+    "global/macro_f1_mean": 0.9233949812550376,
+    "global/macro_f1_std": 0.0274031368919847,
+    "global/worst20_recall_mean": 0.8151041666666666,
+    "global/worst20_recall_std": 0.10037871808441684,
+    "last5_top1_mean": 0.8697265625,
+    "last5_top1_std": 0.04898256824817883
+  },
+  {
+    "partition": "lda",
+    "method": "complete",
+    "n": 3,
+    "global/top1_mean": 0.9482421875,
+    "global/top1_std": 0.005167483029423029,
+    "global/macro_f1_mean": 0.9481842384885799,
+    "global/macro_f1_std": 0.005281736352500176,
+    "global/worst20_recall_mean": 0.91796875,
+    "global/worst20_recall_std": 0.014084184669781208,
+    "last5_top1_mean": 0.8817057291666667,
+    "last5_top1_std": 0.05654535810114262
+  },
+  {
+    "partition": "lda",
+    "method": "control_variate",
+    "n": 3,
+    "global/top1_mean": 0.3792317708333333,
+    "global/top1_std": 0.12041587186944845,
+    "global/macro_f1_mean": 0.24415043089223812,
+    "global/macro_f1_std": 0.12712595034712637,
+    "global/worst20_recall_mean": 0.0,
+    "global/worst20_recall_std": 0.0,
+    "last5_top1_mean": 0.38339843749999997,
+    "last5_top1_std": 0.13004292879690968
+  }
+]

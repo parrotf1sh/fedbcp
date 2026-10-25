@@ -1,0 +1,1267 @@
+[
+  {
+    "path": "src/ReadMe.md",
+    "bytes": 5873,
+    "sha256": "9876cd78e2a554ef8aa8130000bee94f12b0710e89e0e309eecde3bee6930341"
+  },
+  {
+    "path": "src/algorithms/BaseClientTrainer.py",
+    "bytes": 4055,
+    "sha256": "11471977bcf1ab8e50221615bfc33b20a8b20277c198a5b7b03f862f148dac5a"
+  },
+  {
+    "path": "src/algorithms/BaseServer.py",
+    "bytes": 8757,
+    "sha256": "f67c9cff03d41dc173e77236ae8d4de2963d52cd6ee07cecfafb4f7e7c9e35c7"
+  },
+  {
+    "path": "src/algorithms/__init__.py",
+    "bytes": 266,
+    "sha256": "052df8f582359547eed52c17841ede2457cfd98f64e05a4bc978d3f58483747a"
+  },
+  {
+    "path": "src/algorithms/fedavg/ClientTrainer.py",
+    "bytes": 1469,
+    "sha256": "6292ca6c3ee07104c41480fbe7f4e875f6f21fc39d91998cbf9207239addfb49"
+  },
+  {
+    "path": "src/algorithms/fedavg/Server.py",
+    "bytes": 1067,
+    "sha256": "8f47f8796579ab67385b10f859dc77e2bb3c6a07505b5120647e378b36e8678e"
+  },
+  {
+    "path": "src/algorithms/fedavg/__init__.py",
+    "bytes": 22,
+    "sha256": "8ab97929fb1acc25aeed23831f699f888f02cf814461f791418afc6b0004962b"
+  },
+  {
+    "path": "src/algorithms/fedavg/reporting.py",
+    "bytes": 9116,
+    "sha256": "91406259c85fd3f06147e84200557d3152ee748615502374bd1ff47169338d96"
+  },
+  {
+    "path": "src/algorithms/fedbpc/ClientTrainer.py",
+    "bytes": 11483,
+    "sha256": "15f92e385979bfbc3c0c9ee4ccd58c4c2fa8bb23839a956d616eb8eb3792ca82"
+  },
+  {
+    "path": "src/algorithms/fedbpc/Server.py",
+    "bytes": 30975,
+    "sha256": "8cd1efac2a21c057b00d19f4dc624f4dfdf18ddbfc50157a09010ea8e782cd05"
+  },
+  {
+    "path": "src/algorithms/fedbpc/__init__.py",
+    "bytes": 22,
+    "sha256": "8ab97929fb1acc25aeed23831f699f888f02cf814461f791418afc6b0004962b"
+  },
+  {
+    "path": "src/algorithms/fedbpc/criterion.py",
+    "bytes": 4860,
+    "sha256": "5c654226628e50b506765a49dba6fe6df7ff857a2a1bb85b7188ffd4abd40b4b"
+  },
+  {
+    "path": "src/algorithms/fedbpc/utils.py",
+    "bytes": 18461,
+    "sha256": "b2714fc2562238fb564a4c8555ba2773d0fd3fc0f58b56b176c206524ff5df3b"
+  },
+  {
+    "path": "src/algorithms/fedbtr/ClientTrainer.py",
+    "bytes": 3291,
+    "sha256": "02a4bb9b703153210c0c8a7eec927e675a64d8200f8f9a81b75aa0fcdd7467e2"
+  },
+  {
+    "path": "src/algorithms/fedbtr/Server.py",
+    "bytes": 21361,
+    "sha256": "ea9280bd64e77bae25aa46f8d48124d368353aa16a13675fad3e0f969c226715"
+  },
+  {
+    "path": "src/algorithms/fedbtr/__init__.py",
+    "bytes": 49,
+    "sha256": "763c8218b5a99ea4ca1ed48886c4b37ff79f134eb5d7931f4aa089800e3fc65b"
+  },
+  {
+    "path": "src/algorithms/fedbtr/config.py",
+    "bytes": 4111,
+    "sha256": "6789c03e30d10a55b726a912a4654f324d4b98c976866557490375cb764c197a"
+  },
+  {
+    "path": "src/algorithms/fedbtr/criterion.py",
+    "bytes": 3686,
+    "sha256": "1bd788c4724daa580b8581bce85f1a5eadcd05a13d63dbc3ddfa6cea7f6908e8"
+  },
+  {
+    "path": "src/algorithms/fedbtr/diagnostics.py",
+    "bytes": 17502,
+    "sha256": "6d8f7aad5c09a682f4a9d0d4e5cd64f2a776b0825111a5cb28f6d86775e920cd"
+  },
+  {
+    "path": "src/algorithms/fedbtr/teacher.py",
+    "bytes": 4423,
+    "sha256": "f408bf85c91abfd53dca5b4a9d955bcaff3e4c3a73bdee8981c72d1eb896a594"
+  },
+  {
+    "path": "src/algorithms/fedbtr/utils.py",
+    "bytes": 1336,
+    "sha256": "a83e9f7e18d0b828857e38194ae2c9f26f50d731f83a7e2827aa4c44aab2219a"
+  },
+  {
+    "path": "src/algorithms/fedhpro/ClientTrainer.py",
+    "bytes": 9839,
+    "sha256": "38f4e922b96037996996b6b9f434e330809257deb41db6b13bd20b697630b8b4"
+  },
+  {
+    "path": "src/algorithms/fedhpro/README.md",
+    "bytes": 9789,
+    "sha256": "17a98081b82a2dfe76b3fbf27bbb9fab37818ec9569deb37770da3ba766618e1"
+  },
+  {
+    "path": "src/algorithms/fedhpro/Server.py",
+    "bytes": 18008,
+    "sha256": "a732af72d41573057ba4cda343d55eafa74e78b0e645b78808e7b88be7b507b0"
+  },
+  {
+    "path": "src/algorithms/fedhpro/__init__.py",
+    "bytes": 22,
+    "sha256": "8ab97929fb1acc25aeed23831f699f888f02cf814461f791418afc6b0004962b"
+  },
+  {
+    "path": "src/algorithms/fedhpro/augmentation.py",
+    "bytes": 6434,
+    "sha256": "bd825b38fbd643b5281aaeb64ea5ddc5dcf3fce287ae3c2d6a47556659228023"
+  },
+  {
+    "path": "src/algorithms/fedhpro/batch.py",
+    "bytes": 1220,
+    "sha256": "b289fe1be1cdabcbe8bf711bb5769d3f66fb06a065f6bf48e28368aa54fb9549"
+  },
+  {
+    "path": "src/algorithms/fedhpro/config.py",
+    "bytes": 3574,
+    "sha256": "0d8cb5cc8d7a49dcc33634dc60fd27aa1a48c7fb563d5dfe1f6965e5510b8781"
+  },
+  {
+    "path": "src/algorithms/fedhpro/criterion.py",
+    "bytes": 5735,
+    "sha256": "8d405ec38f66e18566801fecf4f6e87176b4cd2a0acf5550c59a26bcd8837004"
+  },
+  {
+    "path": "src/algorithms/fedhpro/utils.py",
+    "bytes": 1982,
+    "sha256": "6d9fa5e20f7829072344934024e27fb66663e81bdc85a3b08103d5aeee42d45e"
+  },
+  {
+    "path": "src/algorithms/fednh/ClientTrainer.py",
+    "bytes": 7232,
+    "sha256": "1de4e3aaa53c17639688eff3d87fbc0097d8ffcd75500c87a56e2e604d2091dc"
+  },
+  {
+    "path": "src/algorithms/fednh/README.md",
+    "bytes": 8775,
+    "sha256": "872512c28870c0ed1ac1ff5089409327087b05aef7c026f046532af3fad34691"
+  },
+  {
+    "path": "src/algorithms/fednh/Server.py",
+    "bytes": 9749,
+    "sha256": "08b8865b20be40e34677be1eeec57bb5b9700786f072842e9d118acd1219b35f"
+  },
+  {
+    "path": "src/algorithms/fednh/__init__.py",
+    "bytes": 101,
+    "sha256": "79ec8260f13e0a6f886a0421e617668a1af3b416d206a7e829f24cbe3dbc4468"
+  },
+  {
+    "path": "src/algorithms/fednh/config.py",
+    "bytes": 2694,
+    "sha256": "9555900a0e695c1387b5e3057acac20b8d1e2ebf85d3d1b45544ffc46f69c68f"
+  },
+  {
+    "path": "src/algorithms/fednh/model.py",
+    "bytes": 3189,
+    "sha256": "dc3a14f56f8c4c65f5ad2c72931905fbaf6428dbebef578100df50c99542ef60"
+  },
+  {
+    "path": "src/algorithms/fednh/utils.py",
+    "bytes": 3612,
+    "sha256": "9cd9fef110ba8ac5d1a3f3eda1fa6e2812b8ec4b2c03ab305de034d1f3079afb"
+  },
+  {
+    "path": "src/algorithms/fedproc/ClientTrainer.py",
+    "bytes": 4782,
+    "sha256": "800b4ce5256348e48bb206771598558fd6359cf960da46b2a4518e9de56e484e"
+  },
+  {
+    "path": "src/algorithms/fedproc/README.md",
+    "bytes": 8111,
+    "sha256": "a86618ffc5bdadc7b71457a1c53f0e76081ec1b96ee21b904ad0370532692ad4"
+  },
+  {
+    "path": "src/algorithms/fedproc/Server.py",
+    "bytes": 10656,
+    "sha256": "94fdc1683f023392fb1a1127f014e5fe795417ee8ee8e04d47a67d66d67d1f00"
+  },
+  {
+    "path": "src/algorithms/fedproc/__init__.py",
+    "bytes": 116,
+    "sha256": "1ac97a2a56eeae1a7d1bc70d155836b9125c432ac13ad8729e3d0a9711d02ecc"
+  },
+  {
+    "path": "src/algorithms/fedproc/config.py",
+    "bytes": 1246,
+    "sha256": "8e9b7e964e8a8a2407abc9b429cf5e640cd542bf6766de0409f0515ba5680845"
+  },
+  {
+    "path": "src/algorithms/fedproc/criterion.py",
+    "bytes": 1075,
+    "sha256": "c68a19af2ba1c4d22ca5d2368c66b110df0cbd1a55fd99b490668a0a752f88d3"
+  },
+  {
+    "path": "src/algorithms/fedproc/model.py",
+    "bytes": 1561,
+    "sha256": "0fcfa5a760596172ab06bf1efb7a460266f7da632c18bb83b826d0b5998fc7fa"
+  },
+  {
+    "path": "src/algorithms/fedproc/utils.py",
+    "bytes": 2473,
+    "sha256": "db1f67d7913b3287b420f0d975be97087854f09dd91aeacf96706143bd4a7129"
+  },
+  {
+    "path": "src/algorithms/fedproto/ClientTrainer.py",
+    "bytes": 3723,
+    "sha256": "719f21646d5e03042f2fe4498baffe8075763741e5949c69db1bf8dc663ee6ee"
+  },
+  {
+    "path": "src/algorithms/fedproto/README.md",
+    "bytes": 9415,
+    "sha256": "7c29ac31171c6d514aec9095d06e6e550acec56ac55c7413621bc52d68d93bdd"
+  },
+  {
+    "path": "src/algorithms/fedproto/Server.py",
+    "bytes": 6044,
+    "sha256": "62fbb3b3242b15ffc5f16d870f44f088bb014adb9320224977b2e4a6ca39f215"
+  },
+  {
+    "path": "src/algorithms/fedproto/__init__.py",
+    "bytes": 58,
+    "sha256": "7da1e50770db62502286877f162d8cc9f26770336d9beca4d1f9aa6dcb09488a"
+  },
+  {
+    "path": "src/algorithms/fedproto/config.py",
+    "bytes": 778,
+    "sha256": "6e4b89d3af1126cc120177fe98073cc555346dd76c249ddaa5ad3e2ab8642927"
+  },
+  {
+    "path": "src/algorithms/fedproto/criterion.py",
+    "bytes": 1439,
+    "sha256": "8e1ea0dd25a953688741f9cb7a1c6cbfe3603aa704f85f7999eef8a8ba4b2f24"
+  },
+  {
+    "path": "src/algorithms/fedproto/measures.py",
+    "bytes": 5688,
+    "sha256": "1f5d2e9961c6e4436da50488bbbcb6935acec8af09f6a497b77947318ac72c63"
+  },
+  {
+    "path": "src/algorithms/fedproto/reporting.py",
+    "bytes": 6706,
+    "sha256": "28fae29f5459071111783d3bd5f57e4e65bfc5f4f1d09388bce96281d3c46685"
+  },
+  {
+    "path": "src/algorithms/fedproto/utils.py",
+    "bytes": 3725,
+    "sha256": "02d2cd132c1a0b1ac1d2ae3d7bf6e832e4942852f8242488bc7f65c036233b51"
+  },
+  {
+    "path": "src/algorithms/fedrcl/ClientTrainer.py",
+    "bytes": 7366,
+    "sha256": "712f0cbc0ea71fbce4e7b6e82bc982729c44c64e6bf19cffbb12ba81acc00121"
+  },
+  {
+    "path": "src/algorithms/fedrcl/README.md",
+    "bytes": 10540,
+    "sha256": "2032597577665884ced3c8f4dbaf0080c4916acc16e57313c658801da1085788"
+  },
+  {
+    "path": "src/algorithms/fedrcl/Server.py",
+    "bytes": 4393,
+    "sha256": "bc862b936e5c721c230880c8034ef99c3330e24272ea6dbcaf03c37b84647e51"
+  },
+  {
+    "path": "src/algorithms/fedrcl/__init__.py",
+    "bytes": 64,
+    "sha256": "c4950d96bf16f445c10d031f94ca35feaa3a32bbc32b58e2f0cbf19ad4bc3a67"
+  },
+  {
+    "path": "src/algorithms/fedrcl/config.py",
+    "bytes": 6196,
+    "sha256": "c5991df77a955907fd992fc8970cd2e73f1e044c9b92bf99c9326fe1758ed635"
+  },
+  {
+    "path": "src/algorithms/fedrcl/criterion.py",
+    "bytes": 6924,
+    "sha256": "3bb5962e7091882638112c9b768d8e5826762b7e9906bcd5c1ddcdc0904ed442"
+  },
+  {
+    "path": "src/algorithms/fedrcl/model.py",
+    "bytes": 3960,
+    "sha256": "6461259d39ab3c6019be7bf185a3f192198c4f949290c5d95acad4ff09cb3713"
+  },
+  {
+    "path": "src/algorithms/fedsa/ClientTrainer.py",
+    "bytes": 5114,
+    "sha256": "bc7b1e440c9494b3dfb7ba8094283c620dbc81783a291f073c4554147976456f"
+  },
+  {
+    "path": "src/algorithms/fedsa/README.md",
+    "bytes": 9989,
+    "sha256": "2c286817017a39c89b932582d9a0c1e0582c67d244f201501258ba504b94cabd"
+  },
+  {
+    "path": "src/algorithms/fedsa/Server.py",
+    "bytes": 6830,
+    "sha256": "3bbd58b3f6191b900840d80abf83a101ebd5466ae7c54e3e7742329d00d0180f"
+  },
+  {
+    "path": "src/algorithms/fedsa/__init__.py",
+    "bytes": 22,
+    "sha256": "8ab97929fb1acc25aeed23831f699f888f02cf814461f791418afc6b0004962b"
+  },
+  {
+    "path": "src/algorithms/fedsa/batch.py",
+    "bytes": 6207,
+    "sha256": "dc69b7a4e844a54b3cc4d5cd271b25d793b203b62aa31f48d3e3e3da704bc95d"
+  },
+  {
+    "path": "src/algorithms/fedsa/config.py",
+    "bytes": 966,
+    "sha256": "d0523c1ca39c9c8046f9e4a2beb7e9e247b9f6d48a48dc4eac1d833671586e66"
+  },
+  {
+    "path": "src/algorithms/fedsa/criterion.py",
+    "bytes": 3454,
+    "sha256": "522cde6e9adddd70935c56120d578de5e61375f79d2518e56e7232146f406c11"
+  },
+  {
+    "path": "src/algorithms/fedsa/measures.py",
+    "bytes": 5929,
+    "sha256": "5382f2c41fb0c93f7c32efe604296b21262098fa8a92e471195faff6bde02840"
+  },
+  {
+    "path": "src/algorithms/fedsa/reporting.py",
+    "bytes": 10180,
+    "sha256": "c378e300c4c3473d2582dd64b325689d302d2e5ef8730035f4472f20ab646f99"
+  },
+  {
+    "path": "src/algorithms/fedsa/utils.py",
+    "bytes": 2928,
+    "sha256": "b4113a6f4bc86131f5575659ae21f1505b8dd90c3f033ab82d2d83620ebef8a9"
+  },
+  {
+    "path": "src/algorithms/fedsc/ClientTrainer.py",
+    "bytes": 5849,
+    "sha256": "00e5b975b54ab88f81916482f194e72da5aa97f4df34b8866a7769913254449e"
+  },
+  {
+    "path": "src/algorithms/fedsc/README.md",
+    "bytes": 10688,
+    "sha256": "36fc3f5b02f6e604bb40bcd54b54a1cb330d25d9e99b9e43e484acd9af283a48"
+  },
+  {
+    "path": "src/algorithms/fedsc/Server.py",
+    "bytes": 9240,
+    "sha256": "59ab8b10c5fac7bf9344b3ff767ceaddb7cc8416ced5aa8b4404d03e843f6b09"
+  },
+  {
+    "path": "src/algorithms/fedsc/__init__.py",
+    "bytes": 22,
+    "sha256": "8ab97929fb1acc25aeed23831f699f888f02cf814461f791418afc6b0004962b"
+  },
+  {
+    "path": "src/algorithms/fedsc/config.py",
+    "bytes": 673,
+    "sha256": "9aaba62926363da81b02c8b4bf0c38312338585a9e73f416d9b941bee13d2940"
+  },
+  {
+    "path": "src/algorithms/fedsc/criterion.py",
+    "bytes": 5245,
+    "sha256": "76443fde843c777b9b238c05802d81d427f5794e883718fb98fbb5d30901f697"
+  },
+  {
+    "path": "src/algorithms/fedsc/utils.py",
+    "bytes": 3753,
+    "sha256": "7ba30ff7448b9d1ba5be0fa05834e274d7993b725f0dd76992b159d7401428ba"
+  },
+  {
+    "path": "src/algorithms/measures.py",
+    "bytes": 3365,
+    "sha256": "c407b6be74f9379eea1f55411572a1f9a4b1e75aa992153093aedc77f00a3d50"
+  },
+  {
+    "path": "src/algorithms/moon/ClientTrainer.py",
+    "bytes": 3512,
+    "sha256": "1527714e70e495abf7563aa0fb4952a1e859156c41d10244f4e97d7f59dd35da"
+  },
+  {
+    "path": "src/algorithms/moon/Server.py",
+    "bytes": 5006,
+    "sha256": "ce7748cd327be188337602ca9e3e2b127ad766ce22b682f8139feea95ba5ecb8"
+  },
+  {
+    "path": "src/algorithms/moon/__init__.py",
+    "bytes": 22,
+    "sha256": "8ab97929fb1acc25aeed23831f699f888f02cf814461f791418afc6b0004962b"
+  },
+  {
+    "path": "src/algorithms/moon/criterion.py",
+    "bytes": 1298,
+    "sha256": "9977576872f1cef0c2bde273bc9ffdc2a88c671f1798d5c94c8398727d1d397a"
+  },
+  {
+    "path": "src/algorithms/moon/history.py",
+    "bytes": 1411,
+    "sha256": "cbcfbb2540147e33809e8b7bda174648f25ebb469328b6ef24677dc5a6e87fa6"
+  },
+  {
+    "path": "src/algorithms/tinyproto/ClientTrainer.py",
+    "bytes": 3574,
+    "sha256": "2f86f198deb0b8b37fdfbd4d1ba9b274f949606ccc350f13706b58b0efbdd706"
+  },
+  {
+    "path": "src/algorithms/tinyproto/README.md",
+    "bytes": 11035,
+    "sha256": "e4627d297b75f8a0d8ca5ea3f73b43ca04c0bc6d4b0deb34827d23a11270bcc4"
+  },
+  {
+    "path": "src/algorithms/tinyproto/Server.py",
+    "bytes": 6949,
+    "sha256": "a1b79c5faf87b2d04df9d4ac8049b54770d127dbc2b01a36c4e714ad985ba658"
+  },
+  {
+    "path": "src/algorithms/tinyproto/__init__.py",
+    "bytes": 58,
+    "sha256": "7da1e50770db62502286877f162d8cc9f26770336d9beca4d1f9aa6dcb09488a"
+  },
+  {
+    "path": "src/algorithms/tinyproto/config.py",
+    "bytes": 1365,
+    "sha256": "f7aee7dd2986bf540f0b17d5a4ceb458b230b9d4a5d9c6c13425faf4f39208b8"
+  },
+  {
+    "path": "src/algorithms/tinyproto/criterion.py",
+    "bytes": 2069,
+    "sha256": "3017327b64a4215324ea5e8fb2cd46582bc7cae846b02cab85dc8e7890f26ecb"
+  },
+  {
+    "path": "src/algorithms/tinyproto/measures.py",
+    "bytes": 6372,
+    "sha256": "dd3f0cd4f3e697b73d90297d2f06dfbd78854ca80449c08309fdcd98577de90b"
+  },
+  {
+    "path": "src/algorithms/tinyproto/reporting.py",
+    "bytes": 7448,
+    "sha256": "bb9456821e696fdefb6c6d901b21bb634b267ef07bc857a91c312b158880cd76"
+  },
+  {
+    "path": "src/algorithms/tinyproto/utils.py",
+    "bytes": 9741,
+    "sha256": "13177a6eb541f31fdb049c3c23ae4ab05d417f685dbcf877479661776c3f2763"
+  },
+  {
+    "path": "src/algorithms/utils.py",
+    "bytes": 1209,
+    "sha256": "5f8022a0289503d338500cea48a0bbb0d9d8b333fe19db93fc1ddf68915f2bf2"
+  },
+  {
+    "path": "src/config/fedavg.json",
+    "bytes": 985,
+    "sha256": "61437a0a3a957fd35d1bc06c81ffc6a5f9d9f62a420f4b4a4a8e0b7fc658971c"
+  },
+  {
+    "path": "src/config/fedbpc.json",
+    "bytes": 2328,
+    "sha256": "d80de9ea9d6202f04bad706b656d512440159bfad161d6b324acfd3372b04aff"
+  },
+  {
+    "path": "src/config/fedbtr.json",
+    "bytes": 2227,
+    "sha256": "90a55ed2c969a3a6df73d47e384e4704147a6b2f57e8f9134cffe232394d02d4"
+  },
+  {
+    "path": "src/config/fedhpro.json",
+    "bytes": 2180,
+    "sha256": "eaaac51126b6571e977a30e6fea599f5693e22840ae57069ef80d075f5afaafe"
+  },
+  {
+    "path": "src/config/fednh.json",
+    "bytes": 1634,
+    "sha256": "9ad0ad5850f69539eb63cee0222d083898921449fc629d863e94174969c0a9e9"
+  },
+  {
+    "path": "src/config/fedproc.json",
+    "bytes": 1336,
+    "sha256": "98ce0a9dc3b9d8ca95e2fe3d8f57862e5dd9c081c261803b84c89914795ceff2"
+  },
+  {
+    "path": "src/config/fedproto.json",
+    "bytes": 1251,
+    "sha256": "bdf0703120999c917d295fda70057c257445f065b9f4d50ba38d4fabef06bcc5"
+  },
+  {
+    "path": "src/config/fedrcl.json",
+    "bytes": 2375,
+    "sha256": "771a1fbdb09cf71d9ed438efc0abc1fb056920394b0922f48d2850b115f60a06"
+  },
+  {
+    "path": "src/config/fedsa.json",
+    "bytes": 1314,
+    "sha256": "8f7fa101a456cbba1f8c46641af6d40fdf889b38d63578d964f9b2322f6d2ef5"
+  },
+  {
+    "path": "src/config/fedsc.json",
+    "bytes": 1169,
+    "sha256": "32204edf29339d268067c61f655aa132259514d28636909f9976a62e2ae4fbea"
+  },
+  {
+    "path": "src/config/moon.json",
+    "bytes": 999,
+    "sha256": "e8f23705096d61278f784a025bb3212d6739fe176731f2a347585d9db7145661"
+  },
+  {
+    "path": "src/config/tinyproto.json",
+    "bytes": 1375,
+    "sha256": "faa45df6b84c6844af68ee665815d9af3ef1933684aa3cbe23b26b711c2d3a02"
+  },
+  {
+    "path": "src/experiment_logging.py",
+    "bytes": 1767,
+    "sha256": "67afa6e1777d985db74c503a2f4e5fa458045694e0f18ca5e9bc0c4a6cc401e7"
+  },
+  {
+    "path": "src/fedavg_batch.py",
+    "bytes": 2260,
+    "sha256": "b502dfbc0476a249389cc273a627abd880e5406d73e6601e7ba92b525e3f6ad0"
+  },
+  {
+    "path": "src/fedavg_data.py",
+    "bytes": 3424,
+    "sha256": "6b7e4852068742dc4e5a35fdd608343c213f76b42f5c23383cc77feb980427db"
+  },
+  {
+    "path": "src/longtail_metrics.py",
+    "bytes": 2220,
+    "sha256": "3e6f62ace041294a791e439886aa36cf9ff15b1d30c833d5af66b562070116e0"
+  },
+  {
+    "path": "src/longtail_report.py",
+    "bytes": 1777,
+    "sha256": "d0fcfa4a5327e21e7ffc1b1a6b6345c3267a200ddc1ebb2a89221f649a271589"
+  },
+  {
+    "path": "src/main.py",
+    "bytes": 9051,
+    "sha256": "ecbcc2fe4f470ef199995742966d6011b272a4d168001bf239a1a204a16cba37"
+  },
+  {
+    "path": "src/requirements.txt",
+    "bytes": 3477,
+    "sha256": "e3a02c908dad30b59a8830f740f275d0e45566d2f91dacab86a6452fbb029ada"
+  },
+  {
+    "path": "src/train_tools/__init__.py",
+    "bytes": 50,
+    "sha256": "084a08ede86638ce0f5fc8f436e5588c8f7d2ba5c83f1e6eb6ddd13bc2f04bc4"
+  },
+  {
+    "path": "src/train_tools/models/__init__.py",
+    "bytes": 66,
+    "sha256": "44df17dd0c79dd4d4ff915a927d69a7b14d848f29fa7dd1fc1bac794698fec94"
+  },
+  {
+    "path": "src/train_tools/models/fedavgnet.py",
+    "bytes": 2693,
+    "sha256": "8949921aa88ba38557fa3b4a36c3ecd8f662888b320969cf9a55ac4ddd6afa5c"
+  },
+  {
+    "path": "src/train_tools/models/resnet.py",
+    "bytes": 4391,
+    "sha256": "25188b3b06eb4b16a85ac87c51f15133d492914b1ae31f7d60bbb191a66a9a9e"
+  },
+  {
+    "path": "src/train_tools/models/vgg.py",
+    "bytes": 2632,
+    "sha256": "844cf34cf4d1f3161c7b27e904824c55e41c4f679f6961722e890b81187b5c7a"
+  },
+  {
+    "path": "src/train_tools/preprocessing/__init__.py",
+    "bytes": 26,
+    "sha256": "415a3bfaeaa0af4bdd3f8b3c9d9e3b2ca0eac5a6e7cdb3b430ab7c135b11f1ab"
+  },
+  {
+    "path": "src/train_tools/preprocessing/cifar10/__init__.py",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "src/train_tools/preprocessing/cifar10/datasets.py",
+    "bytes": 1119,
+    "sha256": "4842a5437bb77287a6ab32e29aa22e2300eef17060b6302512a2705e5f2647a8"
+  },
+  {
+    "path": "src/train_tools/preprocessing/cifar10/loader.py",
+    "bytes": 2303,
+    "sha256": "93e6f2f951b415c101dfc6407b41ada3ed67c83741d46e9fc0004844b5a17be7"
+  },
+  {
+    "path": "src/train_tools/preprocessing/cifar100/__init__.py",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "src/train_tools/preprocessing/cifar100/datasets.py",
+    "bytes": 1123,
+    "sha256": "23b24a88ee429be8b99a59eecffb5e5c425bb0cb18508df9dbe41e7e1177da1a"
+  },
+  {
+    "path": "src/train_tools/preprocessing/cifar100/loader.py",
+    "bytes": 2262,
+    "sha256": "de91ad781c044828320c5a8ada2aaabe4c61c490f092ac54f0ef26b7c6647859"
+  },
+  {
+    "path": "src/train_tools/preprocessing/cinic10/__init__.py",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "src/train_tools/preprocessing/cinic10/datasets.py",
+    "bytes": 3496,
+    "sha256": "f502ca63a2577186e979d7e336cdc6d9bbac39a00d971c473db31c742df91e88"
+  },
+  {
+    "path": "src/train_tools/preprocessing/cinic10/loader.py",
+    "bytes": 2687,
+    "sha256": "23563ee4f9ae6cd0b986810e3592c942f517315b2c75c3d9b135e3bae497c6a9"
+  },
+  {
+    "path": "src/train_tools/preprocessing/datasetter.py",
+    "bytes": 12511,
+    "sha256": "744e84408b106a7d394904b0ecdd3f474b6a96d04ed543ad947c98ce76905629"
+  },
+  {
+    "path": "src/train_tools/preprocessing/longtail_datasetter.py",
+    "bytes": 5725,
+    "sha256": "b02c9c3eb4da99a6c71d3494e4c835561e563497f37a63fb4c4d2fd18631a118"
+  },
+  {
+    "path": "src/train_tools/preprocessing/longtail_split.py",
+    "bytes": 10324,
+    "sha256": "605a494092de9c62720c62b3a5adb1b2f1ffcebaa3ca87ff86154b5b4ac981f9"
+  },
+  {
+    "path": "src/train_tools/preprocessing/mnist/__init__.py",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "src/train_tools/preprocessing/mnist/datasets.py",
+    "bytes": 1091,
+    "sha256": "b6ba0a24a34c6676fd56abae64f2d20cf6123616b8687792cafff2a9245544ae"
+  },
+  {
+    "path": "src/train_tools/preprocessing/mnist/loader.py",
+    "bytes": 2250,
+    "sha256": "3b2d53e03f87422b59638f192e0bb4731ea45cce406718dba244bcba728eb869"
+  },
+  {
+    "path": "src/train_tools/preprocessing/partition_cache.py",
+    "bytes": 15384,
+    "sha256": "c58e7fccacc3535a0b1a712eee649a58861a9a80dcb69615d6f28f4fae09e1d2"
+  },
+  {
+    "path": "src/train_tools/preprocessing/tinyimagenet/datasets.py",
+    "bytes": 4768,
+    "sha256": "16c3175c636b09e376f02fc0d0cd03cf22accddbdee2188be383fcafa6f2ec51"
+  },
+  {
+    "path": "src/train_tools/preprocessing/tinyimagenet/loader.py",
+    "bytes": 2635,
+    "sha256": "72c2d745bb4179887a4527b74df7cc40cff1da3dcdd969f0797820d5679c21bb"
+  },
+  {
+    "path": "src/train_tools/utils.py",
+    "bytes": 740,
+    "sha256": "2e06035ffac2b21208abc7e3a3c7592581b7777811b8e26e351f1da37120cff1"
+  },
+  {
+    "path": "src/utils.py",
+    "bytes": 3279,
+    "sha256": "ab9a1862cec74660c717572907f35e4fd4cd9035ee5ee1baf39c16d45b35046a"
+  },
+  {
+    "path": "scripts/README_fedavg.md",
+    "bytes": 6605,
+    "sha256": "051bd5495ae1a424022780e7dd3bea49bc4b8e03c06fd3b767f117545e7d14af"
+  },
+  {
+    "path": "scripts/README_fedhpro.md",
+    "bytes": 8275,
+    "sha256": "dee6b217820d6c974e1dbfe2b8eede82cbfa96c3b2a9f15fbdebfc2d8829266d"
+  },
+  {
+    "path": "scripts/README_fednh.md",
+    "bytes": 8115,
+    "sha256": "571828802cb3eded700e620b25aadace644a47adc211d13e7fef8e0c2f6de133"
+  },
+  {
+    "path": "scripts/README_fedproc.md",
+    "bytes": 8180,
+    "sha256": "dde85ddc50e1766371cfc0de46ab80513deab031547e1d370c3c8fbaba8be3ba"
+  },
+  {
+    "path": "scripts/README_fedrcl.md",
+    "bytes": 6239,
+    "sha256": "6f9dbc0a36cee7b1f17b959b02cd9aefd702f20f5aa69a043ff348b3751040d5"
+  },
+  {
+    "path": "scripts/README_fedsa.md",
+    "bytes": 8217,
+    "sha256": "c91ed57c9a423f7ed8a64b31edc9fafe447743045f941ebbafc69fa589c0d510"
+  },
+  {
+    "path": "scripts/README_fedsc.md",
+    "bytes": 5286,
+    "sha256": "661da6bed9ea00e9c63641df930090a100cc5205e4c835e445733aadd8538827"
+  },
+  {
+    "path": "scripts/README_moon.md",
+    "bytes": 6720,
+    "sha256": "36d9f7e6c568f0d997ccdf28b6c29227e00687e2704dacd3ad772a38f7003f9a"
+  },
+  {
+    "path": "scripts/README_partitions.md",
+    "bytes": 6395,
+    "sha256": "a4ee295a80248d1373ce75708515806c634d43b74485569132238eb2c423616e"
+  },
+  {
+    "path": "scripts/prepare_partitions.py",
+    "bytes": 5903,
+    "sha256": "9cb8abfeb23c8a1a7b91e7ad0af42da5b7f92f35500ea5ad043d269ddae47274"
+  },
+  {
+    "path": "scripts/run_fedavg_experiments.py",
+    "bytes": 16476,
+    "sha256": "0c1941cc9cccdeaf6b314f248eea1554936382e9ddf114b077231fbc44911598"
+  },
+  {
+    "path": "scripts/run_fedhpro_experiments.py",
+    "bytes": 6312,
+    "sha256": "1932647a5344b13572be2d0dcce73d77997b74e19b51b3377bfe693a98574dd5"
+  },
+  {
+    "path": "scripts/run_fednh_experiments.py",
+    "bytes": 5610,
+    "sha256": "bfefaace6ad87d94cdb654d7fabab45033244edb25944dbade18f8429ecb2a47"
+  },
+  {
+    "path": "scripts/run_fedproc_experiments.py",
+    "bytes": 4823,
+    "sha256": "3233bbf4011ddb3a2006fc9718dd5f9c6003aceba59e511625eb88fe06146864"
+  },
+  {
+    "path": "scripts/run_fedrcl_experiments.py",
+    "bytes": 5947,
+    "sha256": "9c8a790dcfce753c3fdde75d4509b6ddc65345b6677f429325b6b33cda52d21d"
+  },
+  {
+    "path": "scripts/run_fedsa_experiments.py",
+    "bytes": 5441,
+    "sha256": "a74eb3ccc3bc6af82394ddf3f7a65e00b20932d953fd42317a72457ee58b1d92"
+  },
+  {
+    "path": "scripts/run_fedsc_experiments.py",
+    "bytes": 4337,
+    "sha256": "ca4aedb6d57d932506c875ccbab49733eb3d6b22cf7968901210ccc885552163"
+  },
+  {
+    "path": "scripts/run_moon_experiments.py",
+    "bytes": 3958,
+    "sha256": "dcdf1bd8f090dfa444b66f54d52a6432c151741910361b441f3928a3f0103b2f"
+  },
+  {
+    "path": "tests/test_fedavg_scheduler.py",
+    "bytes": 8776,
+    "sha256": "efe80c5ef86a4a468aee263037993706681ac53f521e23a203fbf7981aa54430"
+  },
+  {
+    "path": "tests/test_fedbpc_prototype_aggregation.py",
+    "bytes": 4820,
+    "sha256": "0007cf71e7eee5a89f57160ae8db7b42e1b5b5c978cfc28635e39a316c5403a3"
+  },
+  {
+    "path": "tests/test_fedhpro_metrics.py",
+    "bytes": 13869,
+    "sha256": "eb19d052cbaa8424d54ed65a18824c628e9b629495dcfe68b5c5f131d7d2ce96"
+  },
+  {
+    "path": "tests/test_fedhpro_scheduler.py",
+    "bytes": 5511,
+    "sha256": "f909f5a6ec1efc233afde4c83a30a86cafb106716c27c3f3358b6f6046c16386"
+  },
+  {
+    "path": "tests/test_fednh_metrics.py",
+    "bytes": 14848,
+    "sha256": "ea412a9b6e9c57703b9e3b950fc36d49d22ce37770da15ec408c1634b1fcab7b"
+  },
+  {
+    "path": "tests/test_fednh_scheduler.py",
+    "bytes": 5571,
+    "sha256": "e1e35440f82c7354ccaba4b7c847ffaf540b8b40cedd7d13dc24d7c37fff36a2"
+  },
+  {
+    "path": "tests/test_fedproc_scheduler.py",
+    "bytes": 16253,
+    "sha256": "39b8970b7cf7ddf85ca5ed2752475173f5900ee835126c8084bcc73618a6318a"
+  },
+  {
+    "path": "tests/test_fedrcl_config.py",
+    "bytes": 2990,
+    "sha256": "19ab68f605dbb628b1de07c7c4c3de8ee943bb93312dce0f3ed655464bc550c7"
+  },
+  {
+    "path": "tests/test_fedrcl_metrics.py",
+    "bytes": 9807,
+    "sha256": "1036b207d97b172ee99a14d0764ef8798fc75ab4d8dbbe63414c9f693f1a19a3"
+  },
+  {
+    "path": "tests/test_fedrcl_scheduler.py",
+    "bytes": 5301,
+    "sha256": "b7367a17c2d8ca393affcd38111a8fa6890e90b3c9cde67ba7e2e042b8d31a53"
+  },
+  {
+    "path": "tests/test_fedsa_lifecycle.py",
+    "bytes": 3776,
+    "sha256": "8f08ec854a440d6f2f623ffbe07a45d39a9ae7e6d5950d895f74bf521ec327cc"
+  },
+  {
+    "path": "tests/test_fedsa_metrics.py",
+    "bytes": 13510,
+    "sha256": "a163c1723fd086a0a6486c0da3a4c15780c1c8041e2f6081ace2c676db10faa1"
+  },
+  {
+    "path": "tests/test_fedsa_scheduler.py",
+    "bytes": 5629,
+    "sha256": "4b7836e7d4818b80c4a871b284880fc5b20e34ad8b1220ff5e3bb78334e2c65d"
+  },
+  {
+    "path": "tests/test_fedsc_metrics.py",
+    "bytes": 14800,
+    "sha256": "93777e0dc99ab10d1a5244dee98849f92620bacaaefe29ed1c7eb4f067ac8ace"
+  },
+  {
+    "path": "tests/test_fedsc_scheduler.py",
+    "bytes": 4748,
+    "sha256": "7ad22f2d74e9d8132f789f2a8e1d7e51fb5cbd083514ecb135383489a5275844"
+  },
+  {
+    "path": "tests/test_longtail_split.py",
+    "bytes": 5216,
+    "sha256": "811629b3101660c58ea740d701d33a646f13d458ba2e5d6abb284c03a9a75ea4"
+  },
+  {
+    "path": "tests/test_moon_scheduler.py",
+    "bytes": 9847,
+    "sha256": "d53830d9a7beddb4f0754b741566e5eba0463ff51170faf1d67bdd4ba40590eb"
+  },
+  {
+    "path": "tests/test_partition_cache.py",
+    "bytes": 10317,
+    "sha256": "94a14e93583683b991b63c4b6b6651bd4e9686838b662d787f2c9efe4892f544"
+  },
+  {
+    "path": "docs/FedBTR.md",
+    "bytes": 22120,
+    "sha256": "f9cd0b997ab35d70c095168219986eac3377e58f0ffc214b0ffd2fd0e6ffc1f3"
+  },
+  {
+    "path": "docs/FedBTR_adversarial_review.md",
+    "bytes": 7400,
+    "sha256": "172b462e87a519ffacee4bd94e1268f93d15f5eb4e5d531585f352b7659b0740"
+  },
+  {
+    "path": "docs/FedBTR_results_2026-09-15.md",
+    "bytes": 15875,
+    "sha256": "e9148496c4032ed044a7c78a354ea95999188ec383fa5eb05ccb11d4acd853a4"
+  },
+  {
+    "path": "docs/FedBTR_results_2026-09-17.md",
+    "bytes": 17455,
+    "sha256": "6a52ef86978ef3a9020338fa6526e6ca6d2d64f3dde2d216cc70caefb4f05c0b"
+  },
+  {
+    "path": "docs/FedBTR_results_2026-09-22.md",
+    "bytes": 17313,
+    "sha256": "12dca30a0ced7ee7cf64ffdd2d7e1f124a2dc1aa421e64c44443ad413a937b77"
+  },
+  {
+    "path": "docs/FedBTR_transfer_diagnostics.md",
+    "bytes": 13076,
+    "sha256": "9374ae289737d83bbea747041ab4a6afce8bfc0679afe0c2c30f76c959cf485c"
+  },
+  {
+    "path": "result/fedavg_run_metrics.csv",
+    "bytes": 13763,
+    "sha256": "ece3d9fc22d46e5073cb5b321e7421270c3f77dbe71d7846b10fb05326056d90"
+  },
+  {
+    "path": "result/fedbpc_run_metrics-1.csv",
+    "bytes": 23654,
+    "sha256": "0a986bac7b122c74b3372354707aac611fc1ffe52cd6d0c2c605f74afc78504b"
+  },
+  {
+    "path": "result/fedbpc_run_metrics-2.csv",
+    "bytes": 23690,
+    "sha256": "2104b36f48cb3d3829ca2fb82a8edf3e1b6977b7e0c68d0f1c7ae84f609d811a"
+  },
+  {
+    "path": "result/fedbpc_smoketest_run_metrics_1.csv",
+    "bytes": 436508,
+    "sha256": "48850e9f82d53e21ab7e73b765d921608d05469a2638b418c226565c8780b579"
+  },
+  {
+    "path": "result/fedbpc_smoketest_run_metrics_re1.csv",
+    "bytes": 436469,
+    "sha256": "3d4c66ab944bbeeb29b9c4bd5b2c00736fb52f193f3fb81686ac44c63b2a7d99"
+  },
+  {
+    "path": "result/fedbpc_ver2.csv",
+    "bytes": 390070,
+    "sha256": "3ef583d3aa6726d9adc529d6ad2fa8f19b1dacafd4559c5e083aa375d3484f27"
+  },
+  {
+    "path": "result/fedproto_test.csv",
+    "bytes": 408611,
+    "sha256": "17187cf7d5ae56172a0a37877b99ec2fc9bd8e351224f29eb69011f9ad9f9221"
+  },
+  {
+    "path": "result/head_false.csv",
+    "bytes": 343681,
+    "sha256": "cf25b05f08ea2724de1566e58f55e11f48b9b3ce5897e4b4db098e434bfa0472"
+  },
+  {
+    "path": "result/head_false_more_client.csv",
+    "bytes": 350235,
+    "sha256": "13463909ab2e0ae50b7fc6e13495fe113763e3e4794c7f9d67d3f23563fbf4e1"
+  },
+  {
+    "path": "result/head_false_mpc2.csv",
+    "bytes": 342457,
+    "sha256": "502b8cf08be53eccf83df982aa4ee3cd4536af6936b5742f9538fb02633d5b7e"
+  },
+  {
+    "path": "result/head_false_proto_false.csv",
+    "bytes": 340296,
+    "sha256": "4de8afe757d654896a7bf9505c0e66ca9f5cb4985a253a1d2a4ae3c4e8ba25f8"
+  },
+  {
+    "path": "result/head_false_re.csv",
+    "bytes": 343627,
+    "sha256": "45dc3fe029a3a136e978edadd24c254149f61f2495baf7f874fbf2d72d612e5e"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260915-124036-cd831895/experiment.json",
+    "bytes": 4151,
+    "sha256": "b72b69eb108bfd8f58bcac91dea6239d603f119d224c0e7ef1a19d1cd44fb7ec"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260915-124036-cd831895/final.json",
+    "bytes": 1852,
+    "sha256": "265979d64606581724d0c802ac1c31b5e9fbe79e2979082c515ba84c1c41c64e"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260915-130519-fee71d0c/experiment.json",
+    "bytes": 4149,
+    "sha256": "eb147925d4eb5dc71625807d0f64870e0550785fe96a9b4e1dbac316f04b5f78"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260915-130519-fee71d0c/final.json",
+    "bytes": 1254,
+    "sha256": "dc033222db1942febf938c43f18e853a1d6e9654eefcefb3d0c8d46fac4e5393"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260915-131036-0893c3c3/experiment.json",
+    "bytes": 4152,
+    "sha256": "46084134991d9ab427f52da2cc0e122c0810be41008f9d6f19aed79833460ba3"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260915-131036-0893c3c3/final.json",
+    "bytes": 1273,
+    "sha256": "94e9ad8dd415ff0e54497c8db536ac591ab224c81939cce927c321c8a70524c9"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260915-131517-2e2470ba/experiment.json",
+    "bytes": 4166,
+    "sha256": "76b71570f10864e214903a390b402bc4e6565402761b392ac6421828a54bbc07"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260915-131517-2e2470ba/final.json",
+    "bytes": 1804,
+    "sha256": "26b4a467986c38ea1bd0c36382a355525a96aa8e9bb4e082aa2a00254664e45d"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260915-132831-e8ad26f5/experiment.json",
+    "bytes": 4149,
+    "sha256": "1347cc28907b9bf65bff21a349d4d72d3ce6995debec9136d814da79799dc806"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260915-132831-e8ad26f5/final.json",
+    "bytes": 1802,
+    "sha256": "d87b8eb36f411a193ecc1edf80721f33e12956cbdf0f62fe47946cbcb4085a47"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260915-132937-ce9ede40/experiment.json",
+    "bytes": 4164,
+    "sha256": "7ce113b1338cb87192ce461452ceb2bb7593d6946b97b5a363a3331666f7d372"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260915-132937-ce9ede40/final.json",
+    "bytes": 1841,
+    "sha256": "2f998b969414b7c757c7f971612a76d307b9a84109c0accf3783a323e83bce80"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260915-133022-f3df451c/experiment.json",
+    "bytes": 4159,
+    "sha256": "70a75346a1bcb296ebc535915568f90ebe24ab4b91717ddc03278e63c8b2ea4d"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260915-133022-f3df451c/final.json",
+    "bytes": 1821,
+    "sha256": "f245935f64b2122866e5031b598ef5a569d270e60eb7ec10ae9a423e67b7d1e1"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260915-133107-60e97375/experiment.json",
+    "bytes": 4160,
+    "sha256": "1b1f90c54ec565ee1357353e5136bd26376b14655cf7159a4f49906ef7a87fd3"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260915-133107-60e97375/final.json",
+    "bytes": 1811,
+    "sha256": "c06a39b87ba89b5d28da496e2c8aad919f91442401f0d055524c184543956c7b"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260915-134914-07cc7cb6/experiment.json",
+    "bytes": 4164,
+    "sha256": "c361f163c87dbfe55d254a8a8726114a57642e5719d2f5494f19e55a1a2292f2"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260915-134914-07cc7cb6/final.json",
+    "bytes": 1837,
+    "sha256": "e4b8a973addbc9c9afe5ee2d431bbe360c41b12f09bf8f434bd3582f284fad21"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260915-135011-e1ea527b/experiment.json",
+    "bytes": 4154,
+    "sha256": "f9df6248c1335368553bc0c2e7e5e376fbf3c82d11dcea3c9126111e96124ded"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260915-135011-e1ea527b/final.json",
+    "bytes": 1843,
+    "sha256": "737f773eb960ac98bdfc4ec4cec178ce737597b763f3982bc5a9eee9dc70b820"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260917-135741-1617291c/experiment.json",
+    "bytes": 4174,
+    "sha256": "f7c6f5ba349e288db384d952b1b5aa4be24924f2c510a0bbe054bc6c65a8b619"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260917-135741-1617291c/final.json",
+    "bytes": 1816,
+    "sha256": "b4533f09918ff6fe552d11244f9b298b484684be5d707408a29b0a28021a7848"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260917-140521-d2d23bac/experiment.json",
+    "bytes": 4166,
+    "sha256": "46b0495dcb7fffc5d6232f9e28a0c84cb8b7e59c0f9f310796b144e9121e0c20"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260917-140521-d2d23bac/final.json",
+    "bytes": 1772,
+    "sha256": "d894a2c11ccf47a36df07a37c7d913d475d8092291edcd1b55fc9d24fe0dde8e"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260917-140645-3e447421/experiment.json",
+    "bytes": 4188,
+    "sha256": "a3e31aea6eca2c14d27492ef6a0d2ccd6c95ec86142d6eac9b67d7d136784eaf"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260917-140645-3e447421/final.json",
+    "bytes": 1798,
+    "sha256": "4f21fee17b2c37ca93e7a599d633cf86ff79fd34021415446bad7d642dd28832"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260917-140803-fe949b8b/experiment.json",
+    "bytes": 4188,
+    "sha256": "d4cb2bf38874291b07c83240b11e19d76cf6a8bf8510c7559ed7b2cee22cd57f"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260917-140803-fe949b8b/final.json",
+    "bytes": 1801,
+    "sha256": "db325270b2db4c6c4ea99ba690c3ef8c3a3415ab0f020f867ef617b957aa7d8f"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260917-140931-62ef4f3f/experiment.json",
+    "bytes": 4167,
+    "sha256": "52a8b8c31b4107ed84350bebfcc20548fbccbaa3fa32b04006d19eec2a218ffc"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260917-140931-62ef4f3f/final.json",
+    "bytes": 1847,
+    "sha256": "afcf31c257c3e5b3f01753b7a4984383e74a888e89f95817b3b25dff329ea6a4"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260917-194459-cd55d3de/experiment.json",
+    "bytes": 4182,
+    "sha256": "aad78b020c8ae4875c7d6db3f2f8aee4071be300e2b9a649360f93af2ede17a2"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260917-194459-cd55d3de/final.json",
+    "bytes": 1299,
+    "sha256": "e11bfea4a07c5e18f6c31c6aa8330dc69b2709ba9a98b031efb1f749bd571a82"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260917-195417-905866e6/experiment.json",
+    "bytes": 4185,
+    "sha256": "1511319bd9729cdb50982fe02a9c47bb6beb52c1736ccff71a35bb07bd749316"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260917-195417-905866e6/final.json",
+    "bytes": 1234,
+    "sha256": "4e3c0c64a1025cf8f2b912d2677ef21da97a55e1a814093b1fcbcd9b6a70c5a6"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260917-195440-5d86a617/experiment.json",
+    "bytes": 4185,
+    "sha256": "b156a44fc8957db04953fb6b9f910e42a564df9a2e5524bb3bdd9c525c925058"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260917-195440-5d86a617/final.json",
+    "bytes": 1285,
+    "sha256": "3e568525ec21fe458d6667fe14cea4c3a2d8826b92475b1008e0bd0901e79291"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260917-195526-5209f89b/experiment.json",
+    "bytes": 4192,
+    "sha256": "fd7d82c43f5a104a5a7a8c0f1164f393e096a43cf57c413b3b3565dd89c507df"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260917-195526-5209f89b/final.json",
+    "bytes": 1839,
+    "sha256": "07b5f121f7a11d70132c26fef1bbf625a3119aaa4eee9c1f438cf7c19cc3c970"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260917-200025-86ff712c/experiment.json",
+    "bytes": 4192,
+    "sha256": "c2766e543c35962e50ad358e341cf51ac484848ac208271d8fa0cdac0aef39e3"
+  },
+  {
+    "path": "fedbtr_run_metrics/20260917-200025-86ff712c/final.json",
+    "bytes": 1813,
+    "sha256": "204b9454f7c4f795447681299ca436fe734a41931186c7bd2a268cc396ed1275"
+  },
+  {
+    "path": "fedbtr_run_metrics/balanced_only.csv",
+    "bytes": 84653,
+    "sha256": "770ba355abd1577cabe90d1287d88329b7a7b1c3c01d110eee1d1decf51d2d95"
+  },
+  {
+    "path": "fedbtr_run_metrics/fedbtr_cifar10lt_balanced_only_set2_train2022.csv",
+    "bytes": 84302,
+    "sha256": "bb24b884ed1d60d2218e8f2621d846e2171c3cbbf94cd7bc22c5a681a87d5b12"
+  },
+  {
+    "path": "fedbtr_run_metrics/fedbtr_cifar10lt_balanced_only_set2_train2027.csv",
+    "bytes": 84271,
+    "sha256": "7642627d52c8f11e39bab80d425177ea783f5d62839b103ea4e6a7036aefc95a"
+  },
+  {
+    "path": "fedbtr_run_metrics/fedbtr_cifar10lt_natural_ce_set2_train2022.csv",
+    "bytes": 80794,
+    "sha256": "de37191f177810ec5c7956bfb2ecdf27dd34c5f52299109e6cb83fd213f3f7d5"
+  },
+  {
+    "path": "fedbtr_run_metrics/fedbtr_cifar10lt_raw_teacher_band_set2_train2022.csv",
+    "bytes": 97604,
+    "sha256": "86b379e047f39bee064c11b9463468c5b5e3b2dac15500f2d386ce611ae38d57"
+  },
+  {
+    "path": "fedbtr_run_metrics/fedbtr_cifar10lt_raw_teacher_band_set2_train2027.csv",
+    "bytes": 97568,
+    "sha256": "4e3e24e33e049c97920c3a5fb47b8e76951e8fb2ecb754efb3c420f02c0590c7"
+  },
+  {
+    "path": "fedbtr_run_metrics/full.csv",
+    "bytes": 102313,
+    "sha256": "f0e3641146a592310cc7c511c817a03f0c955d34cc8388089529524c74bd5c24"
+  },
+  {
+    "path": "fedbtr_run_metrics/full_set1_classorder2027.csv",
+    "bytes": 102401,
+    "sha256": "210a6b8d6eb43db4966038f358d65c1653e4412d861d9c52f73557948b78751b"
+  },
+  {
+    "path": "fedbtr_run_metrics/full_set1_trainseed2027.csv",
+    "bytes": 102340,
+    "sha256": "a408d6ce6d2425fea4ea4e2e22fc8064b0b7f34396a1ae6d2a761322bdcac10a"
+  },
+  {
+    "path": "fedbtr_run_metrics/full_set2.csv",
+    "bytes": 102000,
+    "sha256": "5463652da6a5b88bc2ad9361922df2800e2068dc07de15f41a61fb4a56ab1e6b"
+  },
+  {
+    "path": "fedbtr_run_metrics/full_set2_split20270817.csv",
+    "bytes": 102056,
+    "sha256": "4885c06501f8ead287e6324dd69eb97f39827531bc61c1e28008bbe90066a362"
+  },
+  {
+    "path": "fedbtr_run_metrics/full_set2_trainseed2027.csv",
+    "bytes": 101538,
+    "sha256": "707ef4b605393d5649a560b3a43f0270ddd14155b311129025438ee235bcacf1"
+  },
+  {
+    "path": "fedbtr_run_metrics/kl_matched_relaxation.csv",
+    "bytes": 101331,
+    "sha256": "b6e273b9d811a659b8de19259cb9571f27c43ea5a0869b1d815083f41ad3c584"
+  },
+  {
+    "path": "fedbtr_run_metrics/natural_ce.csv",
+    "bytes": 83115,
+    "sha256": "0df11c9011631b9a16139b5506d40e38cfc5c9af2470881764704ef60badb814"
+  },
+  {
+    "path": "fedbtr_run_metrics/no_label_relaxation.csv",
+    "bytes": 102365,
+    "sha256": "f78d657a65654300df32f896af0f24486f3ec8e0b6bf8239d1eb42e93e81bc41"
+  },
+  {
+    "path": "fedbtr_run_metrics/plain_kl.csv",
+    "bytes": 101334,
+    "sha256": "c0dbf92c25b9a18ce4d99f123e49486dde5f5763e8b3cde9c03f03857e1c9abd"
+  },
+  {
+    "path": "fedbtr_run_metrics/raw_teacher_band.csv",
+    "bytes": 98360,
+    "sha256": "ec5923fa98c05063a60c37101c03b43c2ca71d8cb2d017ce93ac8829e6b58ca0"
+  },
+  {
+    "path": "fedbtr_run_metrics/teacher_init_only.csv",
+    "bytes": 99243,
+    "sha256": "ab2ea77ee9813ff0c5e8649080d2faa9317a4bd060bb2386dec63c316618bf4f"
+  },
+  {
+    "path": "fedbtr_run_metrics/uniform_support.csv",
+    "bytes": 102402,
+    "sha256": "461d37c2318718540a17321c15da4ae6f0251114e1abaeb8557ce628f1ae1797"
+  },
+  {
+    "path": "fedbtr_run_metrics/zero_band.csv",
+    "bytes": 101739,
+    "sha256": "fee9a29e7367951bbbd0588aaeb1809d2df477d43ff9407fd35a08c5dcdbc8c1"
+  }
+]

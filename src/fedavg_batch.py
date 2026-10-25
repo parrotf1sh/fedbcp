@@ -12,6 +12,10 @@ from fedavg_data import prepare_data, TINY_URL
 def run_tracked(config, train):
     output = None
     algorithm = config["train_setups"]["algo"]["name"]
+    if algorithm == "fedbpc_complete":
+        candidate = Path(config["batch_protocol"]["output_dir"])
+        if candidate.exists() and any(candidate.iterdir()):
+            raise FileExistsError("FedBPC-Complete output is not empty; select a new directory: " + str(candidate))
     fedsa_metrics_files = (algorithm == "fedsa"
                            and config["batch_protocol"].get("fedsa_batch") is True
                            and config["batch_protocol"].get("write_metrics_files") is True)

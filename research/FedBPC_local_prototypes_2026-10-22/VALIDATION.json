@@ -1,0 +1,41 @@
+{
+  "date": "2026-10-22",
+  "python": "/Users/ygding/opt/anaconda3/envs/clsimb_py39/bin/python",
+  "python_version": "3.9.19 (main, May  6 2024, 14:46:57) \n[Clang 14.0.6 ]",
+  "torch": "2.2.2",
+  "torchvision": "0.17.2",
+  "numpy": "1.26.4",
+  "cuda": false,
+  "mps": false,
+  "tests": {
+    "all_passed": 128,
+    "new_algorithm_tests": 21,
+    "log": "tests_final.log"
+  },
+  "launcher_dry_runs": [
+    "full",
+    "mean_only",
+    "no_alignment",
+    "alignment_only",
+    "coupled_backbone",
+    "fedavg"
+  ],
+  "source_sha256": {
+    "src/algorithms/fedbpc_complete/Server.py": "0828443fff4fcba195fda2dd110b0557c13f58aa7ee3b0c3e31ba45ec6997e5f",
+    "src/algorithms/fedbpc_complete/config.py": "b329d8e8dc15991696d3f6486295da6abe61845569f56f4bd052a674b27c3aa6",
+    "src/algorithms/fedbpc_complete/__init__.py": "763c8218b5a99ea4ca1ed48886c4b37ff79f134eb5d7931f4aa089800e3fc65b",
+    "src/algorithms/fedbpc_complete/ClientTrainer.py": "c0fc7f7e99ba9d6d8278ac1dd5331313c1217e572056cab321cfb19de43e7ee5",
+    "src/algorithms/fedbpc_complete/utils.py": "cabbd7234d6b2f9e62a17ca6eb3e2362db81aa7209be13d72451b964ed8c7aaf",
+    "src/algorithms/fedbpc_complete/criterion.py": "bc55f8abd02318f21187ba7535fd190822148e2e7250fb9ea4dd84c6ac2a3ae8",
+    "src/main.py": "ab7b70528bda85a75167075200c639acef882bcc42efb306c2613f3105ab63b5",
+    "src/algorithms/__init__.py": "bf26043d2e217476ae3f6272ea91b7f63565e3c6e56548ffb29fec35fd754dda",
+    "src/fedavg_batch.py": "913d3246100b9b6ff37c1eb064bb816ea6a2c88a70c98c0b54652e81add400eb",
+    "scripts/diagnose_fedbpc_complete.py": "6d95efd771b644dea9b079fb966001c0ccbe4f897d7daeda16c1aaf4e9af91af",
+    "scripts/run_fedbpc_complete.py": "ec249e62e60fab7b16f096a26bf3a5ad9a951bd7e2fc9133425f72274643ef0c",
+    "tests/test_fedbpc_complete.py": "7d17b79a9fb0d4298a599d6257233860eff0226e3bdf4c8e389d99a5d22be973"
+  },
+  "markdown_local_links": "passed",
+  "real_cifar_training": false,
+  "performance_status": "Synthetic LDA gains; sharding mixed/negative; real-data superiority unverified",
+  "rejected_experiment": "fixed prototype head control variate; archived, removed from production"
+}

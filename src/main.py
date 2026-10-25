@@ -23,6 +23,7 @@ ALGO = {
     "fedavg": algorithms.fedavg.Server,
     "moon": algorithms.moon.Server,
     "fedbpc": algorithms.fedbpc.Server,
+    "fedbpc_complete": algorithms.fedbpc_complete.Server,
     "fedbtr": algorithms.fedbtr.Server,
     "fedproc": algorithms.fedproc.Server,
     "fedproto": algorithms.fedproto.Server,

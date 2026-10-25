@@ -1,0 +1,5896 @@
+{
+  "python": "3.9.6 (default, Mar 12 2025, 20:22:46) \n[Clang 17.0.0 (clang-1700.0.13.3)]",
+  "root": "/Users/ygding/Project/FedClsimb",
+  "limitations": [
+    "Historical FedBPC CSVs lack saved run configurations and original commit IDs.",
+    "Numerical examples reproduce formulas with the standard library, not PyTorch execution.",
+    "Rounds from one training trajectory are not independent replications.",
+    "No training, dataset downloads, or changes to algorithms."
+  ],
+  "fedbpc": [
+    {
+      "file": "result/fedavg_run_metrics.csv",
+      "rows": 200,
+      "columns": 10,
+      "metrics": {
+        "server_test_acc": {
+          "n": 200,
+          "first": 0.14,
+          "last": 0.4519,
+          "mean": 0.357122,
+          "minimum": 0.1365,
+          "maximum": 0.5595,
+          "last20_mean": 0.492595,
+          "last20_sd": 0.0445365408962124
+        }
+      },
+      "sampling_fingerprint": null,
+      "last100_accuracy_coverage_pearson": null,
+      "nonzero_aux_gradient_observations": 0,
+      "negative_cosine_observations": 0,
+      "transfer_columns": []
+    },
+    {
+      "file": "result/fedbpc_run_metrics-1.csv",
+      "rows": 200,
+      "columns": 20,
+      "metrics": {
+        "server_test_acc": {
+          "n": 200,
+          "first": 0.1473,
+          "last": 0.459,
+          "mean": 0.365352,
+          "minimum": 0.1298,
+          "maximum": 0.5597,
+          "last20_mean": 0.478705,
+          "last20_sd": 0.04871775318095037
+        },
+        "prototype_coverage": {
+          "n": 200,
+          "first": 1.0,
+          "last": 1.0,
+          "mean": 1.0,
+          "minimum": 1.0,
+          "maximum": 1.0,
+          "last20_mean": 1.0,
+          "last20_sd": 0.0
+        },
+        "prototype_contributors_mean": {
+          "n": 200,
+          "first": 2.0,
+          "last": 1.9,
+          "mean": 1.925,
+          "minimum": 1.4,
+          "maximum": 2.0,
+          "last20_mean": 1.925,
+          "last20_sd": 0.07664854858377945
+        }
+      },
+      "sampling_fingerprint": null,
+      "last100_accuracy_coverage_pearson": null,
+      "nonzero_aux_gradient_observations": 0,
+      "negative_cosine_observations": 0,
+      "transfer_columns": []
+    },
+    {
+      "file": "result/fedbpc_run_metrics-2.csv",
+      "rows": 200,
+      "columns": 20,
+      "metrics": {
+        "server_test_acc": {
+          "n": 200,
+          "first": 0.1473,
+          "last": 0.4596,
+          "mean": 0.366417,
+          "minimum": 0.1332,
+          "maximum": 0.563,
+          "last20_mean": 0.48120999999999997,
+          "last20_sd": 0.04902743007745766
+        },
+        "prototype_coverage": {
+          "n": 200,
+          "first": 1.0,
+          "last": 1.0,
+          "mean": 1.0,
+          "minimum": 1.0,
+          "maximum": 1.0,
+          "last20_mean": 1.0,
+          "last20_sd": 0.0
+        },
+        "prototype_contributors_mean": {
+          "n": 200,
+          "first": 2.0,
+          "last": 1.9,
+          "mean": 1.925,
+          "minimum": 1.4,
+          "maximum": 2.0,
+          "last20_mean": 1.925,
+          "last20_sd": 0.07664854858377945
+        }
+      },
+      "sampling_fingerprint": null,
+      "last100_accuracy_coverage_pearson": null,
+      "nonzero_aux_gradient_observations": 0,
+      "negative_cosine_observations": 0,
+      "transfer_columns": []
+    },
+    {
+      "file": "result/fedbpc_smoketest_run_metrics_1.csv",
+      "rows": 200,
+      "columns": 431,
+      "metrics": {
+        "server_test_acc": {
+          "n": 200,
+          "first": 0.1473,
+          "last": 0.4652,
+          "mean": 0.366522,
+          "minimum": 0.1328,
+          "maximum": 0.5694,
+          "last20_mean": 0.48208,
+          "last20_sd": 0.05252631340575883
+        },
+        "shadow_fedavg_head_minus_actual_acc": {
+          "n": 200,
+          "first": -0.0366,
+          "last": -0.0021,
+          "mean": -0.0009335000000000001,
+          "minimum": -0.064,
+          "maximum": 0.038,
+          "last20_mean": 0.002375,
+          "last20_sd": 0.003880318930191177
+        },
+        "prototype_coverage": {
+          "n": 200,
+          "first": 1.0,
+          "last": 1.0,
+          "mean": 1.0,
+          "minimum": 1.0,
+          "maximum": 1.0,
+          "last20_mean": 1.0,
+          "last20_sd": 0.0
+        },
+        "prototype_current_round_coverage": {
+          "n": 200,
+          "first": 1.0,
+          "last": 1.0,
+          "mean": 0.8865000000000001,
+          "minimum": 0.6,
+          "maximum": 1.0,
+          "last20_mean": 0.895,
+          "last20_sd": 0.09733961166965892
+        },
+        "prototype_contributors_mean": {
+          "n": 200,
+          "first": 2.0,
+          "last": 1.9,
+          "mean": 1.9264999999999999,
+          "minimum": 1.4,
+          "maximum": 2.0,
+          "last20_mean": 1.925,
+          "last20_sd": 0.07664854858377945
+        },
+        "prototype_interclass_cosine_mean": {
+          "n": 200,
+          "first": 0.4395,
+          "last": 0.1405,
+          "mean": 0.1589225,
+          "minimum": 0.1205,
+          "maximum": 0.4395,
+          "last20_mean": 0.147455,
+          "last20_sd": 0.010456982117226751
+        },
+        "prototype_same_class_client_cosine_mean": {
+          "n": 200,
+          "first": 0.644,
+          "last": 0.7926,
+          "mean": 0.8031915,
+          "minimum": 0.644,
+          "maximum": 0.9192,
+          "last20_mean": 0.80786,
+          "last20_sd": 0.03984782804620599
+        },
+        "prototype_server_centroid_cosine_mean": {
+          "n": 200,
+          "first": 0.6427,
+          "last": 0.7007,
+          "mean": 0.6494915,
+          "minimum": 0.4247,
+          "maximum": 0.8345,
+          "last20_mean": 0.7551599999999999,
+          "last20_sd": 0.04984501379275564
+        },
+        "prototype_server_centroid_margin_mean": {
+          "n": 200,
+          "first": -0.1593,
+          "last": 0.0455,
+          "mean": -0.0177305,
+          "minimum": -0.4027,
+          "maximum": 0.2601,
+          "last20_mean": 0.12684,
+          "last20_sd": 0.07982261834843556
+        },
+        "prototype_nearest_class_acc": {
+          "n": 200,
+          "first": 0.142,
+          "last": 0.436,
+          "mean": 0.37464000000000003,
+          "minimum": 0.13,
+          "maximum": 0.542,
+          "last20_mean": 0.48510000000000003,
+          "last20_sd": 0.037680100849121954
+        },
+        "diag_aux_to_ce_loss_ratio": {
+          "n": 200,
+          "first": 0.0,
+          "last": 1.5409,
+          "mean": 1.4069605,
+          "minimum": 0.0,
+          "maximum": 1.992,
+          "last20_mean": 1.59796,
+          "last20_sd": 0.16011405434876727
+        },
+        "diag_grad_aux_to_ce_ratio": {
+          "n": 5,
+          "first": 1.0186,
+          "last": 0.2065,
+          "mean": 0.42462,
+          "minimum": 0.2065,
+          "maximum": 1.0186,
+          "last20_mean": 0.2065,
+          "last20_sd": 0.0
+        },
+        "diag_grad_ce_aux_cosine": {
+          "n": 5,
+          "first": 0.7004,
+          "last": 0.7217,
+          "mean": 0.7659,
+          "minimum": 0.7004,
+          "maximum": 0.9268,
+          "last20_mean": 0.7217,
+          "last20_sd": 0.0
+        },
+        "head_effective_clients": {
+          "n": 200,
+          "first": 7.9234,
+          "last": 5.5918,
+          "mean": 6.774853,
+          "minimum": 3.751,
+          "maximum": 8.794,
+          "last20_mean": 6.28463,
+          "last20_sd": 0.871379519555056
+        },
+        "sampled_class_coverage": {
+          "n": 200,
+          "first": 1.0,
+          "last": 1.0,
+          "mean": 0.889,
+          "minimum": 0.6,
+          "maximum": 1.0,
+          "last20_mean": 0.895,
+          "last20_sd": 0.09733961166965892
+        }
+      },
+      "sampling_fingerprint": "63822c20cf580b49967ddaf06909e10b59dbc7be87fa181c9aa30e93edc10918",
+      "last100_accuracy_coverage_pearson": 0.35569691281825694,
+      "nonzero_aux_gradient_observations": 5,
+      "negative_cosine_observations": 0,
+      "transfer_columns": []
+    },
+    {
+      "file": "result/fedbpc_smoketest_run_metrics_re1.csv",
+      "rows": 200,
+      "columns": 431,
+      "metrics": {
+        "server_test_acc": {
+          "n": 200,
+          "first": 0.1473,
+          "last": 0.4679,
+          "mean": 0.365935,
+          "minimum": 0.1165,
+          "maximum": 0.5571,
+          "last20_mean": 0.4839,
+          "last20_sd": 0.04694826940367452
+        },
+        "shadow_fedavg_head_minus_actual_acc": {
+          "n": 200,
+          "first": -0.0366,
+          "last": -0.002,
+          "mean": -0.001044,
+          "minimum": -0.0857,
+          "maximum": 0.034,
+          "last20_mean": 0.00347,
+          "last20_sd": 0.004764986883507656
+        },
+        "prototype_coverage": {
+          "n": 200,
+          "first": 1.0,
+          "last": 1.0,
+          "mean": 1.0,
+          "minimum": 1.0,
+          "maximum": 1.0,
+          "last20_mean": 1.0,
+          "last20_sd": 0.0
+        },
+        "prototype_current_round_coverage": {
+          "n": 200,
+          "first": 1.0,
+          "last": 1.0,
+          "mean": 0.8845000000000001,
+          "minimum": 0.6,
+          "maximum": 1.0,
+          "last20_mean": 0.895,
+          "last20_sd": 0.09733961166965892
+        },
+        "prototype_contributors_mean": {
+          "n": 200,
+          "first": 2.0,
+          "last": 1.9,
+          "mean": 1.9255,
+          "minimum": 1.4,
+          "maximum": 2.0,
+          "last20_mean": 1.925,
+          "last20_sd": 0.07664854858377945
+        },
+        "prototype_interclass_cosine_mean": {
+          "n": 200,
+          "first": 0.4395,
+          "last": 0.1403,
+          "mean": 0.1599985,
+          "minimum": 0.1277,
+          "maximum": 0.4395,
+          "last20_mean": 0.14868,
+          "last20_sd": 0.011561600235261555
+        },
+        "prototype_same_class_client_cosine_mean": {
+          "n": 200,
+          "first": 0.644,
+          "last": 0.7914,
+          "mean": 0.805105,
+          "minimum": 0.644,
+          "maximum": 0.9225,
+          "last20_mean": 0.810655,
+          "last20_sd": 0.039686452033408086
+        },
+        "prototype_server_centroid_cosine_mean": {
+          "n": 200,
+          "first": 0.6427,
+          "last": 0.6929,
+          "mean": 0.648849,
+          "minimum": 0.3896,
+          "maximum": 0.8275,
+          "last20_mean": 0.75554,
+          "last20_sd": 0.04514381906750912
+        },
+        "prototype_server_centroid_margin_mean": {
+          "n": 200,
+          "first": -0.1593,
+          "last": 0.0374,
+          "mean": -0.0206565,
+          "minimum": -0.4208,
+          "maximum": 0.2425,
+          "last20_mean": 0.125255,
+          "last20_sd": 0.07002117876042933
+        },
+        "prototype_nearest_class_acc": {
+          "n": 200,
+          "first": 0.142,
+          "last": 0.418,
+          "mean": 0.37044,
+          "minimum": 0.13,
+          "maximum": 0.53,
+          "last20_mean": 0.481,
+          "last20_sd": 0.033618447316912194
+        },
+        "diag_aux_to_ce_loss_ratio": {
+          "n": 200,
+          "first": 0.0,
+          "last": 1.521,
+          "mean": 1.41516,
+          "minimum": 0.0,
+          "maximum": 1.9533,
+          "last20_mean": 1.601865,
+          "last20_sd": 0.15956800517334294
+        },
+        "diag_grad_aux_to_ce_ratio": {
+          "n": 5,
+          "first": 1.0186,
+          "last": 0.1996,
+          "mean": 0.41846,
+          "minimum": 0.1996,
+          "maximum": 1.0186,
+          "last20_mean": 0.1996,
+          "last20_sd": 0.0
+        },
+        "diag_grad_ce_aux_cosine": {
+          "n": 5,
+          "first": 0.7004,
+          "last": 0.6485,
+          "mean": 0.7427,
+          "minimum": 0.6485,
+          "maximum": 0.8825,
+          "last20_mean": 0.6485,
+          "last20_sd": 0.0
+        },
+        "head_effective_clients": {
+          "n": 200,
+          "first": 7.9234,
+          "last": 5.5484,
+          "mean": 6.877354,
+          "minimum": 2.8783,
+          "maximum": 9.2446,
+          "last20_mean": 6.41109,
+          "last20_sd": 0.7535282867285076
+        },
+        "sampled_class_coverage": {
+          "n": 200,
+          "first": 1.0,
+          "last": 1.0,
+          "mean": 0.889,
+          "minimum": 0.6,
+          "maximum": 1.0,
+          "last20_mean": 0.895,
+          "last20_sd": 0.09733961166965892
+        }
+      },
+      "sampling_fingerprint": "63822c20cf580b49967ddaf06909e10b59dbc7be87fa181c9aa30e93edc10918",
+      "last100_accuracy_coverage_pearson": 0.3795329689301352,
+      "nonzero_aux_gradient_observations": 5,
+      "negative_cosine_observations": 0,
+      "transfer_columns": []
+    },
+    {
+      "file": "result/fedbpc_ver2.csv",
+      "rows": 200,
+      "columns": 414,
+      "metrics": {
+        "server_test_acc": {
+          "n": 200,
+          "first": 0.1107,
+          "last": 0.4812,
+          "mean": 0.372602,
+          "minimum": 0.1107,
+          "maximum": 0.572,
+          "last20_mean": 0.501695,
+          "last20_sd": 0.04789186230457112
+        },
+        "shadow_fedavg_head_minus_actual_acc": {
+          "n": 200,
+          "first": 0.0,
+          "last": 0.0,
+          "mean": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0,
+          "last20_mean": 0.0,
+          "last20_sd": 0.0
+        },
+        "prototype_coverage": {
+          "n": 200,
+          "first": 1.0,
+          "last": 1.0,
+          "mean": 1.0,
+          "minimum": 1.0,
+          "maximum": 1.0,
+          "last20_mean": 1.0,
+          "last20_sd": 0.0
+        },
+        "prototype_current_round_coverage": {
+          "n": 200,
+          "first": 1.0,
+          "last": 1.0,
+          "mean": 0.8865000000000001,
+          "minimum": 0.6,
+          "maximum": 1.0,
+          "last20_mean": 0.895,
+          "last20_sd": 0.09733961166965892
+        },
+        "prototype_contributors_mean": {
+          "n": 200,
+          "first": 2.0,
+          "last": 1.9,
+          "mean": 1.9264999999999999,
+          "minimum": 1.5,
+          "maximum": 2.0,
+          "last20_mean": 1.925,
+          "last20_sd": 0.07664854858377945
+        },
+        "prototype_interclass_cosine_mean": {
+          "n": 200,
+          "first": 0.4395,
+          "last": 0.1463,
+          "mean": 0.1591425,
+          "minimum": 0.1255,
+          "maximum": 0.4395,
+          "last20_mean": 0.14945,
+          "last20_sd": 0.007744514187474899
+        },
+        "prototype_same_class_client_cosine_mean": {
+          "n": 200,
+          "first": 0.644,
+          "last": 0.796,
+          "mean": 0.810759,
+          "minimum": 0.644,
+          "maximum": 0.9282,
+          "last20_mean": 0.81753,
+          "last20_sd": 0.038524811485586785
+        },
+        "prototype_server_centroid_cosine_mean": {
+          "n": 200,
+          "first": 0.6427,
+          "last": 0.7248,
+          "mean": 0.6578345,
+          "minimum": 0.444,
+          "maximum": 0.8605,
+          "last20_mean": 0.777115,
+          "last20_sd": 0.048112007596856736
+        },
+        "prototype_server_centroid_margin_mean": {
+          "n": 200,
+          "first": -0.1593,
+          "last": 0.088,
+          "mean": -0.0014695000000000003,
+          "minimum": -0.3406,
+          "maximum": 0.293,
+          "last20_mean": 0.16149,
+          "last20_sd": 0.07837459345987065
+        },
+        "prototype_nearest_class_acc": {
+          "n": 200,
+          "first": 0.142,
+          "last": 0.46,
+          "mean": 0.3871,
+          "minimum": 0.128,
+          "maximum": 0.578,
+          "last20_mean": 0.5148,
+          "last20_sd": 0.04407901995280747
+        },
+        "diag_aux_to_ce_loss_ratio": {
+          "n": 200,
+          "first": 0.0,
+          "last": 1.6759,
+          "mean": 1.4405005,
+          "minimum": 0.0,
+          "maximum": 2.1472,
+          "last20_mean": 1.680425,
+          "last20_sd": 0.17382205232651007
+        },
+        "diag_grad_aux_to_ce_ratio": {
+          "n": 5,
+          "first": 0.9801,
+          "last": 0.2375,
+          "mean": 0.42397999999999997,
+          "minimum": 0.2103,
+          "maximum": 0.9801,
+          "last20_mean": 0.2375,
+          "last20_sd": 0.0
+        },
+        "diag_grad_ce_aux_cosine": {
+          "n": 5,
+          "first": 0.6277,
+          "last": 0.7949,
+          "mean": 0.73328,
+          "minimum": 0.6277,
+          "maximum": 0.8556,
+          "last20_mean": 0.7949,
+          "last20_sd": 0.0
+        },
+        "sampled_class_coverage": {
+          "n": 200,
+          "first": 1.0,
+          "last": 1.0,
+          "mean": 0.889,
+          "minimum": 0.6,
+          "maximum": 1.0,
+          "last20_mean": 0.895,
+          "last20_sd": 0.09733961166965892
+        },
+        "prototype_singleton_update_count": {
+          "n": 200,
+          "first": 5.0,
+          "last": 4.0,
+          "mean": 2.875,
+          "minimum": 0.0,
+          "maximum": 6.0,
+          "last20_mean": 2.8,
+          "last20_sd": 1.5362291495737217
+        },
+        "prototype_singleton_effective_momentum_mean": {
+          "n": 200,
+          "first": 0.0,
+          "last": 0.6667,
+          "mean": 0.6433654999999999,
+          "minimum": 0.0,
+          "maximum": 0.6667,
+          "last20_mean": 0.60003,
+          "last20_sd": 0.20001
+        }
+      },
+      "sampling_fingerprint": "63822c20cf580b49967ddaf06909e10b59dbc7be87fa181c9aa30e93edc10918",
+      "last100_accuracy_coverage_pearson": 0.3123623650822732,
+      "nonzero_aux_gradient_observations": 5,
+      "negative_cosine_observations": 0,
+      "transfer_columns": []
+    },
+    {
+      "file": "result/fedproto_test.csv",
+      "rows": 200,
+      "columns": 391,
+      "metrics": {
+        "server_test_acc": {
+          "n": 200,
+          "first": 0.1039,
+          "last": 0.1713,
+          "mean": 0.149817,
+          "minimum": 0.1039,
+          "maximum": 0.1722,
+          "last20_mean": 0.157475,
+          "last20_sd": 0.012899297461489908
+        }
+      },
+      "sampling_fingerprint": null,
+      "last100_accuracy_coverage_pearson": null,
+      "nonzero_aux_gradient_observations": 0,
+      "negative_cosine_observations": 0,
+      "transfer_columns": []
+    },
+    {
+      "file": "result/head_false.csv",
+      "rows": 200,
+      "columns": 361,
+      "metrics": {
+        "server_test_acc": {
+          "n": 200,
+          "first": 0.1107,
+          "last": 0.4861,
+          "mean": 0.3721875,
+          "minimum": 0.1107,
+          "maximum": 0.5792,
+          "last20_mean": 0.507475,
+          "last20_sd": 0.04507305042927537
+        },
+        "shadow_fedavg_head_minus_actual_acc": {
+          "n": 200,
+          "first": 0.0,
+          "last": 0.0,
+          "mean": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0,
+          "last20_mean": 0.0,
+          "last20_sd": 0.0
+        },
+        "prototype_coverage": {
+          "n": 200,
+          "first": 1.0,
+          "last": 1.0,
+          "mean": 1.0,
+          "minimum": 1.0,
+          "maximum": 1.0,
+          "last20_mean": 1.0,
+          "last20_sd": 0.0
+        },
+        "prototype_current_round_coverage": {
+          "n": 200,
+          "first": 1.0,
+          "last": 1.0,
+          "mean": 0.887,
+          "minimum": 0.6,
+          "maximum": 1.0,
+          "last20_mean": 0.895,
+          "last20_sd": 0.09733961166965892
+        },
+        "prototype_contributors_mean": {
+          "n": 200,
+          "first": 2.0,
+          "last": 1.9,
+          "mean": 1.9284999999999999,
+          "minimum": 1.5,
+          "maximum": 2.0,
+          "last20_mean": 1.925,
+          "last20_sd": 0.07664854858377945
+        },
+        "prototype_interclass_cosine_mean": {
+          "n": 200,
+          "first": 0.4395,
+          "last": 0.1397,
+          "mean": 0.159481,
+          "minimum": 0.1246,
+          "maximum": 0.4395,
+          "last20_mean": 0.145315,
+          "last20_sd": 0.008511713987206104
+        },
+        "prototype_same_class_client_cosine_mean": {
+          "n": 200,
+          "first": 0.644,
+          "last": 0.7945,
+          "mean": 0.8107715,
+          "minimum": 0.644,
+          "maximum": 0.9275,
+          "last20_mean": 0.817795,
+          "last20_sd": 0.038940512002283705
+        },
+        "prototype_server_centroid_cosine_mean": {
+          "n": 200,
+          "first": 0.6427,
+          "last": 0.7263,
+          "mean": 0.6582605,
+          "minimum": 0.422,
+          "maximum": 0.8584,
+          "last20_mean": 0.77715,
+          "last20_sd": 0.048157600646211614
+        },
+        "prototype_server_centroid_margin_mean": {
+          "n": 200,
+          "first": -0.1593,
+          "last": 0.1054,
+          "mean": -0.003125,
+          "minimum": -0.3699,
+          "maximum": 0.2861,
+          "last20_mean": 0.162255,
+          "last20_sd": 0.07441153455614258
+        },
+        "prototype_nearest_class_acc": {
+          "n": 200,
+          "first": 0.142,
+          "last": 0.452,
+          "mean": 0.38198,
+          "minimum": 0.128,
+          "maximum": 0.584,
+          "last20_mean": 0.5105000000000001,
+          "last20_sd": 0.040417199309204996
+        },
+        "diag_aux_to_ce_loss_ratio": {
+          "n": 200,
+          "first": 0.0,
+          "last": 1.6737,
+          "mean": 1.4409025,
+          "minimum": 0.0,
+          "maximum": 2.1341,
+          "last20_mean": 1.68367,
+          "last20_sd": 0.1759799593703783
+        },
+        "diag_grad_aux_to_ce_ratio": {
+          "n": 5,
+          "first": 0.9801,
+          "last": 0.2413,
+          "mean": 0.43401999999999996,
+          "minimum": 0.2333,
+          "maximum": 0.9801,
+          "last20_mean": 0.2413,
+          "last20_sd": 0.0
+        },
+        "diag_grad_ce_aux_cosine": {
+          "n": 5,
+          "first": 0.6277,
+          "last": 0.8476,
+          "mean": 0.75724,
+          "minimum": 0.6277,
+          "maximum": 0.8582,
+          "last20_mean": 0.8476,
+          "last20_sd": 0.0
+        },
+        "sampled_class_coverage": {
+          "n": 200,
+          "first": 1.0,
+          "last": 1.0,
+          "mean": 0.889,
+          "minimum": 0.6,
+          "maximum": 1.0,
+          "last20_mean": 0.895,
+          "last20_sd": 0.09733961166965892
+        }
+      },
+      "sampling_fingerprint": "63822c20cf580b49967ddaf06909e10b59dbc7be87fa181c9aa30e93edc10918",
+      "last100_accuracy_coverage_pearson": 0.31396627047774595,
+      "nonzero_aux_gradient_observations": 5,
+      "negative_cosine_observations": 0,
+      "transfer_columns": []
+    },
+    {
+      "file": "result/head_false_more_client.csv",
+      "rows": 200,
+      "columns": 385,
+      "metrics": {
+        "server_test_acc": {
+          "n": 200,
+          "first": 0.1107,
+          "last": 0.4734,
+          "mean": 0.37223849999999997,
+          "minimum": 0.1107,
+          "maximum": 0.5851,
+          "last20_mean": 0.506755,
+          "last20_sd": 0.04607345738057867
+        },
+        "shadow_fedavg_head_minus_actual_acc": {
+          "n": 200,
+          "first": 0.0,
+          "last": 0.0,
+          "mean": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0,
+          "last20_mean": 0.0,
+          "last20_sd": 0.0
+        },
+        "prototype_coverage": {
+          "n": 200,
+          "first": 1.0,
+          "last": 1.0,
+          "mean": 1.0,
+          "minimum": 1.0,
+          "maximum": 1.0,
+          "last20_mean": 1.0,
+          "last20_sd": 0.0
+        },
+        "prototype_current_round_coverage": {
+          "n": 200,
+          "first": 1.0,
+          "last": 1.0,
+          "mean": 0.8865000000000001,
+          "minimum": 0.6,
+          "maximum": 1.0,
+          "last20_mean": 0.895,
+          "last20_sd": 0.09733961166965892
+        },
+        "prototype_contributors_mean": {
+          "n": 200,
+          "first": 2.0,
+          "last": 1.9,
+          "mean": 1.927,
+          "minimum": 1.4,
+          "maximum": 2.0,
+          "last20_mean": 1.925,
+          "last20_sd": 0.07664854858377945
+        },
+        "prototype_interclass_cosine_mean": {
+          "n": 200,
+          "first": 0.4395,
+          "last": 0.1447,
+          "mean": 0.162103,
+          "minimum": 0.1236,
+          "maximum": 0.4395,
+          "last20_mean": 0.150295,
+          "last20_sd": 0.008269430149653602
+        },
+        "prototype_same_class_client_cosine_mean": {
+          "n": 200,
+          "first": 0.644,
+          "last": 0.7838,
+          "mean": 0.809119,
+          "minimum": 0.644,
+          "maximum": 0.9243,
+          "last20_mean": 0.81528,
+          "last20_sd": 0.040044370390855184
+        },
+        "prototype_server_centroid_cosine_mean": {
+          "n": 200,
+          "first": 0.6427,
+          "last": 0.7259,
+          "mean": 0.660466,
+          "minimum": 0.4321,
+          "maximum": 0.8554,
+          "last20_mean": 0.780645,
+          "last20_sd": 0.04490489366427673
+        },
+        "prototype_server_centroid_margin_mean": {
+          "n": 200,
+          "first": -0.1593,
+          "last": 0.0882,
+          "mean": -0.0032994999999999995,
+          "minimum": -0.3947,
+          "maximum": 0.2803,
+          "last20_mean": 0.163915,
+          "last20_sd": 0.07043732160580782
+        },
+        "prototype_nearest_class_acc": {
+          "n": 200,
+          "first": 0.142,
+          "last": 0.448,
+          "mean": 0.38185,
+          "minimum": 0.128,
+          "maximum": 0.564,
+          "last20_mean": 0.5068,
+          "last20_sd": 0.03640549409086492
+        },
+        "diag_aux_to_ce_loss_ratio": {
+          "n": 200,
+          "first": 0.0,
+          "last": 1.6727,
+          "mean": 1.4561505,
+          "minimum": 0.0,
+          "maximum": 2.1792,
+          "last20_mean": 1.69391,
+          "last20_sd": 0.17937425372667057
+        },
+        "diag_grad_aux_to_ce_ratio": {
+          "n": 5,
+          "first": 0.9522,
+          "last": 0.2311,
+          "mean": 0.4286,
+          "minimum": 0.2311,
+          "maximum": 0.9522,
+          "last20_mean": 0.2311,
+          "last20_sd": 0.0
+        },
+        "diag_grad_ce_aux_cosine": {
+          "n": 5,
+          "first": 0.5899,
+          "last": 0.7711,
+          "mean": 0.70744,
+          "minimum": 0.5899,
+          "maximum": 0.7711,
+          "last20_mean": 0.7711,
+          "last20_sd": 0.0
+        },
+        "sampled_class_coverage": {
+          "n": 200,
+          "first": 1.0,
+          "last": 1.0,
+          "mean": 0.889,
+          "minimum": 0.6,
+          "maximum": 1.0,
+          "last20_mean": 0.895,
+          "last20_sd": 0.09733961166965892
+        }
+      },
+      "sampling_fingerprint": "63822c20cf580b49967ddaf06909e10b59dbc7be87fa181c9aa30e93edc10918",
+      "last100_accuracy_coverage_pearson": 0.30357768042795635,
+      "nonzero_aux_gradient_observations": 5,
+      "negative_cosine_observations": 0,
+      "transfer_columns": []
+    },
+    {
+      "file": "result/head_false_mpc2.csv",
+      "rows": 200,
+      "columns": 361,
+      "metrics": {
+        "server_test_acc": {
+          "n": 200,
+          "first": 0.1107,
+          "last": 0.4853,
+          "mean": 0.3685335,
+          "minimum": 0.1107,
+          "maximum": 0.5751,
+          "last20_mean": 0.49899,
+          "last20_sd": 0.04417099614000119
+        },
+        "shadow_fedavg_head_minus_actual_acc": {
+          "n": 200,
+          "first": 0.0,
+          "last": 0.0,
+          "mean": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0,
+          "last20_mean": 0.0,
+          "last20_sd": 0.0
+        },
+        "prototype_coverage": {
+          "n": 200,
+          "first": 0.5,
+          "last": 1.0,
+          "mean": 0.9935,
+          "minimum": 0.5,
+          "maximum": 1.0,
+          "last20_mean": 1.0,
+          "last20_sd": 0.0
+        },
+        "prototype_current_round_coverage": {
+          "n": 200,
+          "first": 0.5,
+          "last": 0.6,
+          "mean": 0.5995,
+          "minimum": 0.3,
+          "maximum": 0.9,
+          "last20_mean": 0.615,
+          "last20_sd": 0.09630680142129111
+        },
+        "prototype_contributors_mean": {
+          "n": 200,
+          "first": 2.0,
+          "last": 1.9,
+          "mean": 1.9284999999999999,
+          "minimum": 1.5,
+          "maximum": 2.0,
+          "last20_mean": 1.925,
+          "last20_sd": 0.07664854858377945
+        },
+        "prototype_interclass_cosine_mean": {
+          "n": 200,
+          "first": 0.4559,
+          "last": 0.1511,
+          "mean": 0.1673325,
+          "minimum": 0.1353,
+          "maximum": 0.4722,
+          "last20_mean": 0.155545,
+          "last20_sd": 0.007033525076375288
+        },
+        "prototype_same_class_client_cosine_mean": {
+          "n": 200,
+          "first": 0.644,
+          "last": 0.8014,
+          "mean": 0.804855,
+          "minimum": 0.5001,
+          "maximum": 0.9229,
+          "last20_mean": 0.81676,
+          "last20_sd": 0.03729495140096041
+        },
+        "prototype_server_centroid_cosine_mean": {
+          "n": 200,
+          "first": 0.6875,
+          "last": 0.7223,
+          "mean": 0.656812,
+          "minimum": 0.4438,
+          "maximum": 0.8587,
+          "last20_mean": 0.776195,
+          "last20_sd": 0.04680388311881826
+        },
+        "prototype_server_centroid_margin_mean": {
+          "n": 200,
+          "first": -0.0799,
+          "last": 0.0819,
+          "mean": -0.0017620000000000005,
+          "minimum": -0.3138,
+          "maximum": 0.2835,
+          "last20_mean": 0.15818,
+          "last20_sd": 0.07504293171245377
+        },
+        "prototype_nearest_class_acc": {
+          "n": 200,
+          "first": 0.142,
+          "last": 0.46,
+          "mean": 0.38307,
+          "minimum": 0.124,
+          "maximum": 0.576,
+          "last20_mean": 0.5097,
+          "last20_sd": 0.03570588186839809
+        },
+        "diag_aux_to_ce_loss_ratio": {
+          "n": 200,
+          "first": 0.0,
+          "last": 1.6738,
+          "mean": 1.4322455,
+          "minimum": 0.0,
+          "maximum": 2.1631,
+          "last20_mean": 1.673925,
+          "last20_sd": 0.1793217412223069
+        },
+        "diag_grad_aux_to_ce_ratio": {
+          "n": 5,
+          "first": 1.4823,
+          "last": 0.22,
+          "mean": 0.52366,
+          "minimum": 0.22,
+          "maximum": 1.4823,
+          "last20_mean": 0.22,
+          "last20_sd": 0.0
+        },
+        "diag_grad_ce_aux_cosine": {
+          "n": 5,
+          "first": 0.5513,
+          "last": 0.7997,
+          "mean": 0.71072,
+          "minimum": 0.5513,
+          "maximum": 0.8781,
+          "last20_mean": 0.7997,
+          "last20_sd": 0.0
+        },
+        "sampled_class_coverage": {
+          "n": 200,
+          "first": 1.0,
+          "last": 1.0,
+          "mean": 0.889,
+          "minimum": 0.6,
+          "maximum": 1.0,
+          "last20_mean": 0.895,
+          "last20_sd": 0.09733961166965892
+        }
+      },
+      "sampling_fingerprint": "63822c20cf580b49967ddaf06909e10b59dbc7be87fa181c9aa30e93edc10918",
+      "last100_accuracy_coverage_pearson": 0.333335936964112,
+      "nonzero_aux_gradient_observations": 5,
+      "negative_cosine_observations": 0,
+      "transfer_columns": []
+    },
+    {
+      "file": "result/head_false_proto_false.csv",
+      "rows": 200,
+      "columns": 361,
+      "metrics": {
+        "server_test_acc": {
+          "n": 200,
+          "first": 0.1107,
+          "last": 0.4482,
+          "mean": 0.3477165,
+          "minimum": 0.1107,
+          "maximum": 0.5629,
+          "last20_mean": 0.4861,
+          "last20_sd": 0.04633906559265087
+        },
+        "shadow_fedavg_head_minus_actual_acc": {
+          "n": 200,
+          "first": 0.0,
+          "last": 0.0,
+          "mean": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0,
+          "last20_mean": 0.0,
+          "last20_sd": 0.0
+        },
+        "prototype_coverage": {
+          "n": 200,
+          "first": 1.0,
+          "last": 1.0,
+          "mean": 1.0,
+          "minimum": 1.0,
+          "maximum": 1.0,
+          "last20_mean": 1.0,
+          "last20_sd": 0.0
+        },
+        "prototype_current_round_coverage": {
+          "n": 200,
+          "first": 1.0,
+          "last": 1.0,
+          "mean": 0.8865000000000001,
+          "minimum": 0.6,
+          "maximum": 1.0,
+          "last20_mean": 0.895,
+          "last20_sd": 0.09733961166965892
+        },
+        "prototype_contributors_mean": {
+          "n": 200,
+          "first": 2.0,
+          "last": 1.9,
+          "mean": 1.9315,
+          "minimum": 1.5,
+          "maximum": 2.0,
+          "last20_mean": 1.925,
+          "last20_sd": 0.07664854858377945
+        },
+        "prototype_interclass_cosine_mean": {
+          "n": 200,
+          "first": 0.4395,
+          "last": 0.5389,
+          "mean": 0.4738815,
+          "minimum": 0.4243,
+          "maximum": 0.55,
+          "last20_mean": 0.51304,
+          "last20_sd": 0.018085668359228542
+        },
+        "prototype_same_class_client_cosine_mean": {
+          "n": 200,
+          "first": 0.644,
+          "last": 0.8137,
+          "mean": 0.774882,
+          "minimum": 0.644,
+          "maximum": 0.8667,
+          "last20_mean": 0.8127800000000001,
+          "last20_sd": 0.022882255133618273
+        },
+        "prototype_server_centroid_cosine_mean": {
+          "n": 200,
+          "first": 0.6427,
+          "last": 0.847,
+          "mean": 0.7874925,
+          "minimum": 0.5194,
+          "maximum": 0.8875,
+          "last20_mean": 0.861075,
+          "last20_sd": 0.018681886280566003
+        },
+        "prototype_server_centroid_margin_mean": {
+          "n": 200,
+          "first": -0.1593,
+          "last": 0.0203,
+          "mean": -0.017829,
+          "minimum": -0.2468,
+          "maximum": 0.0997,
+          "last20_mean": 0.050545,
+          "last20_sd": 0.023092823019284586
+        },
+        "prototype_nearest_class_acc": {
+          "n": 200,
+          "first": 0.142,
+          "last": 0.42,
+          "mean": 0.36827,
+          "minimum": 0.124,
+          "maximum": 0.544,
+          "last20_mean": 0.4881,
+          "last20_sd": 0.037338853758518094
+        },
+        "diag_aux_to_ce_loss_ratio": {
+          "n": 200,
+          "first": 0.0,
+          "last": 0.0,
+          "mean": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0,
+          "last20_mean": 0.0,
+          "last20_sd": 0.0
+        },
+        "diag_grad_aux_to_ce_ratio": {
+          "n": 5,
+          "first": 0.0,
+          "last": 0.0,
+          "mean": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0,
+          "last20_mean": 0.0,
+          "last20_sd": 0.0
+        },
+        "diag_grad_ce_aux_cosine": {
+          "n": 5,
+          "first": 0.0,
+          "last": 0.0,
+          "mean": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0,
+          "last20_mean": 0.0,
+          "last20_sd": 0.0
+        },
+        "sampled_class_coverage": {
+          "n": 200,
+          "first": 1.0,
+          "last": 1.0,
+          "mean": 0.889,
+          "minimum": 0.6,
+          "maximum": 1.0,
+          "last20_mean": 0.895,
+          "last20_sd": 0.09733961166965892
+        }
+      },
+      "sampling_fingerprint": "63822c20cf580b49967ddaf06909e10b59dbc7be87fa181c9aa30e93edc10918",
+      "last100_accuracy_coverage_pearson": 0.29574173772892187,
+      "nonzero_aux_gradient_observations": 0,
+      "negative_cosine_observations": 0,
+      "transfer_columns": []
+    },
+    {
+      "file": "result/head_false_re.csv",
+      "rows": 200,
+      "columns": 361,
+      "metrics": {
+        "server_test_acc": {
+          "n": 200,
+          "first": 0.1107,
+          "last": 0.4907,
+          "mean": 0.3682325,
+          "minimum": 0.1107,
+          "maximum": 0.5757,
+          "last20_mean": 0.499395,
+          "last20_sd": 0.0452753075638366
+        },
+        "shadow_fedavg_head_minus_actual_acc": {
+          "n": 200,
+          "first": 0.0,
+          "last": 0.0,
+          "mean": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0,
+          "last20_mean": 0.0,
+          "last20_sd": 0.0
+        },
+        "prototype_coverage": {
+          "n": 200,
+          "first": 1.0,
+          "last": 1.0,
+          "mean": 1.0,
+          "minimum": 1.0,
+          "maximum": 1.0,
+          "last20_mean": 1.0,
+          "last20_sd": 0.0
+        },
+        "prototype_current_round_coverage": {
+          "n": 200,
+          "first": 1.0,
+          "last": 1.0,
+          "mean": 0.8865000000000001,
+          "minimum": 0.6,
+          "maximum": 1.0,
+          "last20_mean": 0.895,
+          "last20_sd": 0.09733961166965892
+        },
+        "prototype_contributors_mean": {
+          "n": 200,
+          "first": 2.0,
+          "last": 1.9,
+          "mean": 1.9275,
+          "minimum": 1.4,
+          "maximum": 2.0,
+          "last20_mean": 1.925,
+          "last20_sd": 0.07664854858377945
+        },
+        "prototype_interclass_cosine_mean": {
+          "n": 200,
+          "first": 0.4395,
+          "last": 0.147,
+          "mean": 0.1628735,
+          "minimum": 0.124,
+          "maximum": 0.4395,
+          "last20_mean": 0.151865,
+          "last20_sd": 0.008471202689110913
+        },
+        "prototype_same_class_client_cosine_mean": {
+          "n": 200,
+          "first": 0.644,
+          "last": 0.7987,
+          "mean": 0.8097155,
+          "minimum": 0.644,
+          "maximum": 0.927,
+          "last20_mean": 0.8166450000000001,
+          "last20_sd": 0.03747039464697429
+        },
+        "prototype_server_centroid_cosine_mean": {
+          "n": 200,
+          "first": 0.6427,
+          "last": 0.74,
+          "mean": 0.660018,
+          "minimum": 0.43,
+          "maximum": 0.856,
+          "last20_mean": 0.77948,
+          "last20_sd": 0.043714512464397906
+        },
+        "prototype_server_centroid_margin_mean": {
+          "n": 200,
+          "first": -0.1593,
+          "last": 0.109,
+          "mean": -0.005827,
+          "minimum": -0.3782,
+          "maximum": 0.278,
+          "last20_mean": 0.15999,
+          "last20_sd": 0.07307630874640564
+        },
+        "prototype_nearest_class_acc": {
+          "n": 200,
+          "first": 0.142,
+          "last": 0.474,
+          "mean": 0.38019000000000003,
+          "minimum": 0.128,
+          "maximum": 0.572,
+          "last20_mean": 0.5123,
+          "last20_sd": 0.03690677444589273
+        },
+        "diag_aux_to_ce_loss_ratio": {
+          "n": 200,
+          "first": 0.0,
+          "last": 1.6528,
+          "mean": 1.438089,
+          "minimum": 0.0,
+          "maximum": 2.1259,
+          "last20_mean": 1.6611150000000001,
+          "last20_sd": 0.1747342704651838
+        },
+        "diag_grad_aux_to_ce_ratio": {
+          "n": 5,
+          "first": 0.9801,
+          "last": 0.2491,
+          "mean": 0.43212,
+          "minimum": 0.2296,
+          "maximum": 0.9801,
+          "last20_mean": 0.2491,
+          "last20_sd": 0.0
+        },
+        "diag_grad_ce_aux_cosine": {
+          "n": 5,
+          "first": 0.6277,
+          "last": 0.7713,
+          "mean": 0.72688,
+          "minimum": 0.6277,
+          "maximum": 0.8356,
+          "last20_mean": 0.7713,
+          "last20_sd": 0.0
+        },
+        "sampled_class_coverage": {
+          "n": 200,
+          "first": 1.0,
+          "last": 1.0,
+          "mean": 0.889,
+          "minimum": 0.6,
+          "maximum": 1.0,
+          "last20_mean": 0.895,
+          "last20_sd": 0.09733961166965892
+        }
+      },
+      "sampling_fingerprint": "63822c20cf580b49967ddaf06909e10b59dbc7be87fa181c9aa30e93edc10918",
+      "last100_accuracy_coverage_pearson": 0.30292504230802425,
+      "nonzero_aux_gradient_observations": 5,
+      "negative_cosine_observations": 0,
+      "transfer_columns": []
+    }
+  ],
+  "fedbtr": [
+    {
+      "directory": "fedbtr_run_metrics/20260915-124036-cd831895",
+      "name": "fedbtr_cifar10lt_iid_full",
+      "train_seed": 2022,
+      "split_sha256": "5fb90b93ce0d41e64ad8bb1446d9beb3bfb0015c7d132fa115f05a39b3b85d6f",
+      "data": {
+        "pipeline": "longtail",
+        "root": "../../data",
+        "dataset_name": "cifar10",
+        "batch_size": 50,
+        "n_clients": 100,
+        "partition": {
+          "method": "iid"
+        },
+        "longtail": {
+          "imbalance_factor": 100,
+          "validation_fraction": 0.04,
+          "split_seed": 19940817,
+          "class_order_seed": 2022,
+          "min_client_samples": 1,
+          "max_attempts": 200,
+          "manifest_dir": "./splits",
+          "num_workers": 0,
+          "download": false
+        }
+      },
+      "train": {
+        "algo": {
+          "name": "fedbtr",
+          "params": {
+            "teacher_mode": "balanced",
+            "teacher_lr": 0.05,
+            "teacher_balance_power": 1.0,
+            "teacher_grad_clip": 5.0,
+            "student_balance_power": 1.0,
+            "retention_mode": "band",
+            "retention_weight": 0.1,
+            "support_scale": 5.0,
+            "uniform_support": false,
+            "band_min": 0.25,
+            "band_max": 1.0,
+            "teacher_error_weight": 0.25,
+            "kl_temperature": 2.0,
+            "student_init": "global",
+            "warmup_rounds": 0,
+            "diagnostic_interval": 10,
+            "diagnostic_clients": 1,
+            "eval_interval": 1,
+            "test_interval": 0,
+            "output_dir": "./results/fedbtr",
+            "save_checkpoints": false,
+            "save_local_history": false
+          }
+        },
+        "scenario": {
+          "n_rounds": 200,
+          "sample_ratio": 0.1,
+          "local_epochs": 5,
+          "device": "cuda:0"
+        },
+        "model": {
+          "name": "fedavg_cifar",
+          "params": {}
+        },
+        "optimizer": {
+          "params": {
+            "lr": 0.01,
+            "momentum": 0.9,
+            "weight_decay": 1e-05
+          }
+        },
+        "scheduler": {
+          "enabled": true,
+          "name": "step",
+          "params": {
+            "gamma": 0.99,
+            "step_size": 1
+          }
+        },
+        "seed": 2022
+      },
+      "groups": {
+        "head": [
+          3,
+          1,
+          5,
+          0
+        ],
+        "middle": [
+          6,
+          2,
+          9
+        ],
+        "tail": [
+          7,
+          4,
+          8
+        ]
+      },
+      "global_counts": [
+        1034,
+        2877,
+        371,
+        4800,
+        80,
+        1725,
+        619,
+        133,
+        48,
+        222
+      ],
+      "final_test": {
+        "accuracy": 0.4901,
+        "macro_accuracy": 0.4901000000000001,
+        "cross_entropy": 1.6977585227966308,
+        "class_accuracy": [
+          0.68,
+          0.776,
+          0.26,
+          0.413,
+          0.198,
+          0.593,
+          0.646,
+          0.514,
+          0.387,
+          0.434
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.6155,
+        "middle": 0.4466666666666667,
+        "tail": 0.36633333333333334
+      },
+      "worst_class": 0.198,
+      "best_round": 192,
+      "validation_selected_test": {
+        "accuracy": 0.4867,
+        "macro_accuracy": 0.4867000000000001,
+        "cross_entropy": 1.6790546813964844,
+        "class_accuracy": [
+          0.682,
+          0.747,
+          0.325,
+          0.426,
+          0.153,
+          0.53,
+          0.674,
+          0.502,
+          0.408,
+          0.42
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.5962500000000001,
+        "middle": 0.47300000000000003,
+        "tail": 0.35433333333333333
+      }
+    },
+    {
+      "directory": "fedbtr_run_metrics/20260915-130519-fee71d0c",
+      "name": "fedbtr_cifar10lt_iid_natural_ce",
+      "train_seed": 2022,
+      "split_sha256": "5fb90b93ce0d41e64ad8bb1446d9beb3bfb0015c7d132fa115f05a39b3b85d6f",
+      "data": {
+        "pipeline": "longtail",
+        "root": "../../data",
+        "dataset_name": "cifar10",
+        "batch_size": 50,
+        "n_clients": 100,
+        "partition": {
+          "method": "iid"
+        },
+        "longtail": {
+          "imbalance_factor": 100,
+          "validation_fraction": 0.04,
+          "split_seed": 19940817,
+          "class_order_seed": 2022,
+          "min_client_samples": 1,
+          "max_attempts": 200,
+          "manifest_dir": "./splits",
+          "num_workers": 0,
+          "download": false
+        }
+      },
+      "train": {
+        "algo": {
+          "name": "fedbtr",
+          "params": {
+            "teacher_mode": "none",
+            "teacher_lr": 0.05,
+            "teacher_balance_power": 1.0,
+            "teacher_grad_clip": 5.0,
+            "student_balance_power": 0.0,
+            "retention_mode": "none",
+            "retention_weight": 0.1,
+            "support_scale": 5.0,
+            "uniform_support": false,
+            "band_min": 0.25,
+            "band_max": 1.0,
+            "teacher_error_weight": 0.25,
+            "kl_temperature": 2.0,
+            "student_init": "global",
+            "warmup_rounds": 0,
+            "diagnostic_interval": 10,
+            "diagnostic_clients": 1,
+            "eval_interval": 1,
+            "test_interval": 0,
+            "output_dir": "./results/fedbtr",
+            "save_checkpoints": false,
+            "save_local_history": false
+          }
+        },
+        "scenario": {
+          "n_rounds": 200,
+          "sample_ratio": 0.1,
+          "local_epochs": 5,
+          "device": "cuda:1"
+        },
+        "model": {
+          "name": "fedavg_cifar",
+          "params": {}
+        },
+        "optimizer": {
+          "params": {
+            "lr": 0.01,
+            "momentum": 0.9,
+            "weight_decay": 1e-05
+          }
+        },
+        "scheduler": {
+          "enabled": true,
+          "name": "step",
+          "params": {
+            "gamma": 0.99,
+            "step_size": 1
+          }
+        },
+        "seed": 2022
+      },
+      "groups": {
+        "head": [
+          3,
+          1,
+          5,
+          0
+        ],
+        "middle": [
+          6,
+          2,
+          9
+        ],
+        "tail": [
+          7,
+          4,
+          8
+        ]
+      },
+      "global_counts": [
+        1034,
+        2877,
+        371,
+        4800,
+        80,
+        1725,
+        619,
+        133,
+        48,
+        222
+      ],
+      "final_test": {
+        "accuracy": 0.36,
+        "macro_accuracy": 0.36000000000000004,
+        "cross_entropy": 2.120617194366455,
+        "class_accuracy": [
+          0.727,
+          0.914,
+          0.057,
+          0.878,
+          0.0,
+          0.36,
+          0.397,
+          0.131,
+          0.027,
+          0.109
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.71975,
+        "middle": 0.18766666666666668,
+        "tail": 0.05266666666666667
+      },
+      "worst_class": 0.0,
+      "best_round": 196,
+      "validation_selected_test": {
+        "accuracy": 0.3701,
+        "macro_accuracy": 0.3701,
+        "cross_entropy": 2.0135535408020018,
+        "class_accuracy": [
+          0.678,
+          0.924,
+          0.075,
+          0.842,
+          0.0,
+          0.402,
+          0.486,
+          0.169,
+          0.03,
+          0.095
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.7115,
+        "middle": 0.21866666666666665,
+        "tail": 0.06633333333333334
+      }
+    },
+    {
+      "directory": "fedbtr_run_metrics/20260915-131036-0893c3c3",
+      "name": "fedbtr_cifar10lt_iid_balanced_only",
+      "train_seed": 2022,
+      "split_sha256": "5fb90b93ce0d41e64ad8bb1446d9beb3bfb0015c7d132fa115f05a39b3b85d6f",
+      "data": {
+        "pipeline": "longtail",
+        "root": "../../data",
+        "dataset_name": "cifar10",
+        "batch_size": 50,
+        "n_clients": 100,
+        "partition": {
+          "method": "iid"
+        },
+        "longtail": {
+          "imbalance_factor": 100,
+          "validation_fraction": 0.04,
+          "split_seed": 19940817,
+          "class_order_seed": 2022,
+          "min_client_samples": 1,
+          "max_attempts": 200,
+          "manifest_dir": "./splits",
+          "num_workers": 0,
+          "download": false
+        }
+      },
+      "train": {
+        "algo": {
+          "name": "fedbtr",
+          "params": {
+            "teacher_mode": "none",
+            "teacher_lr": 0.05,
+            "teacher_balance_power": 1.0,
+            "teacher_grad_clip": 5.0,
+            "student_balance_power": 1.0,
+            "retention_mode": "none",
+            "retention_weight": 0.1,
+            "support_scale": 5.0,
+            "uniform_support": false,
+            "band_min": 0.25,
+            "band_max": 1.0,
+            "teacher_error_weight": 0.25,
+            "kl_temperature": 2.0,
+            "student_init": "global",
+            "warmup_rounds": 0,
+            "diagnostic_interval": 10,
+            "diagnostic_clients": 1,
+            "eval_interval": 1,
+            "test_interval": 0,
+            "output_dir": "./results/fedbtr",
+            "save_checkpoints": false,
+            "save_local_history": false
+          }
+        },
+        "scenario": {
+          "n_rounds": 200,
+          "sample_ratio": 0.1,
+          "local_epochs": 5,
+          "device": "cuda:1"
+        },
+        "model": {
+          "name": "fedavg_cifar",
+          "params": {}
+        },
+        "optimizer": {
+          "params": {
+            "lr": 0.01,
+            "momentum": 0.9,
+            "weight_decay": 1e-05
+          }
+        },
+        "scheduler": {
+          "enabled": true,
+          "name": "step",
+          "params": {
+            "gamma": 0.99,
+            "step_size": 1
+          }
+        },
+        "seed": 2022
+      },
+      "groups": {
+        "head": [
+          3,
+          1,
+          5,
+          0
+        ],
+        "middle": [
+          6,
+          2,
+          9
+        ],
+        "tail": [
+          7,
+          4,
+          8
+        ]
+      },
+      "global_counts": [
+        1034,
+        2877,
+        371,
+        4800,
+        80,
+        1725,
+        619,
+        133,
+        48,
+        222
+      ],
+      "final_test": {
+        "accuracy": 0.4869,
+        "macro_accuracy": 0.4869,
+        "cross_entropy": 1.7329029262542726,
+        "class_accuracy": [
+          0.672,
+          0.773,
+          0.266,
+          0.431,
+          0.171,
+          0.579,
+          0.634,
+          0.529,
+          0.39,
+          0.424
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.61375,
+        "middle": 0.44133333333333336,
+        "tail": 0.36333333333333334
+      },
+      "worst_class": 0.171,
+      "best_round": 192,
+      "validation_selected_test": {
+        "accuracy": 0.4852,
+        "macro_accuracy": 0.48519999999999985,
+        "cross_entropy": 1.7063902267456055,
+        "class_accuracy": [
+          0.695,
+          0.742,
+          0.285,
+          0.411,
+          0.146,
+          0.538,
+          0.691,
+          0.52,
+          0.404,
+          0.42
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.5965,
+        "middle": 0.4653333333333333,
+        "tail": 0.3566666666666667
+      }
+    },
+    {
+      "directory": "fedbtr_run_metrics/20260915-131517-2e2470ba",
+      "name": "fedbtr_cifar10lt_iid_teacher_init_only",
+      "train_seed": 2022,
+      "split_sha256": "5fb90b93ce0d41e64ad8bb1446d9beb3bfb0015c7d132fa115f05a39b3b85d6f",
+      "data": {
+        "pipeline": "longtail",
+        "root": "../../data",
+        "dataset_name": "cifar10",
+        "batch_size": 50,
+        "n_clients": 100,
+        "partition": {
+          "method": "iid"
+        },
+        "longtail": {
+          "imbalance_factor": 100,
+          "validation_fraction": 0.04,
+          "split_seed": 19940817,
+          "class_order_seed": 2022,
+          "min_client_samples": 1,
+          "max_attempts": 200,
+          "manifest_dir": "./splits",
+          "num_workers": 0,
+          "download": false
+        }
+      },
+      "train": {
+        "algo": {
+          "name": "fedbtr",
+          "params": {
+            "teacher_mode": "balanced",
+            "teacher_lr": 0.05,
+            "teacher_balance_power": 1.0,
+            "teacher_grad_clip": 5.0,
+            "student_balance_power": 1.0,
+            "retention_mode": "none",
+            "retention_weight": 0.1,
+            "support_scale": 5.0,
+            "uniform_support": false,
+            "band_min": 0.25,
+            "band_max": 1.0,
+            "teacher_error_weight": 0.25,
+            "kl_temperature": 2.0,
+            "student_init": "teacher",
+            "warmup_rounds": 0,
+            "diagnostic_interval": 10,
+            "diagnostic_clients": 1,
+            "eval_interval": 1,
+            "test_interval": 0,
+            "output_dir": "./results/fedbtr",
+            "save_checkpoints": false,
+            "save_local_history": false
+          }
+        },
+        "scenario": {
+          "n_rounds": 200,
+          "sample_ratio": 0.1,
+          "local_epochs": 5,
+          "device": "cuda:1"
+        },
+        "model": {
+          "name": "fedavg_cifar",
+          "params": {}
+        },
+        "optimizer": {
+          "params": {
+            "lr": 0.01,
+            "momentum": 0.9,
+            "weight_decay": 1e-05
+          }
+        },
+        "scheduler": {
+          "enabled": true,
+          "name": "step",
+          "params": {
+            "gamma": 0.99,
+            "step_size": 1
+          }
+        },
+        "seed": 2022
+      },
+      "groups": {
+        "head": [
+          3,
+          1,
+          5,
+          0
+        ],
+        "middle": [
+          6,
+          2,
+          9
+        ],
+        "tail": [
+          7,
+          4,
+          8
+        ]
+      },
+      "global_counts": [
+        1034,
+        2877,
+        371,
+        4800,
+        80,
+        1725,
+        619,
+        133,
+        48,
+        222
+      ],
+      "final_test": {
+        "accuracy": 0.4506,
+        "macro_accuracy": 0.4506,
+        "cross_entropy": 1.7851272968292236,
+        "class_accuracy": [
+          0.777,
+          0.741,
+          0.207,
+          0.476,
+          0.098,
+          0.553,
+          0.692,
+          0.446,
+          0.186,
+          0.33
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.63675,
+        "middle": 0.4096666666666666,
+        "tail": 0.24333333333333332
+      },
+      "worst_class": 0.098,
+      "best_round": 193,
+      "validation_selected_test": {
+        "accuracy": 0.4569,
+        "macro_accuracy": 0.4569,
+        "cross_entropy": 1.7172280773162842,
+        "class_accuracy": [
+          0.698,
+          0.774,
+          0.41,
+          0.397,
+          0.072,
+          0.54,
+          0.697,
+          0.377,
+          0.296,
+          0.308
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.60225,
+        "middle": 0.4716666666666667,
+        "tail": 0.24833333333333332
+      }
+    },
+    {
+      "directory": "fedbtr_run_metrics/20260915-132831-e8ad26f5",
+      "name": "fedbtr_cifar10lt_iid_plain_kl",
+      "train_seed": 2022,
+      "split_sha256": "5fb90b93ce0d41e64ad8bb1446d9beb3bfb0015c7d132fa115f05a39b3b85d6f",
+      "data": {
+        "pipeline": "longtail",
+        "root": "../../data",
+        "dataset_name": "cifar10",
+        "batch_size": 50,
+        "n_clients": 100,
+        "partition": {
+          "method": "iid"
+        },
+        "longtail": {
+          "imbalance_factor": 100,
+          "validation_fraction": 0.04,
+          "split_seed": 19940817,
+          "class_order_seed": 2022,
+          "min_client_samples": 1,
+          "max_attempts": 200,
+          "manifest_dir": "./splits",
+          "num_workers": 0,
+          "download": false
+        }
+      },
+      "train": {
+        "algo": {
+          "name": "fedbtr",
+          "params": {
+            "teacher_mode": "balanced",
+            "teacher_lr": 0.05,
+            "teacher_balance_power": 1.0,
+            "teacher_grad_clip": 5.0,
+            "student_balance_power": 1.0,
+            "retention_mode": "kl",
+            "retention_weight": 0.1,
+            "support_scale": 5.0,
+            "uniform_support": false,
+            "band_min": 0.25,
+            "band_max": 1.0,
+            "teacher_error_weight": 1.0,
+            "kl_temperature": 2.0,
+            "student_init": "global",
+            "warmup_rounds": 0,
+            "diagnostic_interval": 10,
+            "diagnostic_clients": 1,
+            "eval_interval": 1,
+            "test_interval": 0,
+            "output_dir": "./results/fedbtr",
+            "save_checkpoints": false,
+            "save_local_history": false
+          }
+        },
+        "scenario": {
+          "n_rounds": 200,
+          "sample_ratio": 0.1,
+          "local_epochs": 5,
+          "device": "cuda:1"
+        },
+        "model": {
+          "name": "fedavg_cifar",
+          "params": {}
+        },
+        "optimizer": {
+          "params": {
+            "lr": 0.01,
+            "momentum": 0.9,
+            "weight_decay": 1e-05
+          }
+        },
+        "scheduler": {
+          "enabled": true,
+          "name": "step",
+          "params": {
+            "gamma": 0.99,
+            "step_size": 1
+          }
+        },
+        "seed": 2022
+      },
+      "groups": {
+        "head": [
+          3,
+          1,
+          5,
+          0
+        ],
+        "middle": [
+          6,
+          2,
+          9
+        ],
+        "tail": [
+          7,
+          4,
+          8
+        ]
+      },
+      "global_counts": [
+        1034,
+        2877,
+        371,
+        4800,
+        80,
+        1725,
+        619,
+        133,
+        48,
+        222
+      ],
+      "final_test": {
+        "accuracy": 0.4907,
+        "macro_accuracy": 0.4907,
+        "cross_entropy": 1.694292566680908,
+        "class_accuracy": [
+          0.679,
+          0.765,
+          0.27,
+          0.426,
+          0.191,
+          0.579,
+          0.645,
+          0.537,
+          0.385,
+          0.43
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.61225,
+        "middle": 0.4483333333333333,
+        "tail": 0.371
+      },
+      "worst_class": 0.191,
+      "best_round": 197,
+      "validation_selected_test": {
+        "accuracy": 0.4898,
+        "macro_accuracy": 0.48979999999999996,
+        "cross_entropy": 1.6132073211669922,
+        "class_accuracy": [
+          0.666,
+          0.739,
+          0.341,
+          0.328,
+          0.159,
+          0.585,
+          0.681,
+          0.525,
+          0.443,
+          0.431
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.5795,
+        "middle": 0.48433333333333334,
+        "tail": 0.37566666666666665
+      }
+    },
+    {
+      "directory": "fedbtr_run_metrics/20260915-132937-ce9ede40",
+      "name": "fedbtr_cifar10lt_iid_kl_matched_relaxation",
+      "train_seed": 2022,
+      "split_sha256": "5fb90b93ce0d41e64ad8bb1446d9beb3bfb0015c7d132fa115f05a39b3b85d6f",
+      "data": {
+        "pipeline": "longtail",
+        "root": "../../data",
+        "dataset_name": "cifar10",
+        "batch_size": 50,
+        "n_clients": 100,
+        "partition": {
+          "method": "iid"
+        },
+        "longtail": {
+          "imbalance_factor": 100,
+          "validation_fraction": 0.04,
+          "split_seed": 19940817,
+          "class_order_seed": 2022,
+          "min_client_samples": 1,
+          "max_attempts": 200,
+          "manifest_dir": "./splits",
+          "num_workers": 0,
+          "download": false
+        }
+      },
+      "train": {
+        "algo": {
+          "name": "fedbtr",
+          "params": {
+            "teacher_mode": "balanced",
+            "teacher_lr": 0.05,
+            "teacher_balance_power": 1.0,
+            "teacher_grad_clip": 5.0,
+            "student_balance_power": 1.0,
+            "retention_mode": "kl",
+            "retention_weight": 0.1,
+            "support_scale": 5.0,
+            "uniform_support": false,
+            "band_min": 0.25,
+            "band_max": 1.0,
+            "teacher_error_weight": 0.25,
+            "kl_temperature": 2.0,
+            "student_init": "global",
+            "warmup_rounds": 0,
+            "diagnostic_interval": 10,
+            "diagnostic_clients": 1,
+            "eval_interval": 1,
+            "test_interval": 0,
+            "output_dir": "./results/fedbtr",
+            "save_checkpoints": false,
+            "save_local_history": false
+          }
+        },
+        "scenario": {
+          "n_rounds": 200,
+          "sample_ratio": 0.1,
+          "local_epochs": 5,
+          "device": "cuda:1"
+        },
+        "model": {
+          "name": "fedavg_cifar",
+          "params": {}
+        },
+        "optimizer": {
+          "params": {
+            "lr": 0.01,
+            "momentum": 0.9,
+            "weight_decay": 1e-05
+          }
+        },
+        "scheduler": {
+          "enabled": true,
+          "name": "step",
+          "params": {
+            "gamma": 0.99,
+            "step_size": 1
+          }
+        },
+        "seed": 2022
+      },
+      "groups": {
+        "head": [
+          3,
+          1,
+          5,
+          0
+        ],
+        "middle": [
+          6,
+          2,
+          9
+        ],
+        "tail": [
+          7,
+          4,
+          8
+        ]
+      },
+      "global_counts": [
+        1034,
+        2877,
+        371,
+        4800,
+        80,
+        1725,
+        619,
+        133,
+        48,
+        222
+      ],
+      "final_test": {
+        "accuracy": 0.4885,
+        "macro_accuracy": 0.48850000000000005,
+        "cross_entropy": 1.7087958229064941,
+        "class_accuracy": [
+          0.685,
+          0.767,
+          0.268,
+          0.416,
+          0.193,
+          0.563,
+          0.653,
+          0.526,
+          0.385,
+          0.429
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.60775,
+        "middle": 0.45,
+        "tail": 0.36800000000000005
+      },
+      "worst_class": 0.193,
+      "best_round": 192,
+      "validation_selected_test": {
+        "accuracy": 0.4891,
+        "macro_accuracy": 0.4891,
+        "cross_entropy": 1.6765549800872803,
+        "class_accuracy": [
+          0.685,
+          0.751,
+          0.297,
+          0.414,
+          0.155,
+          0.535,
+          0.689,
+          0.508,
+          0.424,
+          0.433
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.5962500000000001,
+        "middle": 0.47300000000000003,
+        "tail": 0.36233333333333334
+      }
+    },
+    {
+      "directory": "fedbtr_run_metrics/20260915-133022-f3df451c",
+      "name": "fedbtr_cifar10lt_iid_raw_teacher_band",
+      "train_seed": 2022,
+      "split_sha256": "5fb90b93ce0d41e64ad8bb1446d9beb3bfb0015c7d132fa115f05a39b3b85d6f",
+      "data": {
+        "pipeline": "longtail",
+        "root": "../../data",
+        "dataset_name": "cifar10",
+        "batch_size": 50,
+        "n_clients": 100,
+        "partition": {
+          "method": "iid"
+        },
+        "longtail": {
+          "imbalance_factor": 100,
+          "validation_fraction": 0.04,
+          "split_seed": 19940817,
+          "class_order_seed": 2022,
+          "min_client_samples": 1,
+          "max_attempts": 200,
+          "manifest_dir": "./splits",
+          "num_workers": 0,
+          "download": false
+        }
+      },
+      "train": {
+        "algo": {
+          "name": "fedbtr",
+          "params": {
+            "teacher_mode": "global",
+            "teacher_lr": 0.05,
+            "teacher_balance_power": 1.0,
+            "teacher_grad_clip": 5.0,
+            "student_balance_power": 1.0,
+            "retention_mode": "band",
+            "retention_weight": 0.1,
+            "support_scale": 5.0,
+            "uniform_support": false,
+            "band_min": 0.25,
+            "band_max": 1.0,
+            "teacher_error_weight": 0.25,
+            "kl_temperature": 2.0,
+            "student_init": "global",
+            "warmup_rounds": 0,
+            "diagnostic_interval": 10,
+            "diagnostic_clients": 1,
+            "eval_interval": 1,
+            "test_interval": 0,
+            "output_dir": "./results/fedbtr",
+            "save_checkpoints": false,
+            "save_local_history": false
+          }
+        },
+        "scenario": {
+          "n_rounds": 200,
+          "sample_ratio": 0.1,
+          "local_epochs": 5,
+          "device": "cuda:1"
+        },
+        "model": {
+          "name": "fedavg_cifar",
+          "params": {}
+        },
+        "optimizer": {
+          "params": {
+            "lr": 0.01,
+            "momentum": 0.9,
+            "weight_decay": 1e-05
+          }
+        },
+        "scheduler": {
+          "enabled": true,
+          "name": "step",
+          "params": {
+            "gamma": 0.99,
+            "step_size": 1
+          }
+        },
+        "seed": 2022
+      },
+      "groups": {
+        "head": [
+          3,
+          1,
+          5,
+          0
+        ],
+        "middle": [
+          6,
+          2,
+          9
+        ],
+        "tail": [
+          7,
+          4,
+          8
+        ]
+      },
+      "global_counts": [
+        1034,
+        2877,
+        371,
+        4800,
+        80,
+        1725,
+        619,
+        133,
+        48,
+        222
+      ],
+      "final_test": {
+        "accuracy": 0.4911,
+        "macro_accuracy": 0.49110000000000004,
+        "cross_entropy": 1.706442601776123,
+        "class_accuracy": [
+          0.684,
+          0.787,
+          0.265,
+          0.447,
+          0.184,
+          0.566,
+          0.661,
+          0.525,
+          0.382,
+          0.41
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.621,
+        "middle": 0.44533333333333336,
+        "tail": 0.36366666666666675
+      },
+      "worst_class": 0.184,
+      "best_round": 196,
+      "validation_selected_test": {
+        "accuracy": 0.487,
+        "macro_accuracy": 0.487,
+        "cross_entropy": 1.661634857940674,
+        "class_accuracy": [
+          0.664,
+          0.761,
+          0.346,
+          0.475,
+          0.128,
+          0.536,
+          0.64,
+          0.507,
+          0.385,
+          0.428
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.609,
+        "middle": 0.4713333333333333,
+        "tail": 0.34
+      }
+    },
+    {
+      "directory": "fedbtr_run_metrics/20260915-133107-60e97375",
+      "name": "fedbtr_cifar10lt_iid_uniform_support",
+      "train_seed": 2022,
+      "split_sha256": "5fb90b93ce0d41e64ad8bb1446d9beb3bfb0015c7d132fa115f05a39b3b85d6f",
+      "data": {
+        "pipeline": "longtail",
+        "root": "../../data",
+        "dataset_name": "cifar10",
+        "batch_size": 50,
+        "n_clients": 100,
+        "partition": {
+          "method": "iid"
+        },
+        "longtail": {
+          "imbalance_factor": 100,
+          "validation_fraction": 0.04,
+          "split_seed": 19940817,
+          "class_order_seed": 2022,
+          "min_client_samples": 1,
+          "max_attempts": 200,
+          "manifest_dir": "./splits",
+          "num_workers": 0,
+          "download": false
+        }
+      },
+      "train": {
+        "algo": {
+          "name": "fedbtr",
+          "params": {
+            "teacher_mode": "balanced",
+            "teacher_lr": 0.05,
+            "teacher_balance_power": 1.0,
+            "teacher_grad_clip": 5.0,
+            "student_balance_power": 1.0,
+            "retention_mode": "band",
+            "retention_weight": 0.1,
+            "support_scale": 5.0,
+            "uniform_support": true,
+            "band_min": 0.25,
+            "band_max": 1.0,
+            "teacher_error_weight": 0.25,
+            "kl_temperature": 2.0,
+            "student_init": "global",
+            "warmup_rounds": 0,
+            "diagnostic_interval": 10,
+            "diagnostic_clients": 1,
+            "eval_interval": 1,
+            "test_interval": 0,
+            "output_dir": "./results/fedbtr",
+            "save_checkpoints": false,
+            "save_local_history": false
+          }
+        },
+        "scenario": {
+          "n_rounds": 200,
+          "sample_ratio": 0.1,
+          "local_epochs": 5,
+          "device": "cuda:1"
+        },
+        "model": {
+          "name": "fedavg_cifar",
+          "params": {}
+        },
+        "optimizer": {
+          "params": {
+            "lr": 0.01,
+            "momentum": 0.9,
+            "weight_decay": 1e-05
+          }
+        },
+        "scheduler": {
+          "enabled": true,
+          "name": "step",
+          "params": {
+            "gamma": 0.99,
+            "step_size": 1
+          }
+        },
+        "seed": 2022
+      },
+      "groups": {
+        "head": [
+          3,
+          1,
+          5,
+          0
+        ],
+        "middle": [
+          6,
+          2,
+          9
+        ],
+        "tail": [
+          7,
+          4,
+          8
+        ]
+      },
+      "global_counts": [
+        1034,
+        2877,
+        371,
+        4800,
+        80,
+        1725,
+        619,
+        133,
+        48,
+        222
+      ],
+      "final_test": {
+        "accuracy": 0.4902,
+        "macro_accuracy": 0.4901999999999999,
+        "cross_entropy": 1.7219724342346192,
+        "class_accuracy": [
+          0.688,
+          0.778,
+          0.28,
+          0.42,
+          0.169,
+          0.598,
+          0.642,
+          0.519,
+          0.373,
+          0.435
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.621,
+        "middle": 0.4523333333333333,
+        "tail": 0.35366666666666663
+      },
+      "worst_class": 0.169,
+      "best_round": 192,
+      "validation_selected_test": {
+        "accuracy": 0.4886,
+        "macro_accuracy": 0.48860000000000003,
+        "cross_entropy": 1.6807975421905517,
+        "class_accuracy": [
+          0.689,
+          0.752,
+          0.299,
+          0.411,
+          0.158,
+          0.544,
+          0.69,
+          0.497,
+          0.407,
+          0.439
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.599,
+        "middle": 0.476,
+        "tail": 0.35400000000000004
+      }
+    },
+    {
+      "directory": "fedbtr_run_metrics/20260915-134914-07cc7cb6",
+      "name": "fedbtr_cifar10lt_iid_no_label_relaxation",
+      "train_seed": 2022,
+      "split_sha256": "5fb90b93ce0d41e64ad8bb1446d9beb3bfb0015c7d132fa115f05a39b3b85d6f",
+      "data": {
+        "pipeline": "longtail",
+        "root": "../../data",
+        "dataset_name": "cifar10",
+        "batch_size": 50,
+        "n_clients": 100,
+        "partition": {
+          "method": "iid"
+        },
+        "longtail": {
+          "imbalance_factor": 100,
+          "validation_fraction": 0.04,
+          "split_seed": 19940817,
+          "class_order_seed": 2022,
+          "min_client_samples": 1,
+          "max_attempts": 200,
+          "manifest_dir": "./splits",
+          "num_workers": 0,
+          "download": false
+        }
+      },
+      "train": {
+        "algo": {
+          "name": "fedbtr",
+          "params": {
+            "teacher_mode": "balanced",
+            "teacher_lr": 0.05,
+            "teacher_balance_power": 1.0,
+            "teacher_grad_clip": 5.0,
+            "student_balance_power": 1.0,
+            "retention_mode": "band",
+            "retention_weight": 0.1,
+            "support_scale": 5.0,
+            "uniform_support": false,
+            "band_min": 0.25,
+            "band_max": 1.0,
+            "teacher_error_weight": 1.0,
+            "kl_temperature": 2.0,
+            "student_init": "global",
+            "warmup_rounds": 0,
+            "diagnostic_interval": 10,
+            "diagnostic_clients": 1,
+            "eval_interval": 1,
+            "test_interval": 0,
+            "output_dir": "./results/fedbtr",
+            "save_checkpoints": false,
+            "save_local_history": false
+          }
+        },
+        "scenario": {
+          "n_rounds": 200,
+          "sample_ratio": 0.1,
+          "local_epochs": 5,
+          "device": "cuda:1"
+        },
+        "model": {
+          "name": "fedavg_cifar",
+          "params": {}
+        },
+        "optimizer": {
+          "params": {
+            "lr": 0.01,
+            "momentum": 0.9,
+            "weight_decay": 1e-05
+          }
+        },
+        "scheduler": {
+          "enabled": true,
+          "name": "step",
+          "params": {
+            "gamma": 0.99,
+            "step_size": 1
+          }
+        },
+        "seed": 2022
+      },
+      "groups": {
+        "head": [
+          3,
+          1,
+          5,
+          0
+        ],
+        "middle": [
+          6,
+          2,
+          9
+        ],
+        "tail": [
+          7,
+          4,
+          8
+        ]
+      },
+      "global_counts": [
+        1034,
+        2877,
+        371,
+        4800,
+        80,
+        1725,
+        619,
+        133,
+        48,
+        222
+      ],
+      "final_test": {
+        "accuracy": 0.4884,
+        "macro_accuracy": 0.48840000000000006,
+        "cross_entropy": 1.685348952484131,
+        "class_accuracy": [
+          0.682,
+          0.786,
+          0.26,
+          0.416,
+          0.19,
+          0.586,
+          0.661,
+          0.522,
+          0.376,
+          0.405
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.6174999999999999,
+        "middle": 0.442,
+        "tail": 0.3626666666666667
+      },
+      "worst_class": 0.19,
+      "best_round": 193,
+      "validation_selected_test": {
+        "accuracy": 0.4897,
+        "macro_accuracy": 0.4897,
+        "cross_entropy": 1.6559828247070312,
+        "class_accuracy": [
+          0.692,
+          0.713,
+          0.393,
+          0.398,
+          0.172,
+          0.528,
+          0.679,
+          0.451,
+          0.418,
+          0.453
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.58275,
+        "middle": 0.5083333333333334,
+        "tail": 0.347
+      }
+    },
+    {
+      "directory": "fedbtr_run_metrics/20260915-135011-e1ea527b",
+      "name": "fedbtr_cifar10lt_iid_zero_band",
+      "train_seed": 2022,
+      "split_sha256": "5fb90b93ce0d41e64ad8bb1446d9beb3bfb0015c7d132fa115f05a39b3b85d6f",
+      "data": {
+        "pipeline": "longtail",
+        "root": "../../data",
+        "dataset_name": "cifar10",
+        "batch_size": 50,
+        "n_clients": 100,
+        "partition": {
+          "method": "iid"
+        },
+        "longtail": {
+          "imbalance_factor": 100,
+          "validation_fraction": 0.04,
+          "split_seed": 19940817,
+          "class_order_seed": 2022,
+          "min_client_samples": 1,
+          "max_attempts": 200,
+          "manifest_dir": "./splits",
+          "num_workers": 0,
+          "download": false
+        }
+      },
+      "train": {
+        "algo": {
+          "name": "fedbtr",
+          "params": {
+            "teacher_mode": "balanced",
+            "teacher_lr": 0.05,
+            "teacher_balance_power": 1.0,
+            "teacher_grad_clip": 5.0,
+            "student_balance_power": 1.0,
+            "retention_mode": "band",
+            "retention_weight": 0.1,
+            "support_scale": 5.0,
+            "uniform_support": false,
+            "band_min": 0.0,
+            "band_max": 0.0,
+            "teacher_error_weight": 0.25,
+            "kl_temperature": 2.0,
+            "student_init": "global",
+            "warmup_rounds": 0,
+            "diagnostic_interval": 10,
+            "diagnostic_clients": 1,
+            "eval_interval": 1,
+            "test_interval": 0,
+            "output_dir": "./results/fedbtr",
+            "save_checkpoints": false,
+            "save_local_history": false
+          }
+        },
+        "scenario": {
+          "n_rounds": 200,
+          "sample_ratio": 0.1,
+          "local_epochs": 5,
+          "device": "cuda:1"
+        },
+        "model": {
+          "name": "fedavg_cifar",
+          "params": {}
+        },
+        "optimizer": {
+          "params": {
+            "lr": 0.01,
+            "momentum": 0.9,
+            "weight_decay": 1e-05
+          }
+        },
+        "scheduler": {
+          "enabled": true,
+          "name": "step",
+          "params": {
+            "gamma": 0.99,
+            "step_size": 1
+          }
+        },
+        "seed": 2022
+      },
+      "groups": {
+        "head": [
+          3,
+          1,
+          5,
+          0
+        ],
+        "middle": [
+          6,
+          2,
+          9
+        ],
+        "tail": [
+          7,
+          4,
+          8
+        ]
+      },
+      "global_counts": [
+        1034,
+        2877,
+        371,
+        4800,
+        80,
+        1725,
+        619,
+        133,
+        48,
+        222
+      ],
+      "final_test": {
+        "accuracy": 0.4846,
+        "macro_accuracy": 0.48460000000000003,
+        "cross_entropy": 1.6853925632476807,
+        "class_accuracy": [
+          0.681,
+          0.777,
+          0.257,
+          0.409,
+          0.183,
+          0.587,
+          0.651,
+          0.516,
+          0.38,
+          0.405
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.6134999999999999,
+        "middle": 0.4376666666666667,
+        "tail": 0.35966666666666675
+      },
+      "worst_class": 0.183,
+      "best_round": 192,
+      "validation_selected_test": {
+        "accuracy": 0.4871,
+        "macro_accuracy": 0.48709999999999987,
+        "cross_entropy": 1.6543341236114502,
+        "class_accuracy": [
+          0.684,
+          0.757,
+          0.301,
+          0.416,
+          0.151,
+          0.533,
+          0.691,
+          0.521,
+          0.406,
+          0.411
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.5975,
+        "middle": 0.4676666666666667,
+        "tail": 0.35933333333333334
+      }
+    },
+    {
+      "directory": "fedbtr_run_metrics/20260917-135741-1617291c",
+      "name": "fedbtr_cifar10lt_full_set2",
+      "train_seed": 2022,
+      "split_sha256": "177ea16e5d0fb9bc9a3bebcf8a4bfb4682f2fece0110cde5824b3946e9527e75",
+      "data": {
+        "pipeline": "longtail",
+        "root": "../../data",
+        "dataset_name": "cifar10",
+        "batch_size": 50,
+        "n_clients": 100,
+        "partition": {
+          "method": "lda",
+          "alpha": 0.1
+        },
+        "longtail": {
+          "imbalance_factor": 100,
+          "validation_fraction": 0.04,
+          "split_seed": 19940817,
+          "class_order_seed": 2022,
+          "min_client_samples": 1,
+          "max_attempts": 200,
+          "manifest_dir": "./splits",
+          "num_workers": 0,
+          "download": false
+        }
+      },
+      "train": {
+        "algo": {
+          "name": "fedbtr",
+          "params": {
+            "teacher_mode": "balanced",
+            "teacher_lr": 0.05,
+            "teacher_balance_power": 1.0,
+            "teacher_grad_clip": 5.0,
+            "student_balance_power": 1.0,
+            "retention_mode": "band",
+            "retention_weight": 0.1,
+            "support_scale": 5.0,
+            "uniform_support": false,
+            "band_min": 0.25,
+            "band_max": 1.0,
+            "teacher_error_weight": 0.25,
+            "kl_temperature": 2.0,
+            "student_init": "global",
+            "warmup_rounds": 0,
+            "diagnostic_interval": 10,
+            "diagnostic_clients": 1,
+            "eval_interval": 1,
+            "test_interval": 0,
+            "output_dir": "./results/fedbtr",
+            "save_checkpoints": false,
+            "save_local_history": false
+          }
+        },
+        "scenario": {
+          "n_rounds": 200,
+          "sample_ratio": 0.1,
+          "local_epochs": 5,
+          "device": "cuda:1"
+        },
+        "model": {
+          "name": "fedavg_cifar",
+          "params": {}
+        },
+        "optimizer": {
+          "params": {
+            "lr": 0.01,
+            "momentum": 0.9,
+            "weight_decay": 1e-05
+          }
+        },
+        "scheduler": {
+          "enabled": true,
+          "name": "step",
+          "params": {
+            "gamma": 0.99,
+            "step_size": 1
+          }
+        },
+        "seed": 2022
+      },
+      "groups": {
+        "head": [
+          3,
+          1,
+          5,
+          0
+        ],
+        "middle": [
+          6,
+          2,
+          9
+        ],
+        "tail": [
+          7,
+          4,
+          8
+        ]
+      },
+      "global_counts": [
+        1034,
+        2877,
+        371,
+        4800,
+        80,
+        1725,
+        619,
+        133,
+        48,
+        222
+      ],
+      "final_test": {
+        "accuracy": 0.4136,
+        "macro_accuracy": 0.4136,
+        "cross_entropy": 1.754813716506958,
+        "class_accuracy": [
+          0.367,
+          0.773,
+          0.27,
+          0.479,
+          0.018,
+          0.386,
+          0.426,
+          0.693,
+          0.225,
+          0.499
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.50125,
+        "middle": 0.39833333333333326,
+        "tail": 0.312
+      },
+      "worst_class": 0.018,
+      "best_round": 191,
+      "validation_selected_test": {
+        "accuracy": 0.4137,
+        "macro_accuracy": 0.41370000000000007,
+        "cross_entropy": 1.6983571674346924,
+        "class_accuracy": [
+          0.771,
+          0.801,
+          0.146,
+          0.536,
+          0.207,
+          0.366,
+          0.45,
+          0.484,
+          0.107,
+          0.269
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.6185,
+        "middle": 0.28833333333333333,
+        "tail": 0.26599999999999996
+      }
+    },
+    {
+      "directory": "fedbtr_run_metrics/20260917-140521-d2d23bac",
+      "name": "fedbtr_cifar10lt_full_set1_trainseed2027",
+      "train_seed": 2027,
+      "split_sha256": "5fb90b93ce0d41e64ad8bb1446d9beb3bfb0015c7d132fa115f05a39b3b85d6f",
+      "data": {
+        "pipeline": "longtail",
+        "root": "../../data",
+        "dataset_name": "cifar10",
+        "batch_size": 50,
+        "n_clients": 100,
+        "partition": {
+          "method": "iid"
+        },
+        "longtail": {
+          "imbalance_factor": 100,
+          "validation_fraction": 0.04,
+          "split_seed": 19940817,
+          "class_order_seed": 2022,
+          "min_client_samples": 1,
+          "max_attempts": 200,
+          "manifest_dir": "./splits",
+          "num_workers": 0,
+          "download": false
+        }
+      },
+      "train": {
+        "algo": {
+          "name": "fedbtr",
+          "params": {
+            "teacher_mode": "balanced",
+            "teacher_lr": 0.05,
+            "teacher_balance_power": 1.0,
+            "teacher_grad_clip": 5.0,
+            "student_balance_power": 1.0,
+            "retention_mode": "band",
+            "retention_weight": 0.1,
+            "support_scale": 5.0,
+            "uniform_support": false,
+            "band_min": 0.25,
+            "band_max": 1.0,
+            "teacher_error_weight": 0.25,
+            "kl_temperature": 2.0,
+            "student_init": "global",
+            "warmup_rounds": 0,
+            "diagnostic_interval": 10,
+            "diagnostic_clients": 1,
+            "eval_interval": 1,
+            "test_interval": 0,
+            "output_dir": "./results/fedbtr",
+            "save_checkpoints": false,
+            "save_local_history": false
+          }
+        },
+        "scenario": {
+          "n_rounds": 200,
+          "sample_ratio": 0.1,
+          "local_epochs": 5,
+          "device": "cuda:1"
+        },
+        "model": {
+          "name": "fedavg_cifar",
+          "params": {}
+        },
+        "optimizer": {
+          "params": {
+            "lr": 0.01,
+            "momentum": 0.9,
+            "weight_decay": 1e-05
+          }
+        },
+        "scheduler": {
+          "enabled": true,
+          "name": "step",
+          "params": {
+            "gamma": 0.99,
+            "step_size": 1
+          }
+        },
+        "seed": 2027
+      },
+      "groups": {
+        "head": [
+          3,
+          1,
+          5,
+          0
+        ],
+        "middle": [
+          6,
+          2,
+          9
+        ],
+        "tail": [
+          7,
+          4,
+          8
+        ]
+      },
+      "global_counts": [
+        1034,
+        2877,
+        371,
+        4800,
+        80,
+        1725,
+        619,
+        133,
+        48,
+        222
+      ],
+      "final_test": {
+        "accuracy": 0.4845,
+        "macro_accuracy": 0.4845,
+        "cross_entropy": 1.7248164833068849,
+        "class_accuracy": [
+          0.71,
+          0.77,
+          0.288,
+          0.425,
+          0.187,
+          0.594,
+          0.587,
+          0.513,
+          0.362,
+          0.409
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.62475,
+        "middle": 0.428,
+        "tail": 0.3539999999999999
+      },
+      "worst_class": 0.187,
+      "best_round": 195,
+      "validation_selected_test": {
+        "accuracy": 0.4909,
+        "macro_accuracy": 0.4909,
+        "cross_entropy": 1.6426859626770018,
+        "class_accuracy": [
+          0.754,
+          0.736,
+          0.283,
+          0.323,
+          0.293,
+          0.603,
+          0.608,
+          0.471,
+          0.373,
+          0.465
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.604,
+        "middle": 0.452,
+        "tail": 0.379
+      }
+    },
+    {
+      "directory": "fedbtr_run_metrics/20260917-140645-3e447421",
+      "name": "fedbtr_cifar10lt_full_set2_trainseed2027",
+      "train_seed": 2027,
+      "split_sha256": "177ea16e5d0fb9bc9a3bebcf8a4bfb4682f2fece0110cde5824b3946e9527e75",
+      "data": {
+        "pipeline": "longtail",
+        "root": "../../data",
+        "dataset_name": "cifar10",
+        "batch_size": 50,
+        "n_clients": 100,
+        "partition": {
+          "method": "lda",
+          "alpha": 0.1
+        },
+        "longtail": {
+          "imbalance_factor": 100,
+          "validation_fraction": 0.04,
+          "split_seed": 19940817,
+          "class_order_seed": 2022,
+          "min_client_samples": 1,
+          "max_attempts": 200,
+          "manifest_dir": "./splits",
+          "num_workers": 0,
+          "download": false
+        }
+      },
+      "train": {
+        "algo": {
+          "name": "fedbtr",
+          "params": {
+            "teacher_mode": "balanced",
+            "teacher_lr": 0.05,
+            "teacher_balance_power": 1.0,
+            "teacher_grad_clip": 5.0,
+            "student_balance_power": 1.0,
+            "retention_mode": "band",
+            "retention_weight": 0.1,
+            "support_scale": 5.0,
+            "uniform_support": false,
+            "band_min": 0.25,
+            "band_max": 1.0,
+            "teacher_error_weight": 0.25,
+            "kl_temperature": 2.0,
+            "student_init": "global",
+            "warmup_rounds": 0,
+            "diagnostic_interval": 10,
+            "diagnostic_clients": 1,
+            "eval_interval": 1,
+            "test_interval": 0,
+            "output_dir": "./results/fedbtr",
+            "save_checkpoints": false,
+            "save_local_history": false
+          }
+        },
+        "scenario": {
+          "n_rounds": 200,
+          "sample_ratio": 0.1,
+          "local_epochs": 5,
+          "device": "cuda:1"
+        },
+        "model": {
+          "name": "fedavg_cifar",
+          "params": {}
+        },
+        "optimizer": {
+          "params": {
+            "lr": 0.01,
+            "momentum": 0.9,
+            "weight_decay": 1e-05
+          }
+        },
+        "scheduler": {
+          "enabled": true,
+          "name": "step",
+          "params": {
+            "gamma": 0.99,
+            "step_size": 1
+          }
+        },
+        "seed": 2027
+      },
+      "groups": {
+        "head": [
+          3,
+          1,
+          5,
+          0
+        ],
+        "middle": [
+          6,
+          2,
+          9
+        ],
+        "tail": [
+          7,
+          4,
+          8
+        ]
+      },
+      "global_counts": [
+        1034,
+        2877,
+        371,
+        4800,
+        80,
+        1725,
+        619,
+        133,
+        48,
+        222
+      ],
+      "final_test": {
+        "accuracy": 0.4229,
+        "macro_accuracy": 0.4229,
+        "cross_entropy": 1.785997456741333,
+        "class_accuracy": [
+          0.355,
+          0.737,
+          0.366,
+          0.472,
+          0.014,
+          0.384,
+          0.401,
+          0.693,
+          0.248,
+          0.559
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.487,
+        "middle": 0.442,
+        "tail": 0.3183333333333333
+      },
+      "worst_class": 0.014,
+      "best_round": 200,
+      "validation_selected_test": {
+        "accuracy": 0.4229,
+        "macro_accuracy": 0.4229,
+        "cross_entropy": 1.785997456741333,
+        "class_accuracy": [
+          0.355,
+          0.737,
+          0.366,
+          0.472,
+          0.014,
+          0.384,
+          0.401,
+          0.693,
+          0.248,
+          0.559
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.487,
+        "middle": 0.442,
+        "tail": 0.3183333333333333
+      }
+    },
+    {
+      "directory": "fedbtr_run_metrics/20260917-140803-fe949b8b",
+      "name": "fedbtr_cifar10lt_full_set2_split20270817",
+      "train_seed": 2022,
+      "split_sha256": "f02e3ffaeb3afdf666fa8855498e5dad4ab2999b37dc917d63d389f55ce4fb4f",
+      "data": {
+        "pipeline": "longtail",
+        "root": "../../data",
+        "dataset_name": "cifar10",
+        "batch_size": 50,
+        "n_clients": 100,
+        "partition": {
+          "method": "lda",
+          "alpha": 0.1
+        },
+        "longtail": {
+          "imbalance_factor": 100,
+          "validation_fraction": 0.04,
+          "split_seed": 20270817,
+          "class_order_seed": 2022,
+          "min_client_samples": 1,
+          "max_attempts": 200,
+          "manifest_dir": "./splits",
+          "num_workers": 0,
+          "download": false
+        }
+      },
+      "train": {
+        "algo": {
+          "name": "fedbtr",
+          "params": {
+            "teacher_mode": "balanced",
+            "teacher_lr": 0.05,
+            "teacher_balance_power": 1.0,
+            "teacher_grad_clip": 5.0,
+            "student_balance_power": 1.0,
+            "retention_mode": "band",
+            "retention_weight": 0.1,
+            "support_scale": 5.0,
+            "uniform_support": false,
+            "band_min": 0.25,
+            "band_max": 1.0,
+            "teacher_error_weight": 0.25,
+            "kl_temperature": 2.0,
+            "student_init": "global",
+            "warmup_rounds": 0,
+            "diagnostic_interval": 10,
+            "diagnostic_clients": 1,
+            "eval_interval": 1,
+            "test_interval": 0,
+            "output_dir": "./results/fedbtr",
+            "save_checkpoints": false,
+            "save_local_history": false
+          }
+        },
+        "scenario": {
+          "n_rounds": 200,
+          "sample_ratio": 0.1,
+          "local_epochs": 5,
+          "device": "cuda:1"
+        },
+        "model": {
+          "name": "fedavg_cifar",
+          "params": {}
+        },
+        "optimizer": {
+          "params": {
+            "lr": 0.01,
+            "momentum": 0.9,
+            "weight_decay": 1e-05
+          }
+        },
+        "scheduler": {
+          "enabled": true,
+          "name": "step",
+          "params": {
+            "gamma": 0.99,
+            "step_size": 1
+          }
+        },
+        "seed": 2022
+      },
+      "groups": {
+        "head": [
+          3,
+          1,
+          5,
+          0
+        ],
+        "middle": [
+          6,
+          2,
+          9
+        ],
+        "tail": [
+          7,
+          4,
+          8
+        ]
+      },
+      "global_counts": [
+        1034,
+        2877,
+        371,
+        4800,
+        80,
+        1725,
+        619,
+        133,
+        48,
+        222
+      ],
+      "final_test": {
+        "accuracy": 0.3738,
+        "macro_accuracy": 0.3738,
+        "cross_entropy": 1.8210501289367675,
+        "class_accuracy": [
+          0.53,
+          0.836,
+          0.256,
+          0.324,
+          0.044,
+          0.802,
+          0.157,
+          0.341,
+          0.266,
+          0.182
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.623,
+        "middle": 0.19833333333333333,
+        "tail": 0.217
+      },
+      "worst_class": 0.044,
+      "best_round": 193,
+      "validation_selected_test": {
+        "accuracy": 0.4301,
+        "macro_accuracy": 0.43010000000000004,
+        "cross_entropy": 1.6605375568389893,
+        "class_accuracy": [
+          0.546,
+          0.838,
+          0.068,
+          0.469,
+          0.029,
+          0.391,
+          0.541,
+          0.687,
+          0.386,
+          0.346
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.5609999999999999,
+        "middle": 0.3183333333333333,
+        "tail": 0.36733333333333335
+      }
+    },
+    {
+      "directory": "fedbtr_run_metrics/20260917-140931-62ef4f3f",
+      "name": "fedbtr_cifar10lt_full_set1_classorder2027",
+      "train_seed": 2022,
+      "split_sha256": "8eef75259388764a047b36d163f512ae97c23a6b4fe4d95e3b948802281a7827",
+      "data": {
+        "pipeline": "longtail",
+        "root": "../../data",
+        "dataset_name": "cifar10",
+        "batch_size": 50,
+        "n_clients": 100,
+        "partition": {
+          "method": "iid"
+        },
+        "longtail": {
+          "imbalance_factor": 100,
+          "validation_fraction": 0.04,
+          "split_seed": 19940817,
+          "class_order_seed": 2027,
+          "min_client_samples": 1,
+          "max_attempts": 200,
+          "manifest_dir": "./splits",
+          "num_workers": 0,
+          "download": false
+        }
+      },
+      "train": {
+        "algo": {
+          "name": "fedbtr",
+          "params": {
+            "teacher_mode": "balanced",
+            "teacher_lr": 0.05,
+            "teacher_balance_power": 1.0,
+            "teacher_grad_clip": 5.0,
+            "student_balance_power": 1.0,
+            "retention_mode": "band",
+            "retention_weight": 0.1,
+            "support_scale": 5.0,
+            "uniform_support": false,
+            "band_min": 0.25,
+            "band_max": 1.0,
+            "teacher_error_weight": 0.25,
+            "kl_temperature": 2.0,
+            "student_init": "global",
+            "warmup_rounds": 0,
+            "diagnostic_interval": 10,
+            "diagnostic_clients": 1,
+            "eval_interval": 1,
+            "test_interval": 0,
+            "output_dir": "./results/fedbtr",
+            "save_checkpoints": false,
+            "save_local_history": false
+          }
+        },
+        "scenario": {
+          "n_rounds": 200,
+          "sample_ratio": 0.1,
+          "local_epochs": 5,
+          "device": "cuda:1"
+        },
+        "model": {
+          "name": "fedavg_cifar",
+          "params": {}
+        },
+        "optimizer": {
+          "params": {
+            "lr": 0.01,
+            "momentum": 0.9,
+            "weight_decay": 1e-05
+          }
+        },
+        "scheduler": {
+          "enabled": true,
+          "name": "step",
+          "params": {
+            "gamma": 0.99,
+            "step_size": 1
+          }
+        },
+        "seed": 2022
+      },
+      "groups": {
+        "head": [
+          8,
+          6,
+          4,
+          3
+        ],
+        "middle": [
+          2,
+          5,
+          0
+        ],
+        "tail": [
+          9,
+          7,
+          1
+        ]
+      },
+      "global_counts": [
+        222,
+        48,
+        619,
+        1034,
+        1725,
+        371,
+        2877,
+        80,
+        4800,
+        133
+      ],
+      "final_test": {
+        "accuracy": 0.4795,
+        "macro_accuracy": 0.4795000000000001,
+        "cross_entropy": 1.662075595855713,
+        "class_accuracy": [
+          0.444,
+          0.337,
+          0.42,
+          0.351,
+          0.357,
+          0.472,
+          0.757,
+          0.377,
+          0.791,
+          0.489
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.5640000000000001,
+        "middle": 0.4453333333333333,
+        "tail": 0.401
+      },
+      "worst_class": 0.337,
+      "best_round": 193,
+      "validation_selected_test": {
+        "accuracy": 0.4871,
+        "macro_accuracy": 0.48710000000000003,
+        "cross_entropy": 1.602141230392456,
+        "class_accuracy": [
+          0.516,
+          0.489,
+          0.422,
+          0.331,
+          0.44,
+          0.442,
+          0.705,
+          0.337,
+          0.76,
+          0.429
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.5589999999999999,
+        "middle": 0.45999999999999996,
+        "tail": 0.4183333333333333
+      }
+    },
+    {
+      "directory": "fedbtr_run_metrics/20260917-194459-cd55d3de",
+      "name": "fedbtr_cifar10lt_natural_ce_set2_train2022",
+      "train_seed": 2022,
+      "split_sha256": "177ea16e5d0fb9bc9a3bebcf8a4bfb4682f2fece0110cde5824b3946e9527e75",
+      "data": {
+        "pipeline": "longtail",
+        "root": "../../data",
+        "dataset_name": "cifar10",
+        "batch_size": 50,
+        "n_clients": 100,
+        "partition": {
+          "method": "lda",
+          "alpha": 0.1
+        },
+        "longtail": {
+          "imbalance_factor": 100,
+          "validation_fraction": 0.04,
+          "split_seed": 19940817,
+          "class_order_seed": 2022,
+          "min_client_samples": 1,
+          "max_attempts": 200,
+          "manifest_dir": "./splits",
+          "num_workers": 0,
+          "download": false
+        }
+      },
+      "train": {
+        "algo": {
+          "name": "fedbtr",
+          "params": {
+            "teacher_mode": "none",
+            "teacher_lr": 0.05,
+            "teacher_balance_power": 1.0,
+            "teacher_grad_clip": 5.0,
+            "student_balance_power": 0.0,
+            "retention_mode": "none",
+            "retention_weight": 0.1,
+            "support_scale": 5.0,
+            "uniform_support": false,
+            "band_min": 0.25,
+            "band_max": 1.0,
+            "teacher_error_weight": 0.25,
+            "kl_temperature": 2.0,
+            "student_init": "global",
+            "warmup_rounds": 0,
+            "diagnostic_interval": 10,
+            "diagnostic_clients": 1,
+            "eval_interval": 1,
+            "test_interval": 0,
+            "output_dir": "./results/fedbtr",
+            "save_checkpoints": false,
+            "save_local_history": false
+          }
+        },
+        "scenario": {
+          "n_rounds": 200,
+          "sample_ratio": 0.1,
+          "local_epochs": 5,
+          "device": "cuda:1"
+        },
+        "model": {
+          "name": "fedavg_cifar",
+          "params": {}
+        },
+        "optimizer": {
+          "params": {
+            "lr": 0.01,
+            "momentum": 0.9,
+            "weight_decay": 1e-05
+          }
+        },
+        "scheduler": {
+          "enabled": true,
+          "name": "step",
+          "params": {
+            "gamma": 0.99,
+            "step_size": 1
+          }
+        },
+        "seed": 2022
+      },
+      "groups": {
+        "head": [
+          3,
+          1,
+          5,
+          0
+        ],
+        "middle": [
+          6,
+          2,
+          9
+        ],
+        "tail": [
+          7,
+          4,
+          8
+        ]
+      },
+      "global_counts": [
+        1034,
+        2877,
+        371,
+        4800,
+        80,
+        1725,
+        619,
+        133,
+        48,
+        222
+      ],
+      "final_test": {
+        "accuracy": 0.2727,
+        "macro_accuracy": 0.27270000000000005,
+        "cross_entropy": 2.377532978820801,
+        "class_accuracy": [
+          0.4,
+          0.924,
+          0.077,
+          0.887,
+          0.0,
+          0.146,
+          0.117,
+          0.137,
+          0.0,
+          0.039
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.5892499999999999,
+        "middle": 0.07766666666666668,
+        "tail": 0.04566666666666667
+      },
+      "worst_class": 0.0,
+      "best_round": 200,
+      "validation_selected_test": {
+        "accuracy": 0.2727,
+        "macro_accuracy": 0.27270000000000005,
+        "cross_entropy": 2.377532978820801,
+        "class_accuracy": [
+          0.4,
+          0.924,
+          0.077,
+          0.887,
+          0.0,
+          0.146,
+          0.117,
+          0.137,
+          0.0,
+          0.039
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.5892499999999999,
+        "middle": 0.07766666666666668,
+        "tail": 0.04566666666666667
+      }
+    },
+    {
+      "directory": "fedbtr_run_metrics/20260917-195417-905866e6",
+      "name": "fedbtr_cifar10lt_balanced_only_set2_train2022",
+      "train_seed": 2022,
+      "split_sha256": "177ea16e5d0fb9bc9a3bebcf8a4bfb4682f2fece0110cde5824b3946e9527e75",
+      "data": {
+        "pipeline": "longtail",
+        "root": "../../data",
+        "dataset_name": "cifar10",
+        "batch_size": 50,
+        "n_clients": 100,
+        "partition": {
+          "method": "lda",
+          "alpha": 0.1
+        },
+        "longtail": {
+          "imbalance_factor": 100,
+          "validation_fraction": 0.04,
+          "split_seed": 19940817,
+          "class_order_seed": 2022,
+          "min_client_samples": 1,
+          "max_attempts": 200,
+          "manifest_dir": "./splits",
+          "num_workers": 0,
+          "download": false
+        }
+      },
+      "train": {
+        "algo": {
+          "name": "fedbtr",
+          "params": {
+            "teacher_mode": "none",
+            "teacher_lr": 0.05,
+            "teacher_balance_power": 1.0,
+            "teacher_grad_clip": 5.0,
+            "student_balance_power": 1.0,
+            "retention_mode": "none",
+            "retention_weight": 0.1,
+            "support_scale": 5.0,
+            "uniform_support": false,
+            "band_min": 0.25,
+            "band_max": 1.0,
+            "teacher_error_weight": 0.25,
+            "kl_temperature": 2.0,
+            "student_init": "global",
+            "warmup_rounds": 0,
+            "diagnostic_interval": 10,
+            "diagnostic_clients": 1,
+            "eval_interval": 1,
+            "test_interval": 0,
+            "output_dir": "./results/fedbtr",
+            "save_checkpoints": false,
+            "save_local_history": false
+          }
+        },
+        "scenario": {
+          "n_rounds": 200,
+          "sample_ratio": 0.1,
+          "local_epochs": 5,
+          "device": "cuda:1"
+        },
+        "model": {
+          "name": "fedavg_cifar",
+          "params": {}
+        },
+        "optimizer": {
+          "params": {
+            "lr": 0.01,
+            "momentum": 0.9,
+            "weight_decay": 1e-05
+          }
+        },
+        "scheduler": {
+          "enabled": true,
+          "name": "step",
+          "params": {
+            "gamma": 0.99,
+            "step_size": 1
+          }
+        },
+        "seed": 2022
+      },
+      "groups": {
+        "head": [
+          3,
+          1,
+          5,
+          0
+        ],
+        "middle": [
+          6,
+          2,
+          9
+        ],
+        "tail": [
+          7,
+          4,
+          8
+        ]
+      },
+      "global_counts": [
+        1034,
+        2877,
+        371,
+        4800,
+        80,
+        1725,
+        619,
+        133,
+        48,
+        222
+      ],
+      "final_test": {
+        "accuracy": 0.4038,
+        "macro_accuracy": 0.40379999999999994,
+        "cross_entropy": 1.9169434104919434,
+        "class_accuracy": [
+          0.283,
+          0.702,
+          0.226,
+          0.503,
+          0.014,
+          0.365,
+          0.483,
+          0.671,
+          0.215,
+          0.576
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.46325,
+        "middle": 0.4283333333333333,
+        "tail": 0.3
+      },
+      "worst_class": 0.014,
+      "best_round": 181,
+      "validation_selected_test": {
+        "accuracy": 0.4123,
+        "macro_accuracy": 0.4123,
+        "cross_entropy": 1.662511823272705,
+        "class_accuracy": [
+          0.713,
+          0.568,
+          0.087,
+          0.521,
+          0.189,
+          0.157,
+          0.668,
+          0.504,
+          0.315,
+          0.401
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.48975,
+        "middle": 0.38533333333333336,
+        "tail": 0.336
+      }
+    },
+    {
+      "directory": "fedbtr_run_metrics/20260917-195440-5d86a617",
+      "name": "fedbtr_cifar10lt_balanced_only_set2_train2027",
+      "train_seed": 2027,
+      "split_sha256": "177ea16e5d0fb9bc9a3bebcf8a4bfb4682f2fece0110cde5824b3946e9527e75",
+      "data": {
+        "pipeline": "longtail",
+        "root": "../../data",
+        "dataset_name": "cifar10",
+        "batch_size": 50,
+        "n_clients": 100,
+        "partition": {
+          "method": "lda",
+          "alpha": 0.1
+        },
+        "longtail": {
+          "imbalance_factor": 100,
+          "validation_fraction": 0.04,
+          "split_seed": 19940817,
+          "class_order_seed": 2022,
+          "min_client_samples": 1,
+          "max_attempts": 200,
+          "manifest_dir": "./splits",
+          "num_workers": 0,
+          "download": false
+        }
+      },
+      "train": {
+        "algo": {
+          "name": "fedbtr",
+          "params": {
+            "teacher_mode": "none",
+            "teacher_lr": 0.05,
+            "teacher_balance_power": 1.0,
+            "teacher_grad_clip": 5.0,
+            "student_balance_power": 1.0,
+            "retention_mode": "none",
+            "retention_weight": 0.1,
+            "support_scale": 5.0,
+            "uniform_support": false,
+            "band_min": 0.25,
+            "band_max": 1.0,
+            "teacher_error_weight": 0.25,
+            "kl_temperature": 2.0,
+            "student_init": "global",
+            "warmup_rounds": 0,
+            "diagnostic_interval": 10,
+            "diagnostic_clients": 1,
+            "eval_interval": 1,
+            "test_interval": 0,
+            "output_dir": "./results/fedbtr",
+            "save_checkpoints": false,
+            "save_local_history": false
+          }
+        },
+        "scenario": {
+          "n_rounds": 200,
+          "sample_ratio": 0.1,
+          "local_epochs": 5,
+          "device": "cuda:1"
+        },
+        "model": {
+          "name": "fedavg_cifar",
+          "params": {}
+        },
+        "optimizer": {
+          "params": {
+            "lr": 0.01,
+            "momentum": 0.9,
+            "weight_decay": 1e-05
+          }
+        },
+        "scheduler": {
+          "enabled": true,
+          "name": "step",
+          "params": {
+            "gamma": 0.99,
+            "step_size": 1
+          }
+        },
+        "seed": 2027
+      },
+      "groups": {
+        "head": [
+          3,
+          1,
+          5,
+          0
+        ],
+        "middle": [
+          6,
+          2,
+          9
+        ],
+        "tail": [
+          7,
+          4,
+          8
+        ]
+      },
+      "global_counts": [
+        1034,
+        2877,
+        371,
+        4800,
+        80,
+        1725,
+        619,
+        133,
+        48,
+        222
+      ],
+      "final_test": {
+        "accuracy": 0.4071,
+        "macro_accuracy": 0.40709999999999996,
+        "cross_entropy": 1.9345197296142578,
+        "class_accuracy": [
+          0.324,
+          0.652,
+          0.28,
+          0.507,
+          0.013,
+          0.372,
+          0.394,
+          0.692,
+          0.218,
+          0.619
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.46375000000000005,
+        "middle": 0.43100000000000005,
+        "tail": 0.30766666666666664
+      },
+      "worst_class": 0.013,
+      "best_round": 181,
+      "validation_selected_test": {
+        "accuracy": 0.4138,
+        "macro_accuracy": 0.4138,
+        "cross_entropy": 1.629044460296631,
+        "class_accuracy": [
+          0.728,
+          0.583,
+          0.117,
+          0.509,
+          0.207,
+          0.205,
+          0.623,
+          0.474,
+          0.313,
+          0.379
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.5062500000000001,
+        "middle": 0.373,
+        "tail": 0.3313333333333333
+      }
+    },
+    {
+      "directory": "fedbtr_run_metrics/20260917-195526-5209f89b",
+      "name": "fedbtr_cifar10lt_raw_teacher_band_set2_train2022",
+      "train_seed": 2022,
+      "split_sha256": "177ea16e5d0fb9bc9a3bebcf8a4bfb4682f2fece0110cde5824b3946e9527e75",
+      "data": {
+        "pipeline": "longtail",
+        "root": "../../data",
+        "dataset_name": "cifar10",
+        "batch_size": 50,
+        "n_clients": 100,
+        "partition": {
+          "method": "lda",
+          "alpha": 0.1
+        },
+        "longtail": {
+          "imbalance_factor": 100,
+          "validation_fraction": 0.04,
+          "split_seed": 19940817,
+          "class_order_seed": 2022,
+          "min_client_samples": 1,
+          "max_attempts": 200,
+          "manifest_dir": "./splits",
+          "num_workers": 0,
+          "download": false
+        }
+      },
+      "train": {
+        "algo": {
+          "name": "fedbtr",
+          "params": {
+            "teacher_mode": "global",
+            "teacher_lr": 0.05,
+            "teacher_balance_power": 1.0,
+            "teacher_grad_clip": 5.0,
+            "student_balance_power": 1.0,
+            "retention_mode": "band",
+            "retention_weight": 0.1,
+            "support_scale": 5.0,
+            "uniform_support": false,
+            "band_min": 0.25,
+            "band_max": 1.0,
+            "teacher_error_weight": 0.25,
+            "kl_temperature": 2.0,
+            "student_init": "global",
+            "warmup_rounds": 0,
+            "diagnostic_interval": 10,
+            "diagnostic_clients": 1,
+            "eval_interval": 1,
+            "test_interval": 0,
+            "output_dir": "./results/fedbtr",
+            "save_checkpoints": false,
+            "save_local_history": false
+          }
+        },
+        "scenario": {
+          "n_rounds": 200,
+          "sample_ratio": 0.1,
+          "local_epochs": 5,
+          "device": "cuda:1"
+        },
+        "model": {
+          "name": "fedavg_cifar",
+          "params": {}
+        },
+        "optimizer": {
+          "params": {
+            "lr": 0.01,
+            "momentum": 0.9,
+            "weight_decay": 1e-05
+          }
+        },
+        "scheduler": {
+          "enabled": true,
+          "name": "step",
+          "params": {
+            "gamma": 0.99,
+            "step_size": 1
+          }
+        },
+        "seed": 2022
+      },
+      "groups": {
+        "head": [
+          3,
+          1,
+          5,
+          0
+        ],
+        "middle": [
+          6,
+          2,
+          9
+        ],
+        "tail": [
+          7,
+          4,
+          8
+        ]
+      },
+      "global_counts": [
+        1034,
+        2877,
+        371,
+        4800,
+        80,
+        1725,
+        619,
+        133,
+        48,
+        222
+      ],
+      "final_test": {
+        "accuracy": 0.4146,
+        "macro_accuracy": 0.41459999999999997,
+        "cross_entropy": 1.7861468723297118,
+        "class_accuracy": [
+          0.344,
+          0.77,
+          0.315,
+          0.464,
+          0.015,
+          0.389,
+          0.442,
+          0.696,
+          0.208,
+          0.503
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.49175,
+        "middle": 0.42,
+        "tail": 0.3063333333333333
+      },
+      "worst_class": 0.015,
+      "best_round": 191,
+      "validation_selected_test": {
+        "accuracy": 0.4175,
+        "macro_accuracy": 0.4175,
+        "cross_entropy": 1.6974566246032714,
+        "class_accuracy": [
+          0.77,
+          0.809,
+          0.126,
+          0.547,
+          0.179,
+          0.375,
+          0.481,
+          0.5,
+          0.094,
+          0.294
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.6252500000000001,
+        "middle": 0.30033333333333334,
+        "tail": 0.25766666666666665
+      }
+    },
+    {
+      "directory": "fedbtr_run_metrics/20260917-200025-86ff712c",
+      "name": "fedbtr_cifar10lt_raw_teacher_band_set2_train2027",
+      "train_seed": 2027,
+      "split_sha256": "177ea16e5d0fb9bc9a3bebcf8a4bfb4682f2fece0110cde5824b3946e9527e75",
+      "data": {
+        "pipeline": "longtail",
+        "root": "../../data",
+        "dataset_name": "cifar10",
+        "batch_size": 50,
+        "n_clients": 100,
+        "partition": {
+          "method": "lda",
+          "alpha": 0.1
+        },
+        "longtail": {
+          "imbalance_factor": 100,
+          "validation_fraction": 0.04,
+          "split_seed": 19940817,
+          "class_order_seed": 2022,
+          "min_client_samples": 1,
+          "max_attempts": 200,
+          "manifest_dir": "./splits",
+          "num_workers": 0,
+          "download": false
+        }
+      },
+      "train": {
+        "algo": {
+          "name": "fedbtr",
+          "params": {
+            "teacher_mode": "global",
+            "teacher_lr": 0.05,
+            "teacher_balance_power": 1.0,
+            "teacher_grad_clip": 5.0,
+            "student_balance_power": 1.0,
+            "retention_mode": "band",
+            "retention_weight": 0.1,
+            "support_scale": 5.0,
+            "uniform_support": false,
+            "band_min": 0.25,
+            "band_max": 1.0,
+            "teacher_error_weight": 0.25,
+            "kl_temperature": 2.0,
+            "student_init": "global",
+            "warmup_rounds": 0,
+            "diagnostic_interval": 10,
+            "diagnostic_clients": 1,
+            "eval_interval": 1,
+            "test_interval": 0,
+            "output_dir": "./results/fedbtr",
+            "save_checkpoints": false,
+            "save_local_history": false
+          }
+        },
+        "scenario": {
+          "n_rounds": 200,
+          "sample_ratio": 0.1,
+          "local_epochs": 5,
+          "device": "cuda:1"
+        },
+        "model": {
+          "name": "fedavg_cifar",
+          "params": {}
+        },
+        "optimizer": {
+          "params": {
+            "lr": 0.01,
+            "momentum": 0.9,
+            "weight_decay": 1e-05
+          }
+        },
+        "scheduler": {
+          "enabled": true,
+          "name": "step",
+          "params": {
+            "gamma": 0.99,
+            "step_size": 1
+          }
+        },
+        "seed": 2027
+      },
+      "groups": {
+        "head": [
+          3,
+          1,
+          5,
+          0
+        ],
+        "middle": [
+          6,
+          2,
+          9
+        ],
+        "tail": [
+          7,
+          4,
+          8
+        ]
+      },
+      "global_counts": [
+        1034,
+        2877,
+        371,
+        4800,
+        80,
+        1725,
+        619,
+        133,
+        48,
+        222
+      ],
+      "final_test": {
+        "accuracy": 0.4229,
+        "macro_accuracy": 0.4229,
+        "cross_entropy": 1.7906135612487792,
+        "class_accuracy": [
+          0.344,
+          0.72,
+          0.372,
+          0.473,
+          0.012,
+          0.426,
+          0.4,
+          0.69,
+          0.235,
+          0.557
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.49075,
+        "middle": 0.44300000000000006,
+        "tail": 0.3123333333333333
+      },
+      "worst_class": 0.012,
+      "best_round": 181,
+      "validation_selected_test": {
+        "accuracy": 0.4221,
+        "macro_accuracy": 0.4220999999999999,
+        "cross_entropy": 1.6155832164764403,
+        "class_accuracy": [
+          0.755,
+          0.585,
+          0.139,
+          0.536,
+          0.174,
+          0.223,
+          0.628,
+          0.525,
+          0.276,
+          0.38
+        ],
+        "class_count": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "evaluated_classes": 10,
+        "head": 0.52475,
+        "middle": 0.38233333333333336,
+        "tail": 0.325
+      }
+    }
+  ],
+  "fedbtr_history": [
+    {
+      "file": "fedbtr_run_metrics/balanced_only.csv",
+      "rows": 200,
+      "teacher_gain_mean": null,
+      "teacher_gain_n": 0,
+      "missing_delta": {
+        "n": 13,
+        "first": -0.155,
+        "last": -0.1375,
+        "mean": -0.21019230769230768,
+        "minimum": -0.7,
+        "maximum": -0.015,
+        "last20_mean": -0.1375,
+        "last20_sd": 0.0
+      },
+      "last_validation": {
+        "n": 200,
+        "first": 0.181,
+        "last": 0.4925,
+        "mean": 0.42377,
+        "minimum": 0.181,
+        "maximum": 0.498,
+        "last20_mean": 0.486075,
+        "last20_sd": 0.007089208347904588
+      },
+      "transfer_columns": []
+    },
+    {
+      "file": "fedbtr_run_metrics/fedbtr_cifar10lt_balanced_only_set2_train2022.csv",
+      "rows": 200,
+      "teacher_gain_mean": null,
+      "teacher_gain_n": 0,
+      "missing_delta": {
+        "n": 21,
+        "first": -0.1094,
+        "last": -0.1694,
+        "mean": -0.1838,
+        "minimum": -0.4092,
+        "maximum": -0.0417,
+        "last20_mean": -0.1497,
+        "last20_sd": 0.019699999999999995
+      },
+      "last_validation": {
+        "n": 200,
+        "first": 0.146,
+        "last": 0.3895,
+        "mean": 0.2755225,
+        "minimum": 0.1,
+        "maximum": 0.4135,
+        "last20_mean": 0.357575,
+        "last20_sd": 0.03662488054588028
+      },
+      "transfer_columns": []
+    },
+    {
+      "file": "fedbtr_run_metrics/fedbtr_cifar10lt_balanced_only_set2_train2027.csv",
+      "rows": 200,
+      "teacher_gain_mean": null,
+      "teacher_gain_n": 0,
+      "missing_delta": {
+        "n": 21,
+        "first": -0.0606,
+        "last": -0.2275,
+        "mean": -0.17505238095238096,
+        "minimum": -0.4192,
+        "maximum": -0.0093,
+        "last20_mean": -0.17575000000000002,
+        "last20_sd": 0.051750000000000004
+      },
+      "last_validation": {
+        "n": 200,
+        "first": 0.1075,
+        "last": 0.405,
+        "mean": 0.2791825,
+        "minimum": 0.0995,
+        "maximum": 0.419,
+        "last20_mean": 0.36085,
+        "last20_sd": 0.03491743833673942
+      },
+      "transfer_columns": []
+    },
+    {
+      "file": "fedbtr_run_metrics/fedbtr_cifar10lt_natural_ce_set2_train2022.csv",
+      "rows": 200,
+      "teacher_gain_mean": null,
+      "teacher_gain_n": 0,
+      "missing_delta": {
+        "n": 21,
+        "first": -0.1094,
+        "last": -0.0519,
+        "mean": -0.08432380952380952,
+        "minimum": -0.2212,
+        "maximum": 0.0,
+        "last20_mean": -0.027950000000000003,
+        "last20_sd": 0.023950000000000003
+      },
+      "last_validation": {
+        "n": 200,
+        "first": 0.1,
+        "last": 0.274,
+        "mean": 0.1796075,
+        "minimum": 0.1,
+        "maximum": 0.274,
+        "last20_mean": 0.239025,
+        "last20_sd": 0.01962299352800179
+      },
+      "transfer_columns": []
+    },
+    {
+      "file": "fedbtr_run_metrics/fedbtr_cifar10lt_raw_teacher_band_set2_train2022.csv",
+      "rows": 200,
+      "teacher_gain_mean": 0.0,
+      "teacher_gain_n": 21,
+      "missing_delta": {
+        "n": 21,
+        "first": -0.1094,
+        "last": -0.1525,
+        "mean": -0.18495714285714285,
+        "minimum": -0.445,
+        "maximum": -0.0442,
+        "last20_mean": -0.12125,
+        "last20_sd": 0.03125
+      },
+      "last_validation": {
+        "n": 200,
+        "first": 0.143,
+        "last": 0.407,
+        "mean": 0.293565,
+        "minimum": 0.1,
+        "maximum": 0.422,
+        "last20_mean": 0.366125,
+        "last20_sd": 0.03433761603547922
+      },
+      "transfer_columns": []
+    },
+    {
+      "file": "fedbtr_run_metrics/fedbtr_cifar10lt_raw_teacher_band_set2_train2027.csv",
+      "rows": 200,
+      "teacher_gain_mean": 0.0,
+      "teacher_gain_n": 21,
+      "missing_delta": {
+        "n": 21,
+        "first": -0.0606,
+        "last": -0.1906,
+        "mean": -0.18634285714285714,
+        "minimum": -0.4058,
+        "maximum": -0.0217,
+        "last20_mean": -0.1608,
+        "last20_sd": 0.029799999999999993
+      },
+      "last_validation": {
+        "n": 200,
+        "first": 0.1,
+        "last": 0.415,
+        "mean": 0.292745,
+        "minimum": 0.1,
+        "maximum": 0.419,
+        "last20_mean": 0.364075,
+        "last20_sd": 0.03357055071040688
+      },
+      "transfer_columns": []
+    },
+    {
+      "file": "fedbtr_run_metrics/full.csv",
+      "rows": 200,
+      "teacher_gain_mean": 0.01038095238095238,
+      "teacher_gain_n": 21,
+      "missing_delta": {
+        "n": 13,
+        "first": -0.185,
+        "last": -0.155,
+        "mean": -0.19923076923076924,
+        "minimum": -0.66,
+        "maximum": -0.015,
+        "last20_mean": -0.155,
+        "last20_sd": 0.0
+      },
+      "last_validation": {
+        "n": 200,
+        "first": 0.182,
+        "last": 0.497,
+        "mean": 0.42584,
+        "minimum": 0.182,
+        "maximum": 0.5025,
+        "last20_mean": 0.4896,
+        "last20_sd": 0.006764983370267809
+      },
+      "transfer_columns": []
+    },
+    {
+      "file": "fedbtr_run_metrics/full_set1_classorder2027.csv",
+      "rows": 200,
+      "teacher_gain_mean": 0.006095238095238098,
+      "teacher_gain_n": 21,
+      "missing_delta": {
+        "n": 13,
+        "first": 0.0,
+        "last": -0.21,
+        "mean": -0.18384615384615385,
+        "minimum": -0.29,
+        "maximum": 0.0,
+        "last20_mean": -0.21,
+        "last20_sd": 0.0
+      },
+      "last_validation": {
+        "n": 200,
+        "first": 0.187,
+        "last": 0.4815,
+        "mean": 0.4173975,
+        "minimum": 0.1825,
+        "maximum": 0.5005,
+        "last20_mean": 0.48112499999999997,
+        "last20_sd": 0.0073838929434276055
+      },
+      "transfer_columns": []
+    },
+    {
+      "file": "fedbtr_run_metrics/full_set1_trainseed2027.csv",
+      "rows": 200,
+      "teacher_gain_mean": 0.010738095238095224,
+      "teacher_gain_n": 21,
+      "missing_delta": {
+        "n": 13,
+        "first": -0.005,
+        "last": -0.11,
+        "mean": -0.18903846153846154,
+        "minimum": -0.64,
+        "maximum": -0.005,
+        "last20_mean": -0.11,
+        "last20_sd": 0.0
+      },
+      "last_validation": {
+        "n": 200,
+        "first": 0.157,
+        "last": 0.4765,
+        "mean": 0.42866,
+        "minimum": 0.157,
+        "maximum": 0.5,
+        "last20_mean": 0.48455,
+        "last20_sd": 0.006597158479224224
+      },
+      "transfer_columns": []
+    },
+    {
+      "file": "fedbtr_run_metrics/full_set2.csv",
+      "rows": 200,
+      "teacher_gain_mean": 0.01123809523809524,
+      "teacher_gain_n": 21,
+      "missing_delta": {
+        "n": 21,
+        "first": -0.1094,
+        "last": -0.1725,
+        "mean": -0.18500952380952382,
+        "minimum": -0.4192,
+        "maximum": -0.0158,
+        "last20_mean": -0.13724999999999998,
+        "last20_sd": 0.03525
+      },
+      "last_validation": {
+        "n": 200,
+        "first": 0.144,
+        "last": 0.4045,
+        "mean": 0.29302,
+        "minimum": 0.1,
+        "maximum": 0.422,
+        "last20_mean": 0.36485,
+        "last20_sd": 0.03431184197911852
+      },
+      "transfer_columns": []
+    },
+    {
+      "file": "fedbtr_run_metrics/full_set2_split20270817.csv",
+      "rows": 200,
+      "teacher_gain_mean": 0.014285714285714282,
+      "teacher_gain_n": 21,
+      "missing_delta": {
+        "n": 21,
+        "first": -0.1143,
+        "last": -0.0975,
+        "mean": -0.17482857142857142,
+        "minimum": -0.34,
+        "maximum": -0.0219,
+        "last20_mean": -0.07835,
+        "last20_sd": 0.01915
+      },
+      "last_validation": {
+        "n": 200,
+        "first": 0.1,
+        "last": 0.3885,
+        "mean": 0.316965,
+        "minimum": 0.1,
+        "maximum": 0.426,
+        "last20_mean": 0.385525,
+        "last20_sd": 0.02890132998669784
+      },
+      "transfer_columns": []
+    },
+    {
+      "file": "fedbtr_run_metrics/full_set2_trainseed2027.csv",
+      "rows": 200,
+      "teacher_gain_mean": 0.01088095238095238,
+      "teacher_gain_n": 21,
+      "missing_delta": {
+        "n": 21,
+        "first": -0.0606,
+        "last": -0.1831,
+        "mean": -0.181,
+        "minimum": -0.4225,
+        "maximum": -0.0175,
+        "last20_mean": -0.15055000000000002,
+        "last20_sd": 0.03255000000000001
+      },
+      "last_validation": {
+        "n": 200,
+        "first": 0.1,
+        "last": 0.422,
+        "mean": 0.29326,
+        "minimum": 0.1,
+        "maximum": 0.422,
+        "last20_mean": 0.367825,
+        "last20_sd": 0.03411754497322455
+      },
+      "transfer_columns": []
+    },
+    {
+      "file": "fedbtr_run_metrics/kl_matched_relaxation.csv",
+      "rows": 200,
+      "teacher_gain_mean": 0.010309523809523808,
+      "teacher_gain_n": 21,
+      "missing_delta": {
+        "n": 13,
+        "first": -0.15,
+        "last": -0.1425,
+        "mean": -0.19942307692307693,
+        "minimum": -0.665,
+        "maximum": -0.01,
+        "last20_mean": -0.1425,
+        "last20_sd": 0.0
+      },
+      "last_validation": {
+        "n": 200,
+        "first": 0.1815,
+        "last": 0.503,
+        "mean": 0.4263325,
+        "minimum": 0.1815,
+        "maximum": 0.504,
+        "last20_mean": 0.490325,
+        "last20_sd": 0.007986355551814614
+      },
+      "transfer_columns": []
+    },
+    {
+      "file": "fedbtr_run_metrics/natural_ce.csv",
+      "rows": 200,
+      "teacher_gain_mean": null,
+      "teacher_gain_n": 0,
+      "missing_delta": {
+        "n": 13,
+        "first": 0.0,
+        "last": 0.0,
+        "mean": -0.0034615384615384616,
+        "minimum": -0.02,
+        "maximum": 0.0,
+        "last20_mean": 0.0,
+        "last20_sd": 0.0
+      },
+      "last_validation": {
+        "n": 200,
+        "first": 0.1045,
+        "last": 0.3485,
+        "mean": 0.305635,
+        "minimum": 0.1045,
+        "maximum": 0.36,
+        "last20_mean": 0.347325,
+        "last20_sd": 0.005450401361367789
+      },
+      "transfer_columns": []
+    },
+    {
+      "file": "fedbtr_run_metrics/no_label_relaxation.csv",
+      "rows": 200,
+      "teacher_gain_mean": 0.009928571428571424,
+      "teacher_gain_n": 21,
+      "missing_delta": {
+        "n": 13,
+        "first": -0.205,
+        "last": -0.15,
+        "mean": -0.19788461538461538,
+        "minimum": -0.64,
+        "maximum": -0.01,
+        "last20_mean": -0.15,
+        "last20_sd": 0.0
+      },
+      "last_validation": {
+        "n": 200,
+        "first": 0.1835,
+        "last": 0.498,
+        "mean": 0.427915,
+        "minimum": 0.1835,
+        "maximum": 0.4985,
+        "last20_mean": 0.489475,
+        "last20_sd": 0.005693142805164829
+      },
+      "transfer_columns": []
+    },
+    {
+      "file": "fedbtr_run_metrics/plain_kl.csv",
+      "rows": 200,
+      "teacher_gain_mean": 0.010595238095238086,
+      "teacher_gain_n": 21,
+      "missing_delta": {
+        "n": 13,
+        "first": -0.2,
+        "last": -0.1525,
+        "mean": -0.20173076923076924,
+        "minimum": -0.665,
+        "maximum": -0.01,
+        "last20_mean": -0.1525,
+        "last20_sd": 0.0
+      },
+      "last_validation": {
+        "n": 200,
+        "first": 0.187,
+        "last": 0.4945,
+        "mean": 0.429495,
+        "minimum": 0.187,
+        "maximum": 0.503,
+        "last20_mean": 0.4925,
+        "last20_sd": 0.006711929677819937
+      },
+      "transfer_columns": []
+    },
+    {
+      "file": "fedbtr_run_metrics/raw_teacher_band.csv",
+      "rows": 200,
+      "teacher_gain_mean": 0.0,
+      "teacher_gain_n": 21,
+      "missing_delta": {
+        "n": 13,
+        "first": -0.18,
+        "last": -0.13,
+        "mean": -0.1951923076923077,
+        "minimum": -0.64,
+        "maximum": -0.01,
+        "last20_mean": -0.13,
+        "last20_sd": 0.0
+      },
+      "last_validation": {
+        "n": 200,
+        "first": 0.181,
+        "last": 0.4925,
+        "mean": 0.4265275,
+        "minimum": 0.181,
+        "maximum": 0.5005,
+        "last20_mean": 0.48877499999999996,
+        "last20_sd": 0.007036467508629598
+      },
+      "transfer_columns": []
+    },
+    {
+      "file": "fedbtr_run_metrics/teacher_init_only.csv",
+      "rows": 200,
+      "teacher_gain_mean": 0.017928571428571433,
+      "teacher_gain_n": 21,
+      "missing_delta": {
+        "n": 13,
+        "first": -0.3,
+        "last": -0.1925,
+        "mean": -0.3607692307692308,
+        "minimum": -0.685,
+        "maximum": -0.015,
+        "last20_mean": -0.1925,
+        "last20_sd": 0.0
+      },
+      "last_validation": {
+        "n": 200,
+        "first": 0.181,
+        "last": 0.4405,
+        "mean": 0.3925875,
+        "minimum": 0.181,
+        "maximum": 0.456,
+        "last20_mean": 0.43915,
+        "last20_sd": 0.008579189938449907
+      },
+      "transfer_columns": []
+    },
+    {
+      "file": "fedbtr_run_metrics/uniform_support.csv",
+      "rows": 200,
+      "teacher_gain_mean": 0.010047619047619047,
+      "teacher_gain_n": 21,
+      "missing_delta": {
+        "n": 13,
+        "first": -0.135,
+        "last": -0.155,
+        "mean": -0.20423076923076924,
+        "minimum": -0.65,
+        "maximum": -0.01,
+        "last20_mean": -0.155,
+        "last20_sd": 0.0
+      },
+      "last_validation": {
+        "n": 200,
+        "first": 0.181,
+        "last": 0.4975,
+        "mean": 0.42545499999999997,
+        "minimum": 0.181,
+        "maximum": 0.5005,
+        "last20_mean": 0.4879,
+        "last20_sd": 0.007884478422825447
+      },
+      "transfer_columns": []
+    },
+    {
+      "file": "fedbtr_run_metrics/zero_band.csv",
+      "rows": 200,
+      "teacher_gain_mean": 0.010214285714285712,
+      "teacher_gain_n": 21,
+      "missing_delta": {
+        "n": 13,
+        "first": -0.205,
+        "last": -0.1325,
+        "mean": -0.195,
+        "minimum": -0.63,
+        "maximum": -0.01,
+        "last20_mean": -0.1325,
+        "last20_sd": 0.0
+      },
+      "last_validation": {
+        "n": 200,
+        "first": 0.1825,
+        "last": 0.4925,
+        "mean": 0.427315,
+        "minimum": 0.1825,
+        "maximum": 0.504,
+        "last20_mean": 0.49075,
+        "last20_sd": 0.007629711659034049
+      },
+      "transfer_columns": []
+    }
+  ],
+  "synthetic": {
+    "logit_shift": {
+      "logits": [
+        2.0,
+        0.0,
+        -1.0
+      ],
+      "shifted_logits": [
+        102.0,
+        100.0,
+        99.0
+      ],
+      "softmax": [
+        0.8437947344813395,
+        0.11419519938459449,
+        0.04201006613406605
+      ],
+      "shifted_softmax": [
+        0.8437947344813395,
+        0.11419519938459449,
+        0.04201006613406605
+      ],
+      "confidence": 0.7545381653430001,
+      "shifted_confidence": 0.00014200633588498172
+    },
+    "batch_balance": [
+      {
+        "batch_size": 1,
+        "rare_prior": 0.01,
+        "expected_rare_coefficient": 0.010000000000000005,
+        "target": 0.5
+      },
+      {
+        "batch_size": 10,
+        "rare_prior": 0.01,
+        "expected_rare_coefficient": 0.047808962495597795,
+        "target": 0.5
+      },
+      {
+        "batch_size": 50,
+        "rare_prior": 0.01,
+        "expected_rare_coefficient": 0.19749696643123182,
+        "target": 0.5
+      },
+      {
+        "batch_size": 100,
+        "rare_prior": 0.01,
+        "expected_rare_coefficient": 0.3169838293633854,
+        "target": 0.5
+      },
+      {
+        "batch_size": 500,
+        "rare_prior": 0.01,
+        "expected_rare_coefficient": 0.4967147584787927,
+        "target": 0.5
+      }
+    ],
+    "finite_batch_balance": [
+      {
+        "population": 100,
+        "rare": 1,
+        "batch_size": 50,
+        "expected_rare_coefficient": 0.25,
+        "target": 0.5
+      },
+      {
+        "population": 10000,
+        "rare": 100,
+        "batch_size": 50,
+        "expected_rare_coefficient": 0.1978722888216446,
+        "target": 0.5
+      }
+    ],
+    "sampling_design": [
+      {
+        "inclusion_probabilities": [
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "expected_clients": 2.0,
+        "means": [
+          1.0,
+          1.0
+        ],
+        "variances": [
+          0.33333333333333337,
+          1.0
+        ],
+        "worst_class_variance": 1.0
+      },
+      {
+        "inclusion_probabilities": [
+          0.4,
+          0.4,
+          0.4,
+          0.8
+        ],
+        "expected_clients": 2.0,
+        "means": [
+          1.0,
+          1.0
+        ],
+        "variances": [
+          0.5000000000000001,
+          0.24999999999999997
+        ],
+        "worst_class_variance": 0.5000000000000001
+      }
+    ],
+    "sampling": [
+      {
+        "support_clients": 1,
+        "no_contributor_probability": 0.9,
+        "exactly_one_probability": 0.1,
+        "no_contributor_six_rounds": 0.531441
+      },
+      {
+        "support_clients": 2,
+        "no_contributor_probability": 0.8090909090909091,
+        "exactly_one_probability": 0.18181818181818182,
+        "no_contributor_six_rounds": 0.2805329824719555
+      },
+      {
+        "support_clients": 5,
+        "no_contributor_probability": 0.583752366926152,
+        "exactly_one_probability": 0.3393909110035767,
+        "no_contributor_six_rounds": 0.03957053545260352
+      },
+      {
+        "support_clients": 10,
+        "no_contributor_probability": 0.33047621108672515,
+        "exactly_one_probability": 0.4079953223292903,
+        "no_contributor_six_rounds": 0.0013026904124622664
+      },
+      {
+        "support_clients": 20,
+        "no_contributor_probability": 0.09511627243078842,
+        "exactly_one_probability": 0.26793316177686877,
+        "no_contributor_six_rounds": 7.405065983391306e-07
+      },
+      {
+        "support_clients": 48,
+        "no_contributor_probability": 0.0009139076490694645,
+        "exactly_one_probability": 0.010201759803566116,
+        "no_contributor_six_rounds": 5.82658214102026e-19
+      },
+      {
+        "support_clients": 100,
+        "no_contributor_probability": 0,
+        "exactly_one_probability": 0,
+        "no_contributor_six_rounds": 0
+      }
+    ],
+    "split_checks": [
+      {
+        "partition": {
+          "method": "iid"
+        },
+        "global_counts": [
+          1034,
+          2877,
+          371,
+          4800,
+          80,
+          1725,
+          619,
+          133,
+          48,
+          222
+        ],
+        "class_coverage": [
+          100,
+          100,
+          100,
+          100,
+          80,
+          100,
+          100,
+          100,
+          48,
+          100
+        ],
+        "eligible_min2": [
+          100,
+          100,
+          100,
+          100,
+          0,
+          100,
+          100,
+          33,
+          0,
+          100
+        ],
+        "class_share_ess": [
+          99.7905544147844,
+          99.9786082692145,
+          98.5261274158912,
+          100.0,
+          80.0,
+          99.93702770780857,
+          99.59994801143749,
+          88.8894472361809,
+          48.0,
+          96.63529411764706
+        ],
+        "idealized_local_balanced_mass": [
+          0.10835945736651079,
+          0.10835945736651079,
+          0.10835945736651079,
+          0.10835945736651079,
+          0.08434050811244526,
+          0.10835945736651079,
+          0.10835945736651079,
+          0.10835945736651079,
+          0.04878383295546785,
+          0.10835945736651079
+        ],
+        "label_source": "synthetic balanced 5000-per-class labels; not downloaded image data"
+      },
+      {
+        "partition": {
+          "method": "lda",
+          "alpha": 0.1
+        },
+        "global_counts": [
+          1034,
+          2877,
+          371,
+          4800,
+          80,
+          1725,
+          619,
+          133,
+          48,
+          222
+        ],
+        "class_coverage": [
+          38,
+          48,
+          34,
+          39,
+          17,
+          49,
+          34,
+          22,
+          15,
+          30
+        ],
+        "eligible_min2": [
+          33,
+          40,
+          21,
+          35,
+          13,
+          42,
+          30,
+          15,
+          9,
+          26
+        ],
+        "class_share_ess": [
+          6.813035277324633,
+          11.33656062575415,
+          9.170564328069824,
+          12.453071271132115,
+          9.06515580736544,
+          12.047796424884103,
+          10.007077750790044,
+          7.479492600422833,
+          8.861538461538462,
+          11.847115384615385
+        ],
+        "idealized_local_balanced_mass": [
+          0.11840484787415681,
+          0.13753043916365776,
+          0.09768522406023455,
+          0.1556287961485711,
+          0.04686231701514261,
+          0.1817281047946931,
+          0.08944915610042824,
+          0.07639180451759174,
+          0.016178240546365494,
+          0.08014106977915862
+        ],
+        "label_source": "synthetic balanced 5000-per-class labels; not downloaded image data"
+      }
+    ],
+    "control_variate": {
+      "true_mean": 1.0,
+      "sample_mean": 1.0,
+      "corrected_mean": 1.0,
+      "sample_variance": 1.0,
+      "corrected_variance": 0.0625,
+      "caveat": "Predictive toy memory; not an empirical performance claim or a new variance-reduction theorem.",
+      "anti_predictive_memory_variance": 3.0625
+    },
+    "absent_row_mask": {
+      "class0_client_gradient": [
+        -0.5,
+        0.5
+      ],
+      "class1_client_gradient": [
+        0.5,
+        -0.5
+      ],
+      "complete_gradient": [
+        0.0,
+        0.0
+      ],
+      "absent_row_masked_gradient": [
+        -0.25,
+        -0.25
+      ],
+      "caveat": "Here the masked direction is a common-logit shift; the head risk gradient is nonetheless biased. General feature vectors need not yield a common shift.",
+      "different_feature_complete_gradient": [
+        0.25,
+        -0.25
+      ],
+      "different_feature_masked_gradient": [
+        -0.25,
+        -0.5
+      ]
+    },
+    "singleton_weight_cancellation": "normalize((r*p)/r) == normalize(p), for every r>0",
+    "proto_ce_lower_bounds": [
+      {
+        "classes": 10,
+        "tau": 0.5,
+        "unrestricted_cosine": 0.15258438239384742,
+        "nonnegative_relu": 0.7966138010382245
+      },
+      {
+        "classes": 100,
+        "tau": 0.5,
+        "unrestricted_cosine": 1.034339776585991,
+        "nonnegative_relu": 2.667102715404423
+      },
+      {
+        "classes": 200,
+        "tau": 0.5,
+        "unrestricted_cosine": 1.535750927714477,
+        "nonnegative_relu": 3.329763009425152
+      }
+    ]
+  }
+}

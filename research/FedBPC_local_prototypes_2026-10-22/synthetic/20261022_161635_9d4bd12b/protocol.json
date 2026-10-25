@@ -1,0 +1,37 @@
+{
+  "purpose": "Synthetic mechanism diagnostic ONLY, not CIFAR performance evidence",
+  "torch": "2.2.2",
+  "numpy": "1.26.4",
+  "python": "3.9.19 (main, May  6 2024, 14:46:57) \n[Clang 14.0.6 ]",
+  "rounds": 20,
+  "seeds": [
+    31,
+    43,
+    59
+  ],
+  "methods": [
+    "fedavg",
+    "original_fedbpc",
+    "complete",
+    "mean_only",
+    "no_alignment",
+    "alignment_only",
+    "coupled_backbone"
+  ],
+  "data": "4 balanced Gaussian input classes; 128 train and 256 test per class; 8-D",
+  "data_seeds": [
+    81001,
+    81002
+  ],
+  "partition_seed": 20010410,
+  "script_sha256": "08b9f8d9182897e57e6629d635fc82366d6ddcbd3ccff9985555171b946bfa0d",
+  "algorithm_sources_sha256": {
+    "ClientTrainer.py": "c0fc7f7e99ba9d6d8278ac1dd5331313c1217e572056cab321cfb19de43e7ee5",
+    "Server.py": "0828443fff4fcba195fda2dd110b0557c13f58aa7ee3b0c3e31ba45ec6997e5f",
+    "__init__.py": "763c8218b5a99ea4ca1ed48886c4b37ff79f134eb5d7931f4aa089800e3fc65b",
+    "config.py": "b329d8e8dc15991696d3f6486295da6abe61845569f56f4bd052a674b27c3aa6",
+    "criterion.py": "bc55f8abd02318f21187ba7535fd190822148e2e7250fb9ea4dd84c6ac2a3ae8",
+    "utils.py": "cabbd7234d6b2f9e62a17ca6eb3e2362db81aa7209be13d72451b964ed8c7aaf"
+  },
+  "interpretation": "fixed split and data; seeds vary initialization/training order; no tuning on results"
+}
