@@ -34,9 +34,10 @@
         },
         "seed": 2022
     },
-    "wandb_setups":{
+    "swanlab_setups": {
         "project": "NeurIPS2022",
         "group": "fedavg",
-        "name": "fedavg"
+        "experiment_name": "fedavg",
+        "workspace": null
     }
 }

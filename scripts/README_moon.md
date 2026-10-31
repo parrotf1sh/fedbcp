@@ -1,14 +1,16 @@
 # MOON 串行对比实验
 
-在实验机项目根目录运行，使用已有 PyTorch / torchvision / W&B 环境：
+SwanLab 安装、历史结果迁移与继续训练见 [SwanLab 使用说明](README_swanlab.md)。
+
+在实验机项目根目录运行，使用已有 PyTorch / torchvision / SwanLab 环境：
 
 ```bash
-wandb login
+swanlab login
 python scripts/run_moon_experiments.py --dry-run
 python scripts/run_moon_experiments.py --data-root /absolute/path/to/data
 ```
 
-所有可配置超参数集中在 `run_moon_experiments.py` 头部。W&B 默认项目是 `Point1`。
+所有可配置超参数集中在 `run_moon_experiments.py` 头部。SwanLab 默认项目是 `Point1`。
 调度和下载功能复用 FedAvg；请保留完整项目，不要仅复制 MOON 入口文件。
 
 ## 实验矩阵与公平比较
@@ -45,7 +47,7 @@ total_loss = cross_entropy + mu * contrastive_loss
 ```
 
 这些是项目默认参数，不是经验证集搜索得到的最优值。本队列不额外搜索 μ/τ。
-如果手动修改，任务标识、W&B 名称和 config 会同步变化，避免误跳过其他参数的结果。
+如果手动修改，任务标识、SwanLab 名称和 config 会同步变化，避免误跳过其他参数的结果。
 
 ## 历史模型与资源
 
@@ -60,7 +62,7 @@ total_loss = cross_entropy + mu * contrastive_loss
 - 通信估计将历史视为客户端本地保留状态，包含当前模型上传/下载及优化器张量下载；
   模拟器的 CPU/GPU 搬运不计作联邦网络流量。该口径写入 config 和 summary。
 
-## 指标与 W&B
+## 指标与 SwanLab
 
 公共指标保持与 FedAvg 一致：全局 Top-1、测试 CE、Macro-F1、逐类 Recall、最差 20% 类别 Recall，
 本地 online Top-1、训练/评估耗时、累计处理样本数和通信载荷估计。
@@ -84,7 +86,7 @@ MOON 另外记录：
 所有本地损失按实际处理样本数（含重复 epoch）加权。
 不要直接比较 MOON 总损失与 FedAvg CE 的大小；跨算法比较应使用相同的全局测试指标。
 
-每任务对应独立 W&B run，例如：
+每任务对应独立 SwanLab run，例如：
 
 ```text
 moon_cifar100_lda-a0.1_n100_q0.1_e5_r300_mu0.1_tau0.5_seed2022
@@ -96,14 +98,14 @@ moon_cifar100_lda-a0.1_n100_q0.1_e5_r300_mu0.1_tau0.5_seed2022
 ## 调度、输出与恢复
 
 数据集不存在时自动下载，沿用 [FedAvg 数据目录布局](README_fedavg.md)。
-`--dry-run` 只生成 manifest 并打印队列，不下载、不训练、不创建 W&B run。
+`--dry-run` 只生成 manifest 并打印队列，不下载、不训练、不创建 SwanLab run。
 任务串行，单个任务失败后打印错误并继续；Ctrl+C 则停止整个队列。
 每个输出目录有互斥锁。**同一 GPU 上不要同时启动 FedAvg 与 MOON 两个队列**，应依次运行。
 
 默认输出到 `moon_experiments/`，结构与 FedAvg 相同：
 `manifest.json`、`queue_summary.json`、`aggregate.csv`，每任务独立的 config、metrics、summary、日志、
-划分统计和参与名单。默认跳过已成功任务；失败任务从第 1 轮重训，并创建新的 W&B run。
-`--rerun-successful` 强制重跑。修改代码或 W&B 目标后希望重新开始时，使用新的 `--output-root`。
+划分统计和参与名单。默认跳过已成功任务；失败任务从第 1 轮重训，并创建新的 SwanLab run。
+`--rerun-successful` 强制重跑。修改代码或 SwanLab 目标后希望重新开始时，使用新的 `--output-root`。
 `aggregate.csv` 对公共结果按两种子计算 mean / sample std，并注明成功种子数。
 MOON 专有损失与缓存指标保存在逐轮 CSV 和每次运行 summary 中。
 
@@ -114,4 +116,4 @@ python -m unittest discover -s tests -p 'test_*scheduler.py' -v
 ```
 
 这些检查覆盖队列、配对配置、参数标识、失败续跑、历史快照隔离与年龄统计等。
-历史测试使用模拟张量验证缓存操作，不执行任何模型训练，不需要下载数据或连接 W&B。
+历史测试使用模拟张量验证缓存操作，不执行任何模型训练，不需要下载数据或连接 SwanLab。

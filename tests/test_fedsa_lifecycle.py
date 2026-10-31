@@ -1,4 +1,4 @@
-"""W&B lifecycle stand-ins: opt-in JSON summary, no training or network."""
+"""SwanLab lifecycle stand-ins: opt-in JSON summary, no training or network."""
 import contextlib
 import importlib.util
 import json
@@ -15,10 +15,10 @@ ROOT = Path(__file__).resolve().parents[1]
 @contextlib.contextmanager
 def lifecycle():
     run = types.SimpleNamespace(id='test-id', url='https://example.test/run', summary={}, finish=mock.Mock())
-    wandb = types.SimpleNamespace(__version__='test', init=mock.Mock(return_value=run))
+    tracking = types.SimpleNamespace(__version__='test', init=mock.Mock(return_value=run))
     def write_json(path, value):
         Path(path).write_text(json.dumps(value, allow_nan=False))
-    stubs = {'wandb': wandb, 'torch': types.SimpleNamespace(__version__='test', version=types.SimpleNamespace(cuda=None)),
+    stubs = {'experiment_tracker': tracking, 'torch': types.SimpleNamespace(__version__='test', version=types.SimpleNamespace(cuda=None)),
              'algorithms.fedavg.reporting': types.SimpleNamespace(write_json=write_json),
              'fedavg_data': types.SimpleNamespace(prepare_data=mock.Mock(), TINY_URL='test-url')}
     with mock.patch.dict(sys.modules, stubs):
@@ -32,14 +32,14 @@ class LifecycleTests(unittest.TestCase):
         protocol = {'output_dir': directory}
         if flags:
             protocol.update(fedsa_batch=True, write_metrics_files=True)
-        return {'train_setups': {'algo': {'name': algorithm}}, 'batch_protocol': protocol, 'wandb_setups': {}}
+        return {'train_setups': {'algo': {'name': algorithm}}, 'batch_protocol': protocol, 'swanlab_setups': {}}
 
     def test_success_writes_summary_and_failure_preserves_error(self):
         with lifecycle() as (module, run), tempfile.TemporaryDirectory() as directory:
             module.run_tracked(self.config(directory), lambda cfg: {'final_top1': .6})
             summary = json.loads((Path(directory) / 'summary.json').read_text())
             self.assertEqual(summary['status'], 'success')
-            self.assertEqual(summary['wandb_run_id'], 'test-id')
+            self.assertEqual(summary['swanlab_run_id'], 'test-id')
             run.finish.assert_called_with(exit_code=0)
             with self.assertRaisesRegex(RuntimeError, 'original failure'):
                 module.run_tracked(self.config(directory), mock.Mock(side_effect=RuntimeError('original failure')))
@@ -48,7 +48,7 @@ class LifecycleTests(unittest.TestCase):
             self.assertIn('original failure', summary['error'])
             run.finish.assert_called_with(exit_code=1)
 
-    def test_wandb_only_algorithms_keep_existing_default(self):
+    def test_tracking_only_algorithms_keep_existing_default(self):
         for algorithm in ('fedsa', 'fedproto', 'tinyproto'):
             with self.subTest(algorithm=algorithm), lifecycle() as (module, run), tempfile.TemporaryDirectory() as directory:
                 module.run_tracked(self.config(directory, algorithm, flags=False), lambda cfg: {'final_top1': .6})

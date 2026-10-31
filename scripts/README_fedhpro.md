@@ -1,5 +1,7 @@
 # FedHPro 两种子批量实验
 
+SwanLab 安装、历史结果迁移与继续训练见 [SwanLab 使用说明](README_swanlab.md)。
+
 在实验机项目根目录、已安装项目依赖的环境中运行：
 
 ```bash
@@ -106,7 +108,7 @@ CUDA 在计时边界同步。它们是整轮训练时间的子项，不应再次
 不包括协议、形状等控制元数据或本机 CPU/GPU 拷贝。各分项分别记录，
 公共模型流量只计一次；不能用仅模型上下传的数字代表 FedHPro 总通信。
 
-W&B 项目默认 `Point1`，每次独立 run，自动记录名称、tags、有效配置和划分指纹。
+SwanLab 项目默认 `Point1`，每次独立 run，自动记录名称、tags、有效配置和划分指纹。
 最终汇总包括最后一轮、最后 10 轮平均准确率、分类指标、阶段耗时和通信量。
 aggregate.csv 汇总两个种子的均值和样本标准差，并列出成功/预期种子数。
 与三种子 FedAvg 配对比较时使用共同的 2022、2023 两个种子。
@@ -124,7 +126,7 @@ Ctrl+C 停止当前训练和队列，不同时启动其他 GPU 队列。
 # 可选：使用 8 个 CPU worker 准备共享划分
 python scripts/prepare_partitions.py --source fedhpro --workers 8
 
-# 只生成清单，不训练、不下载、不连接 W&B
+# 只生成清单，不训练、不下载、不连接 SwanLab
 python scripts/run_fedhpro_experiments.py --dry-run
 
 python scripts/run_fedhpro_experiments.py --data-root /data --output-root /results/fedhpro
@@ -133,5 +135,5 @@ python scripts/run_fedhpro_experiments.py --data-root /data --output-root /resul
 非训练检查覆盖任务配对、缓存复用、错误继续、成功跳过、原默认配置保留、
 跨进程确定性种子、样本加权日志、实际继承的独立快照、阶段顺序、
 新分类头评估和通信载荷。流程/数值检查使用 NumPy 和接口替身。
-未运行 PyTorch/GPU 前反向、数据下载、W&B 联网、完整训练或小规模冒烟训练，
+未运行 PyTorch/GPU 前反向、数据下载、SwanLab 联网、完整训练或小规模冒烟训练，
 不据此声称收敛、真实运行速度或数值等价已经验证。

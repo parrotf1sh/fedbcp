@@ -1,4 +1,4 @@
-"""Non-training checks: no datasets, GPU, torch or W&B account required."""
+"""Non-training checks: no datasets, GPU, torch or SwanLab account required."""
 import contextlib
 import importlib.util
 import io

@@ -32,7 +32,7 @@ StepLR gamma=0.99、step_size=1、seed=2022。
   相比源码 `.features()`，额外的无梯度线性输出不用于任何损失。
 - 客户端 SGD 加载共享优化器参数组，每次参与都清空状态，客户端之间不共享动量。
   BaseServer 每轮末更新一次 scheduler。原型和服务器分类头优化器使用独立设置。
-- 保留标准本地/全局评估及 W&B 日志。额外本地评估保存/恢复 Python、NumPy、
+- 保留标准本地/全局评估及 SwanLab 日志。额外本地评估保存/恢复 Python、NumPy、
   Torch 及 loader generator 随机状态，避免统计过程推进训练随机流。
   现有标准 loader 不启用 persistent workers。
 

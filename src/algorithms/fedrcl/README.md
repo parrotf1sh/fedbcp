@@ -12,7 +12,7 @@
 python main.py --config_path ./config/fedrcl.json
 ```
 
-配置结构、命令行覆盖方式、评估和 W&B 生命周期沿用项目现有实现。
+配置结构、命令行覆盖方式、评估和 SwanLab 生命周期沿用项目现有实现。
 配置合并时递归复制 JSON 字典和列表，将 `ConfLoader` 的属性访问字典转为普通字典，
 包括 `rcl_loss.pairs` 列表中的嵌套字典，避免 `deepcopy` 查询 `__deepcopy__` 时触发
 `KeyError`。复制后的配置与输入及默认配置独立；参数值和原始回退规则保持不变。

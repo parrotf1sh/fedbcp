@@ -9,7 +9,7 @@ from utils import *
 import numpy as np
 import argparse
 import warnings
-import wandb
+import experiment_tracker as tracking
 import random
 import pprint
 import os
@@ -63,9 +63,9 @@ def _get_setups(args):
 
     # Fix randomness for experiment
     metadata = data_distributed.get("partition_metadata")
-    if metadata is not None and wandb.run is not None:
-        wandb.config.update({"resolved_partition": metadata}, allow_val_change=True)
-        wandb.run.summary.update({
+    if metadata is not None and tracking.run is not None:
+        tracking.config.update({"resolved_partition": metadata})
+        tracking.run.summary.update({
             "partition/cache_hit": metadata["cache_hit"],
             "partition/cache_key": metadata.get("cache_key"),
             "partition/indices_sha256": metadata.get("indices_sha256"),
@@ -187,13 +187,6 @@ def main(args):
         from longtail_report import save_baseline_report
         save_baseline_report(server, args)
 
-    # Save the final global model
-    # model_path = os.path.join(wandb.run.dir, "model.pth")
-    # torch.save(server.model.state_dict(), model_path)
-
-    # Upload model to wandb
-    # wandb.save(model_path)
-
     return getattr(server, "batch_summary", None)
 
 
@@ -241,6 +234,17 @@ if __name__ == "__main__":
         run_tracked(opt, main)
     else:
         # Preserve the existing entry point for all other experiments.
-        wandb.init(config=opt, **opt.wandb_setups)
-        wandb.config.log_interval = 10
-        main(opt)
+        run = tracking.init(config=opt, **opt.swanlab_setups)
+        try:
+            run.config.update({"log_interval": 10})
+            main(opt)
+            run.summary["status"] = "success"
+            run.finish()
+        except BaseException as exc:
+            try:
+                run.summary.update(status="interrupted" if isinstance(exc, KeyboardInterrupt) else "failed",
+                                   error="{}: {}".format(type(exc).__name__, exc))
+                run.finish(exit_code=130 if isinstance(exc, KeyboardInterrupt) else 1)
+            except Exception:
+                pass
+            raise

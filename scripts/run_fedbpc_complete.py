@@ -30,7 +30,8 @@ def build_config(args, output):
         params["preserve_backbone_gradients"] = False
     elif args.variant == "fedavg":
         config["train_setups"]["algo"] = {"name": "fedavg", "params": {"metrics_only": True}}
-    config["wandb_setups"].update(name=output.name, mode="offline", dir=str(output.parent))
+    config["swanlab_setups"].update(experiment_name=output.name,
+        mode=os.environ.get("SWANLAB_MODE", "offline"), logdir=str(output / "swanlog"))
     config["batch_protocol"]["output_dir"] = str(output)
     config["batch_protocol"]["download_if_missing"] = False
     return config
@@ -64,7 +65,7 @@ def main():
     config_path = config_dir / (name + ".json")
     config_path.write_text(json.dumps(config, indent=2) + "\n")
     print("Result directory: " + str(output), flush=True)
-    environment = dict(os.environ, WANDB_MODE="offline", PYTHONDONTWRITEBYTECODE="1")
+    environment = dict(os.environ, SWANLAB_MODE=config["swanlab_setups"]["mode"], PYTHONDONTWRITEBYTECODE="1")
     subprocess.run([sys.executable, "-B", str(ROOT / "src/main.py"),
                     "--config_path", str(config_path)], cwd=str(ROOT / "src"),
                    env=environment, check=True)

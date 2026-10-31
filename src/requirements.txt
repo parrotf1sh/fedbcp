@@ -82,7 +82,7 @@ pip=25.1=pyhc872135_2
 pipreqs=0.5.0=pypi_0
 platformdirs=4.3.8=pypi_0
 prompt-toolkit=3.0.52=pypi_0
-protobuf=6.30.2=pypi_0
+protobuf=6.33.6=pypi_0
 psutil=7.0.0=pypi_0
 ptyprocess=0.7.0=pypi_0
 pure-eval=0.2.4=pypi_0
@@ -122,11 +122,11 @@ tornado=6.5.10=pypi_0
 tqdm=4.67.1=pypi_0
 traitlets=5.15.1=pypi_0
 triton=3.3.0=pypi_0
-typing-extensions=4.12.2=pypi_0
-typing-inspection=0.4.0=pypi_0
+typing-extensions=4.16.0=pypi_0
+typing-inspection=0.4.2=pypi_0
 tzdata=2025.2=pypi_0
 urllib3=2.4.0=pypi_0
-wandb=0.26.1=pypi_0
+swanlab=0.10.3=pypi_0
 wcwidth=0.8.4=pypi_0
 webencodings=0.5.1=pypi_0
 wheel=0.45.1=py39h06a4308_0

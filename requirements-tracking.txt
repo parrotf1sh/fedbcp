@@ -1,0 +1,2 @@
+# Install into your existing training environment; also sufficient for migration.
+swanlab==0.10.3

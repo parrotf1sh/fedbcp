@@ -47,9 +47,9 @@ class MoonQueueTests(unittest.TestCase):
             self.assertEqual(a["train_setups"]["algo"],
                              {"name": "moon", "params": {"metrics_only": True, "mu": 0.1, "tau": 0.5}})
             self.assertEqual(a["batch_protocol"]["history_storage"], "cpu_memory_only")
-            self.assertEqual(a["wandb_setups"]["project"], "Point1")
-            self.assertIn("moon", a["wandb_setups"]["tags"])
-            groups.setdefault(a["wandb_setups"]["group"], []).append(a["train_setups"]["seed"])
+            self.assertEqual(a["swanlab_setups"]["project"], "Point1")
+            self.assertIn("moon", a["swanlab_setups"]["tags"])
+            groups.setdefault(a["swanlab_setups"]["group"], []).append(a["train_setups"]["seed"])
         self.assertEqual(len(groups), 22)
         self.assertTrue(all(seeds == [2022, 2023] for seeds in groups.values()))
 

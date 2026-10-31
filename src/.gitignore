@@ -7,3 +7,6 @@ data/
 *.sh
 weights/
 nohup.out
+
+swanlog/
+.swanlab-migration/

@@ -1,13 +1,15 @@
 # FedNH 两种子串行实验
 
-在实验机项目根目录、已激活的 PyTorch/torchvision/W&B 环境中运行：
+SwanLab 安装、历史结果迁移与继续训练见 [SwanLab 使用说明](README_swanlab.md)。
+
+在实验机项目根目录、已激活的 PyTorch/torchvision/SwanLab 环境中运行：
 
 ```bash
-wandb login
+swanlab login
 python scripts/run_fednh_experiments.py --data-root /absolute/path/to/data
 ```
 
-`--dry-run` 仅列出任务并写入 manifest，不下载数据、不创建 W&B run、不启动训练。
+`--dry-run` 仅列出任务并写入 manifest，不下载数据、不创建 SwanLab run、不启动训练。
 应更新完整项目，包括 FedNH 模块和公共调度器，不要仅复制新入口脚本。
 
 ## 实验矩阵
@@ -104,7 +106,7 @@ FedNH 类别计数来自公共 `data_map`，不使用客户端 Dataset 的 targe
 
 ## 输出和恢复
 
-W&B 项目默认为 `Point1`。每次训练尝试独立一个 run，名称/tags 标注 FedNH、平滑系数、
+SwanLab 项目默认为 `Point1`。每次训练尝试独立一个 run，名称/tags 标注 FedNH、平滑系数、
 scaling 模式、高级聚合开关、数据集、训练种子和实验组；config 记录全部有效参数。
 修改参数会产生新的任务 ID。同一实验条件的两个种子归入同一个 group。
 
@@ -126,4 +128,4 @@ python -m unittest discover -s tests -p 'test_partition_cache.py' -v
 
 指标测试使用 NumPy 张量替身检查实际辅助公式和控制流程，包括等权更新、缺类平滑、
 优化器状态清空、在线统计、原型提取、跨轮服务器状态和通信总量。
-这些检查不执行真实 PyTorch 模型训练、数据下载或 W&B 联网，不替代实验机上的实际运行验证。
+这些检查不执行真实 PyTorch 模型训练、数据下载或 SwanLab 联网，不替代实验机上的实际运行验证。

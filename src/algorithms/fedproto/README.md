@@ -72,7 +72,7 @@ macro-F1、worst20 recall 也先按客户端计算后取均值。
 | `train/total_loss`、`ce_loss`、`proto_loss` | 先对 batch、再对 epoch、最后对参与客户端平均 |
 | `train/last_batch_acc` | 原源码本地训练返回的最后一个 batch 准确率的客户端平均 |
 
-实验结果只记录到 W&B，不生成自定义 CSV、JSON、JSONL 或本地结果目录：
+实验结果只记录到 SwanLab，不生成自定义 CSV、JSON、JSONL 或本地结果目录：
 
 - **Config**：完整实验配置；`fedproto_runtime` 保存评估定义、初始化、特征位置、类别分组、
   DataLoader 的 drop_last，longtail 另含 split 哈希。
@@ -84,10 +84,10 @@ macro-F1、worst20 recall 也先按客户端计算后取均值。
   有验证集时另记 `final/overall_validation/*` 和 `final/classifier_validation/*`。
   `fedproto_final` 保存最终完整测试集、验证集及原有本地测试集的每客户端明细。
 
-需要有效的 W&B run；若 W&B 未初始化或被禁用，在训练前明确报错，避免实验结果丢失。
-使用 online 模式将结果上传 W&B；W&B SDK 自身的缓存和运行日志由 SDK 管理。
+需要有效的 SwanLab run；若 SwanLab 未初始化或被禁用，在训练前明确报错，避免实验结果丢失。
+使用 online 模式将结果上传 SwanLab；SwanLab SDK 自身的缓存和运行日志由 SDK 管理。
 现有 `batch_protocol` 的 FedProto 分支也不写本地结果文件，仍返回汇总给调用方。
-longtail 的最终结果由 FedProto 记录到 W&B，不让通用报告误评未训练的服务器模板模型。
+longtail 的最终结果由 FedProto 记录到 SwanLab，不让通用报告误评未训练的服务器模板模型。
 没有本地测试集的客户端不会伪造本地结果，**仍参与完整测试集的总体评估**。
 
 ## 核心计算对应关系

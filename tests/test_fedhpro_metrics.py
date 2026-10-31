@@ -35,10 +35,10 @@ def modules():
         torch = fake_torch()
         torch.optim = types.SimpleNamespace(SGD=Optimizer)
         config = load_file('fedhpro_config_numeric', ROOT / 'src/algorithms/fedhpro/config.py')
-        wandb = types.SimpleNamespace(run=types.SimpleNamespace(summary={}), define_metric=mock.Mock(), log=mock.Mock())
+        tracking = types.SimpleNamespace(run=types.SimpleNamespace(summary={}), define_metric=mock.Mock(), log=mock.Mock())
         stubs = {'torch': torch, 'torch.nn': torch.nn, 'torch.nn.functional': torch.nn.functional,
                  'torch.utils.data': types.SimpleNamespace(DataLoader=object, TensorDataset=object),
-                 'wandb': wandb, 'algorithms.measures': types.SimpleNamespace(__all__=[]),
+                 'experiment_tracker': tracking, 'algorithms.measures': types.SimpleNamespace(__all__=[]),
                  'algorithms.fedhpro.config': config,
                  'algorithms.fedhpro.augmentation': types.SimpleNamespace(AugmentParams=object, diff_augment=mock.Mock()),
                  'algorithms.fedhpro.criterion': types.SimpleNamespace(HyperPrototypeLoss=object, match_loss=mock.Mock(), match_meta=mock.Mock())}

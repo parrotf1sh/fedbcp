@@ -1,9 +1,11 @@
 # FedProc 两种子串行实验
 
-在实验机项目根目录、已有 PyTorch/torchvision/W&B 环境中执行：
+SwanLab 安装、历史结果迁移与继续训练见 [SwanLab 使用说明](README_swanlab.md)。
+
+在实验机项目根目录、已有 PyTorch/torchvision/SwanLab 环境中执行：
 
 ```bash
-wandb login
+swanlab login
 python scripts/run_fedproc_experiments.py --data-root /absolute/path/to/data
 ```
 
@@ -27,7 +29,7 @@ python scripts/prepare_partitions.py --source fedproc --data-root /absolute/path
 | `SERVER_MOMENTUM` | 0.0 |
 | `TRAIN_SEEDS` | `[2022, 2023]` |
 | `N_ROUNDS` | 300 |
-| W&B 项目 | `Point1` |
+| SwanLab 项目 | `Point1` |
 
 这些参数及公共超参数均集中在脚本头部。旧的 `src/config/fedproc.json` 仍保留 source/无投影头设置，
 批量脚本独立生成自己的完整配置，不读取该 JSON 作为默认配置。
@@ -112,7 +114,7 @@ FedProc 专有指标：
 **不保存模型 checkpoint、模型/优化器权重或原型张量文件，不上传模型 artifact。**
 划分索引缓存保存在数据目录，与训练输出分开。
 
-每次训练尝试对应一个在线 W&B run，名称包含 sampled、proj256、alpha_rounds、server_momentum 及训练种子。
+每次训练尝试对应一个在线 SwanLab run，名称包含 sampled、proj256、alpha_rounds、server_momentum 及训练种子。
 tags 标明算法、聚合、投影设置、数据集、种子、实验类别；config 记录全部超参数与划分信息。
 例如 `fedproc_cifar10_lda-a0.03_n100_q0.1_e5_r300_sampled_proj256_ar100_sm0_seed2022`。
 
@@ -129,4 +131,4 @@ python -m unittest discover -s tests -p 'test_partition_cache.py' -v
 
 覆盖任务矩阵、参数标识/校验、失败恢复、共享划分、损失权重边界、不同 batch 大小的指标加权、
 首轮/后续轮原型顺序、缺失类别回退、通信总量及报告落盘。
-使用模拟张量/对象和标签索引，不执行真实模型训练、数据下载或 W&B 联网；未运行训练冒烟测试。
+使用模拟张量/对象和标签索引，不执行真实模型训练、数据下载或 SwanLab 联网；未运行训练冒烟测试。

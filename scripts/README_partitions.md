@@ -36,7 +36,7 @@ python scripts/run_moon_experiments.py --data-root /absolute/path/to/data
 
 前一条训练命令结束后再执行后一条，避免争抢 GPU。
 预生成命令先检查/下载缺失数据集，再用最多 8 个 CPU 进程并行生成不同实验条件的划分；
-不启动训练、不使用 GPU、不创建 W&B run。FedAvg 的 66 个任务或 MOON/FedProc/FedNH/FedSC/FedRCL/FedSA/FedHPro 的 44 个任务去重后都只需生成 18 份划分。
+不启动训练、不使用 GPU、不创建 SwanLab run。FedAvg 的 66 个任务或 MOON/FedProc/FedNH/FedSC/FedRCL/FedSA/FedHPro 的 44 个任务去重后都只需生成 18 份划分。
 并行发生在不同划分之间，每份划分内部仍按固定顺序生成候选，因此 worker 数量不改变结果。
 预生成可重复执行，已有缓存直接验证并复用。省略预生成时，训练入口也会自动生成/读取缓存。
 
@@ -59,7 +59,7 @@ LDA 保持全局测试集不变；分片缓存包含配对的训练/客户端测
 划分使用独立随机数生成器，缓存是否命中不会改变后续全局随机数状态。
 初次生成所用 NumPy 版本记录在元数据中；跨环境严格复现优先复制已有缓存。
 
-W&B 的 `resolved_partition` 记录完整划分元数据，summary 记录缓存键、索引指纹、补足数量和比例。
+SwanLab 的 `resolved_partition` 记录完整划分元数据，summary 记录缓存键、索引指纹、补足数量和比例。
 FedAvg/MOON/FedProc/FedNH/FedSC/FedRCL/FedSA/FedHPro 每次运行另写 `partition_metadata.json`，并保留每客户端类别计数与标签熵。
 比较算法时核对 `indices_sha256`。日志将标签加载、划分、构建客户端 DataLoader 分阶段打印；
 缓存仅省去重复划分，不省去图像读取或 DataLoader 初始化。

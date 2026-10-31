@@ -11,11 +11,11 @@
     python scripts/run_fedbpc_complete.py --partition sharding --dry-run
     python scripts/run_fedbpc_complete.py --partition lda --variant mean_only --dry-run
 
-在有 PyTorch、torchvision、W&B 和本地 CIFAR 数据的训练环境：
+在有 PyTorch、torchvision、SwanLab 和本地 CIFAR 数据的训练环境：
 
     python scripts/run_fedbpc_complete.py --partition sharding --data-root /absolute/path/to/data --device cuda:0 --seed 2022 --rounds 200
 
-数据根目录应包含 cifar10 子目录，符合本仓库原始数据布局。入口不会下载缺失数据；W&B 默认离线。一次命令只跑一个实验，不会自动展开全矩阵。
+数据根目录应包含 cifar10 子目录，符合本仓库原始数据布局。入口不会下载缺失数据；SwanLab 默认离线。一次命令只跑一个实验，不会自动展开全矩阵。
 
 每次生成独立目录，保留配置、分区信息、每轮客户端、逐轮指标、算法说明、summary 和最终模型/原型检查点。直接使用固定配置重复运行时也会拒绝覆盖非空目录。FedAvg 对照沿用仓库 metrics-only 逻辑，不保存最终模型。
 

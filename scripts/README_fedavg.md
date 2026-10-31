@@ -1,22 +1,24 @@
 # FedAvg 串行实验队列
 
-在实验机的项目根目录执行（先激活已有 PyTorch / torchvision / W&B 环境）：
+SwanLab 安装、历史结果迁移与继续训练见 [SwanLab 使用说明](README_swanlab.md)。
+
+在实验机的项目根目录执行（先激活已有 PyTorch / torchvision / SwanLab 环境）：
 
 ```bash
-wandb login
+swanlab login
 python scripts/run_fedavg_experiments.py --dry-run
 python scripts/run_fedavg_experiments.py --data-root /absolute/path/to/data
 nohup python scripts/run_fedavg_experiments.py --data-root /root/data > /root/log/fedavg_batch.log 2>&1 &
 ```
 
-脚本头部集中配置超参数、GPU、数据路径、模型、W&B project/entity 和实验开关。
-`--dry-run` 仅检查和输出队列，写入 manifest，不下载数据、不连接 W&B、不启动训练。
-调度器采用 Python 标准库；训练需要项目现有依赖。实验机须能访问 W&B 和数据下载源。
+脚本头部集中配置超参数、GPU、数据路径、模型、SwanLab project/workspace 和实验开关。
+`--dry-run` 仅检查和输出队列，写入 manifest，不下载数据、不连接 SwanLab、不启动训练。
+调度器采用 Python 标准库；训练需要项目现有依赖。实验机须能访问 SwanLab 和数据下载源。
 只需设置数据集的父目录，不要传某个数据集的 train 目录。
 
 ## 默认实验
 
-共 **66 个独立训练任务，每个任务 300 轮**，每个任务对应一个 W&B run：
+共 **66 个独立训练任务，每个任务 300 轮**，每个任务对应一个 SwanLab run：
 
 | 组别 | 设置 | 任务数 |
 | --- | --- | ---: |
@@ -75,8 +77,8 @@ Tiny-ImageNet 下载文件保留在数据父目录，便于失败后再次解压
 - 同一轮只做一次全局测试评估。批量路径不执行旧路径中的逐客户端全局测试，避免重复开销。
   新路径的评估随机数消耗与旧路径不同，后续其他算法要严格配对时应采用相同评估协议。
 
-W&B config 记录完整数据/模型/优化器/调度器配置、固定随机性协议、训练种子、运行库版本。
-三个种子共享同一 W&B group，tags 标注算法、数据集、划分、种子和实验类别。
+SwanLab config 记录完整数据/模型/优化器/调度器配置、固定随机性协议、训练种子、运行库版本。
+三个种子共享同一 SwanLab group，tags 标注算法、数据集、划分、种子和实验类别。
 使用在线模式且要求已登录；初始化失败时该任务失败，不静默切换为离线训练。
 
 本地默认输出：
@@ -97,16 +99,16 @@ fedavg_experiments/
       partition_stats.json      # 每客户端类别计数、标签熵等
       partition_metadata.json   # 划分指纹、缓存命中、补足数量和比例
       summary.json
-      wandb/...
+      swanlog/...
 ```
 
 所有任务串行；遇到实验报错会打印 traceback 并继续。队列全部结束后，若有失败任务，
 调度器返回退出码 1；手动 Ctrl+C 会停止当前进程组并停止整个队列，返回 130。
-失败阶段可能尚未生成全部指标文件；W&B 初始化失败也不会产生有效远端 run。
+失败阶段可能尚未生成全部指标文件；SwanLab 初始化失败也不会产生有效远端 run。
 
 重新执行相同命令会跳过已成功任务，只重跑失败或未完成任务；失败任务从第 1 轮重训，
-没有权重断点续训。每次尝试均保留自己的日志，并使用新的 W&B run。
-修改训练参数会生成新的配置哈希。若更换代码版本或 W&B 目标项目后希望全部重跑，
+没有权重断点续训。每次尝试均保留自己的日志，并使用新的 SwanLab run。
+修改训练参数会生成新的配置哈希。若更换代码版本或 SwanLab 目标项目后希望全部重跑，
 使用新的 `--output-root`，或加 `--rerun-successful`。
 跨种子汇总注明 `n_success` / `n_expected`；不足两个成功种子时 std 留空，不伪造三种子结果。
 

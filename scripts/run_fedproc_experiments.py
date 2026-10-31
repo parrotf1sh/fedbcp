@@ -41,8 +41,8 @@ SUPPLEMENTARY_DATASET = "cifar100"
 SUPPLEMENTARY_ALPHA = 0.1
 PARTICIPATION_RATES = [0.05, 0.1, 0.2]
 LOCAL_EPOCH_VALUES = [1, 5, 10]
-WANDB_PROJECT = "Point1"
-WANDB_ENTITY = None
+SWANLAB_PROJECT = "Point1"
+SWANLAB_WORKSPACE = None
 BATCH_NAME = "fedproc-300rounds"
 SKIP_SUCCESSFUL = True
 # Keep the same fixed partition/sampling protocol as FedAvg.
@@ -78,14 +78,14 @@ def build_tasks(data_root=None):
     )
     tasks = queue.build_tasks(data_root, settings=settings)
     for task in tasks:
-        task["config"]["wandb_setups"]["tags"].extend([
+        task["config"]["swanlab_setups"]["tags"].extend([
             "aggregation-" + AGGREGATION, head, "alpha-rounds-{}".format(ALPHA_ROUNDS)])
     return tasks
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--dry-run", action="store_true", help="Print/validate tasks only; no training, downloads or W&B")
+    parser.add_argument("--dry-run", action="store_true", help="Print/validate tasks only; no training, downloads or SwanLab")
     parser.add_argument("--data-root", type=Path, default=DATA_ROOT)
     parser.add_argument("--output-root", type=Path, default=OUTPUT_ROOT)
     parser.add_argument("--python", default=PYTHON)

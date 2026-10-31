@@ -1,9 +1,9 @@
-"""FedSA metrics for persistent client predictors, using the shared W&B lifecycle."""
+"""FedSA metrics for persistent client predictors, using the shared SwanLab lifecycle."""
 
 import time
 
 import torch
-import wandb
+import experiment_tracker as tracking
 
 from experiment_logging import flatten_metrics, log_final, log_round, tracking_enabled
 from .measures import local_test_summary
@@ -11,9 +11,9 @@ from .utils import class_margins
 
 
 def run_experiment(server):
-    run = wandb.run
+    run = tracking.run
     if not tracking_enabled(run):
-        raise ValueError("FedSA requires an active W&B run to save experiment results")
+        raise ValueError("FedSA requires an active SwanLab run to save experiment results")
     config = getattr(server, "experiment_config", None)
     batch = None
     if config and config.get("batch_protocol", {}).get("fedsa_batch") is True:

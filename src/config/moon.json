@@ -34,9 +34,10 @@
         },
         "seed": 2022
     },
-    "wandb_setups":{
+    "swanlab_setups": {
         "project": "NeurIPS2022",
         "group": "moon",
-        "name": "moon"
+        "experiment_name": "moon",
+        "workspace": null
     }
 }

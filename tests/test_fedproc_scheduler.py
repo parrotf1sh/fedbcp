@@ -43,9 +43,9 @@ class QueueTests(unittest.TestCase):
             params = cfg['train_setups']['algo']['params']
             self.assertEqual(params, config.resolve_config(dict(metrics_only=True, aggregation='sampled', use_project_head=True)))
             self.assertFalse(cfg['batch_protocol']['save_checkpoints'])
-            self.assertEqual(cfg['wandb_setups']['project'], 'Point1')
+            self.assertEqual(cfg['swanlab_setups']['project'], 'Point1')
             self.assertIn('sampled_proj256', task['name'])
-            self.assertIn('proj256', cfg['wandb_setups']['tags'])
+            self.assertIn('proj256', cfg['swanlab_setups']['tags'])
             groups.setdefault(task['condition_id'], []).append(cfg['train_setups']['seed'])
         self.assertEqual(len(groups), 22)
         self.assertTrue(all(seeds == [2022, 2023] for seeds in groups.values()))
@@ -210,10 +210,10 @@ class ServerMetricTests(unittest.TestCase):
     def test_initialization_refresh_missing_classes_and_full_report_communication(self):
         torch_stub = fake_torch()
         torch_stub.nn = types.SimpleNamespace(functional=types.ModuleType('torch.nn.functional'))
-        wandb = types.SimpleNamespace(run=types.SimpleNamespace(summary={}), define_metric=mock.Mock(), log=mock.Mock())
+        tracking = types.SimpleNamespace(run=types.SimpleNamespace(summary={}), define_metric=mock.Mock(), log=mock.Mock())
         modules = {
             'torch': torch_stub, 'torch.nn': torch_stub.nn,
-            'torch.nn.functional': torch_stub.nn.functional, 'wandb': wandb,
+            'torch.nn.functional': torch_stub.nn.functional, 'experiment_tracker': tracking,
             'algorithms.BaseServer': types.SimpleNamespace(BaseServer=FakeBase),
             'algorithms.fedproc.ClientTrainer': types.SimpleNamespace(ClientTrainer=object),
             'algorithms.fedproc.config': config,

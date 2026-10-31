@@ -1,7 +1,7 @@
 import copy
 
 import torch
-import wandb
+import experiment_tracker as tracking
 
 from ..BaseServer import BaseServer
 from .ClientTrainer import ClientTrainer
@@ -51,14 +51,14 @@ class Server(BaseServer):
             for key in w[0]
         }
 
-    def _wandb_logging(self, round_results, round_idx):
-        super()._wandb_logging(round_results, round_idx)
+    def _tracking_logging(self, round_results, round_idx):
+        super()._tracking_logging(round_results, round_idx)
         metrics = {
             "fedrcl/" + name: sum(values) / len(values)
             for name, values in round_results.items()
             if name.endswith("_loss")
         }
-        wandb.log(metrics, step=round_idx)
+        tracking.log(metrics, step=round_idx)
 
     def batch_round_metrics(self, local):
         seen = sum(local["seen"])

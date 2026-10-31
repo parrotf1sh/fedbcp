@@ -1,4 +1,4 @@
-"""Label/index-only checks. No training, image loading or W&B required."""
+"""Label/index-only checks. No training, image loading or SwanLab required."""
 from concurrent.futures import ProcessPoolExecutor
 import copy
 import importlib.util

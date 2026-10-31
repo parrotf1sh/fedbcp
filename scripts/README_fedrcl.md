@@ -1,5 +1,7 @@
 # FedRCL 批量实验
 
+SwanLab 安装、历史结果迁移与继续训练见 [SwanLab 使用说明](README_swanlab.md)。
+
 在实验机项目根目录、已安装项目依赖的环境中运行：
 
 ```bash
@@ -43,13 +45,13 @@ N=100、默认 q=0.1、E=5、batch=50。SGD lr=0.01、momentum=0.9、weight_deca
 原损失参数的特殊覆盖语义仍以移植说明为准。默认 topk_pos=1 支持非空尾批次，
 手动提高它可能在小尾批次上报错；队列不会静默跳过该 batch 或改写公式。
 
-## 数据划分、W&B 和输出
+## 数据划分、SwanLab 和输出
 
 复用公共划分缓存：LDA 最多生成 128 个候选，再按公共规则转移样本补足不足 10 个样本的客户端。
 不重复、删除样本。不同算法和训练种子复用同一份最终索引；比较时核对 `indices_sha256`。
 44 个任务只有 18 个不同划分，已有缓存直接验证并复用。
 
-每次独立训练创建一个 W&B run，项目默认 `Point1`，自动设置 name、tags、config 和条件分组。
+每次独立训练创建一个 SwanLab run，项目默认 `Point1`，自动设置 name、tags、config 和条件分组。
 逐轮记录全局 Top-1、CE、Macro-F1、各类召回、最差 20% 类别平均召回、
 训练在线准确率、按处理样本数加权的损失、训练/评估时间、累计处理样本数和通信量。
 
@@ -74,14 +76,14 @@ clients.jsonl、划分统计、summary.json 和 aggregate.csv。
 划分缓存 NPZ 只含索引和元数据。
 
 单任务失败记录错误后继续下一任务；默认跳过已成功任务。
-失败任务重跑创建新 attempt 和 W&B run，从头训练；不从中间轮次恢复。
+失败任务重跑创建新 attempt 和 SwanLab run，从头训练；不从中间轮次恢复。
 Ctrl+C 停止当前训练和队列。仅在当前队列目录内加锁，其他算法队列请勿同时启动争抢单 GPU。
 
 ```bash
 # 可选：在 8 核 CPU 上预生成/检查共享划分，不启动训练
 python scripts/prepare_partitions.py --source fedrcl --workers 8
 
-# 仅生成任务清单，不训练、不下载、不连接 W&B
+# 仅生成任务清单，不训练、不下载、不连接 SwanLab
 python scripts/run_fedrcl_experiments.py --dry-run
 
 # 自定义目录；也可通过 --python 指定实验环境解释器
@@ -92,4 +94,4 @@ python scripts/run_fedrcl_experiments.py --data-root /data --output-root /result
 
 验证任务配对、去重、缓存复用、异常继续、成功跳过、等权聚合、指标汇总和本地学习率重置。
 配置回归使用项目实际 ConfLoader；运行流程检查使用替身，不执行 PyTorch/GPU 前反向。
-未进行数据下载、W&B 联网、完整训练或小规模冒烟训练；这些检查不证明训练精度或数值等价。
+未进行数据下载、SwanLab 联网、完整训练或小规模冒烟训练；这些检查不证明训练精度或数值等价。

@@ -122,7 +122,7 @@ batch size 64 和固定 SGD 学习率 0.1，无动量、无权重衰减。
 
 ## 评估与日志
 
-单次默认配置（`metrics_only=false`）沿用 `BaseServer` 的训练前评估、逐轮评估、客户端统计及 W&B 生命周期。
+单次默认配置（`metrics_only=false`）沿用 `BaseServer` 的训练前评估、逐轮评估、客户端统计及 SwanLab 生命周期。
 主结果使用已有 `server_test_acc`；另记录 `fedsc/ce_loss`、`fedsc/rpcl_loss`、
 `fedsc/cpdr_loss` 和 `fedsc/total_loss`。
 损失日志先取各客户端 batch 均值，再取参与客户端均值，统计不改变训练归约。

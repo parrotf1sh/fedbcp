@@ -10,7 +10,7 @@ import time
 
 import torch
 import torch.nn.functional as F
-import wandb
+import experiment_tracker as tracking
 
 
 def write_json(path, value):
@@ -81,7 +81,7 @@ def log_partition(server, output):
              "clients_per_class": (counts > 0).sum(0).tolist(),
              "class_counts_per_client": counts.long().tolist()}
     write_json(output / "partition_stats.json", stats)
-    wandb.run.summary.update({"data/client_samples_min": sizes.min().item(),
+    tracking.run.summary.update({"data/client_samples_min": sizes.min().item(),
                              "data/client_samples_max": sizes.max().item(),
                              "data/client_classes_mean": (counts > 0).sum(1).double().mean().item(),
                              "data/label_entropy_mean": entropies.mean().item()})
@@ -93,8 +93,8 @@ def run_metrics(server):
     output.mkdir(parents=True, exist_ok=True)
     server._print_start()
     log_partition(server, output)
-    wandb.define_metric("round")
-    wandb.define_metric("*", step_metric="round")
+    tracking.define_metric("round")
+    tracking.define_metric("*", step_metric="round")
     history = []
     communication = 0
     train_seconds = 0.0
@@ -155,7 +155,7 @@ def run_metrics(server):
             clients_handle.write(json.dumps({"round": round_idx + 1,
                                              "clients": [int(i) for i in sampled]}) + "\n")
             clients_handle.flush()
-            wandb.log(metrics, step=round_idx + 1)
+            tracking.log(metrics, step=round_idx + 1)
             server.server_results["test_accuracy"].append(metrics["global/top1"])
             history.append(metrics["global/top1"])
             print("[Round {}/{}] global Top-1={:.4f} loss={:.4f} "
@@ -183,4 +183,4 @@ def run_metrics(server):
     extra_summary = getattr(server, "batch_summary_metrics", None)
     if extra_summary is not None:
         server.batch_summary.update(extra_summary(metrics))
-    wandb.run.summary.update(server.batch_summary)
+    tracking.run.summary.update(server.batch_summary)

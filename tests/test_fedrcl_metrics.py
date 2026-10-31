@@ -60,11 +60,11 @@ def modules():
         no_grad=lambda: lambda fn: fn,
         device=lambda device: types.SimpleNamespace(type=str(device).split(':')[0]),
         optim=types.SimpleNamespace(SGD=Optimizer, lr_scheduler=types.SimpleNamespace(LambdaLR=LocalScheduler)))
-    wandb = types.SimpleNamespace(run=types.SimpleNamespace(summary={}), log=mock.Mock(), define_metric=mock.Mock())
+    tracking = types.SimpleNamespace(run=types.SimpleNamespace(summary={}), log=mock.Mock(), define_metric=mock.Mock())
     config = load_file('fedrcl_metrics_config', ROOT / 'src/algorithms/fedrcl/config.py')
     stubs = {'torch': torch, 'torch.nn.functional': functional, 'torch.nn': torch.nn,
              'torch.cuda.amp': types.SimpleNamespace(autocast=mock.Mock(), GradScaler=mock.Mock()),
-             'wandb': wandb, 'algorithms.BaseServer': types.SimpleNamespace(BaseServer=object),
+             'experiment_tracker': tracking, 'algorithms.BaseServer': types.SimpleNamespace(BaseServer=object),
              'algorithms.BaseClientTrainer': types.SimpleNamespace(BaseClientTrainer=object),
              'algorithms.fedrcl.config': config,
              'algorithms.fedrcl.model': types.SimpleNamespace(ModelWithLayerFeatures=object),

@@ -43,8 +43,8 @@ SUPPLEMENTARY_DATASET = "cifar100"
 SUPPLEMENTARY_ALPHA = 0.1
 PARTICIPATION_RATES = [0.05, 0.1, 0.2]
 LOCAL_EPOCH_VALUES = [1, 5, 10]
-WANDB_PROJECT = "Point1"
-WANDB_ENTITY = None  # Uses the logged-in account's default entity.
+SWANLAB_PROJECT = "Point1"
+SWANLAB_WORKSPACE = None  # Uses the logged-in SwanLab account's personal workspace.
 BATCH_NAME = "fedavg-300rounds"
 SKIP_SUCCESSFUL = True
 # These describe the existing protocol; they are deliberately NOT swept.
@@ -164,10 +164,12 @@ def build_tasks(data_root=None, settings=None):
             add(s.SUPPLEMENTARY_DATASET, partition, "local_epochs", epochs=epochs)
     for task in tasks.values():
         cfg = task["config"]
-        cfg["wandb_setups"] = {
-            "project": s.WANDB_PROJECT, "entity": s.WANDB_ENTITY, "mode": "online", "force": True,
-            "name": task["name"], "group": s.BATCH_NAME + "-" + task["condition_id"],
-            "job_type": s.ALGO_NAME, "save_code": False,
+        cfg["swanlab_setups"] = {
+            "project": os.environ.get("SWANLAB_PROJ_NAME", s.SWANLAB_PROJECT),
+            "workspace": os.environ.get("SWANLAB_WORKSPACE", s.SWANLAB_WORKSPACE),
+            "mode": os.environ.get("SWANLAB_MODE", "online"),
+            "experiment_name": task["name"], "group": s.BATCH_NAME + "-" + task["condition_id"],
+            "job_type": s.ALGO_NAME,
             "tags": [s.ALGO_NAME, cfg["data_setups"]["dataset_name"],
                      cfg["data_setups"]["partition"]["method"],
                      "seed-{}".format(cfg["train_setups"]["seed"]), s.BATCH_NAME] + task["categories"],
@@ -263,22 +265,22 @@ def execute(tasks, output_root, python=PYTHON, skip_successful=True):
             print("[{}/{}] SKIP {}".format(index, len(tasks), task["name"]), flush=True)
             counts["skipped"] += 1
             continue
-        # Keep failed-attempt logs, and always allocate a new W&B run (no checkpoint resume).
+        # Keep failed-attempt logs, and always allocate a new SwanLab run (no checkpoint resume).
         attempt = directory / ("attempt-" + str(time.time_ns()))
         attempt.mkdir()
         cfg = copy.deepcopy(task["config"])
         cfg["batch_protocol"].update(output_dir=str(attempt), task_id=task["id"],
                                      condition_id=task["condition_id"], categories=task["categories"])
-        cfg["wandb_setups"]["dir"] = str(attempt)
+        cfg["swanlab_setups"]["logdir"] = str(attempt / "swanlog")
         write_json(attempt / "config.json", cfg)
         status = {"status": "running", "name": task["name"], "attempt_dir": str(attempt),
                   "started_at": time.time()}
         write_json(directory / "status.json", status)
         print("[{}/{}] START {}".format(index, len(tasks), task["name"]), flush=True)
-        env = dict(os.environ, PYTHONUNBUFFERED="1", WANDB_MODE="online",
+        env = dict(os.environ, PYTHONUNBUFFERED="1", SWANLAB_MODE=cfg["swanlab_setups"]["mode"],
                    PYTHONHASHSEED=str(cfg["train_setups"]["seed"]))
         # Never attach to a run ID inherited from a parent shell or sweep.
-        for key in ("WANDB_RUN_ID", "WANDB_RESUME", "WANDB_SWEEP_ID"):
+        for key in ("SWANLAB_RUN_ID", "SWANLAB_RESUME", "SWANLAB_SWEEP_ID"):
             env.pop(key, None)
         try:
             code = run_child([python, "-u", str(REPO_ROOT / "src" / "main.py"),
@@ -314,7 +316,7 @@ def execute(tasks, output_root, python=PYTHON, skip_successful=True):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--dry-run", action="store_true", help="Validate and print tasks without training/downloading/W&B")
+    parser.add_argument("--dry-run", action="store_true", help="Validate and print tasks without training/downloading/SwanLab")
     parser.add_argument("--data-root", type=Path, default=DATA_ROOT)
     parser.add_argument("--output-root", type=Path, default=OUTPUT_ROOT)
     parser.add_argument("--python", default=PYTHON)

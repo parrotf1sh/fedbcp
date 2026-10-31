@@ -3,7 +3,7 @@ import inspect
 import time
 
 import torch
-import wandb
+import experiment_tracker as tracking
 
 from ..BaseServer import BaseServer
 from .ClientTrainer import ClientTrainer
@@ -184,11 +184,11 @@ class Server(BaseServer):
             weights[name] = sum(values) / sum(ns)
         return weights
 
-    def _wandb_logging(self, round_results, round_idx):
-        super()._wandb_logging(round_results, round_idx)
+    def _tracking_logging(self, round_results, round_idx):
+        super()._tracking_logging(round_results, round_idx)
         metrics = {
             "fedsc/" + name: sum(values) / len(values)
             for name, values in round_results.items()
             if name.endswith("_loss")
         }
-        wandb.log(metrics, step=round_idx)
+        tracking.log(metrics, step=round_idx)

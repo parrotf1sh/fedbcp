@@ -129,7 +129,7 @@ scaling 保持原实现的直接可训练参数，不施加正值约束。
   硬编码的初始化种子或每次本地训练重新设置全局随机种子的操作。
 - 使用项目规定的参与集合，不额外引入原框架的 straggler/drop_ratio 模拟。
 - 使用项目的评估指标与评估节奏，包括本地统计和可选 longtail 最终报告；
-  不复刻原仓库的 split_testset 开关、best-checkpoint 文件或 wandb 脚本。
+  不复刻原仓库的 split_testset 开关、best-checkpoint 文件或原实验追踪脚本。
 - 模型/原型的训练计算分支完整保留，评估接口返回顺序按项目统一为 logits 在前。
 
 ## 静态验证范围

@@ -95,8 +95,8 @@ class Base:
 def modules():
     torch = fake_torch()
     cfg = load_file('fednh_config_numeric', ROOT / 'src/algorithms/fednh/config.py')
-    wandb = types.SimpleNamespace(run=types.SimpleNamespace(summary={}), define_metric=mock.Mock(), log=mock.Mock())
-    stubs = {'torch': torch, 'torch.nn': torch.nn, 'torch.nn.functional': torch.nn.functional, 'wandb': wandb,
+    tracking = types.SimpleNamespace(run=types.SimpleNamespace(summary={}), define_metric=mock.Mock(), log=mock.Mock())
+    stubs = {'torch': torch, 'torch.nn': torch.nn, 'torch.nn.functional': torch.nn.functional, 'experiment_tracker': tracking,
         'algorithms.BaseClientTrainer': types.SimpleNamespace(BaseClientTrainer=object),
         'algorithms.BaseServer': types.SimpleNamespace(BaseServer=Base), 'algorithms.fednh.config': cfg,
         'algorithms.fednh.model': types.SimpleNamespace(ModelWithNormalizedHead=object)}

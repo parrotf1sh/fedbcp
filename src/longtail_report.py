@@ -5,7 +5,7 @@ import os
 import time
 import uuid
 
-import wandb
+import experiment_tracker as tracking
 
 from experiment_logging import log_final, tracking_enabled
 from longtail_metrics import evaluate, groups_from_counts
@@ -28,9 +28,9 @@ def save_baseline_report(server, config):
                       server.num_classes, groups, server.device))
     with open(os.path.join(directory, "final.json"), "w", encoding="utf-8") as handle:
         json.dump(report, handle, indent=2, allow_nan=False)
-    if tracking_enabled(wandb.run):
-        wandb.run.config.update({"longtail_runtime": dict(groups=groups,
+    if tracking_enabled(tracking.run):
+        tracking.run.config.update({"longtail_runtime": dict(groups=groups,
             split_sha256=report["split_sha256"], selection=report["selection"])})
-    log_final(wandb.run, {key: report[key] for key in ("last_global_validation", "last_global_test")})
+    log_final(tracking.run, {key: report[key] for key in ("last_global_validation", "last_global_test")})
     print(">>> Longtail baseline report: {}".format(directory))
     return directory

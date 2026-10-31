@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Paired, globally balanced synthetic study; no datasets/downloads/W&B service.
+"""Paired, globally balanced synthetic study; no datasets/downloads/SwanLab service.
 
 This is a mechanism diagnostic, not a substitute for CIFAR performance evidence.
 Hyperparameters and seeds are fixed before inspecting outcomes. Re-runs use a new

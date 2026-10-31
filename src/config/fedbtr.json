@@ -55,5 +55,11 @@
         "scheduler": {"enabled": true, "name": "step", "params": {"gamma": 0.99, "step_size": 1}},
         "seed": 2022
     },
-    "wandb_setups": {"project": "FedClsimb", "group": "fedbtr", "name": "fedbtr_cifar10_iid", "mode": "online"}
+    "swanlab_setups": {
+        "project": "FedClsimb",
+        "group": "fedbtr",
+        "experiment_name": "fedbtr_cifar10_iid",
+        "mode": "online",
+        "workspace": null
+    }
 }

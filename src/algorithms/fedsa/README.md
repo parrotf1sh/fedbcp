@@ -138,8 +138,8 @@ CE(head(features), labels)
 | `fedsa_final` | 最终完整测试、可选验证及本地测试的客户端明细 |
 | `final/local_test/*` | 已有本地测试划分上的样本加权结果 |
 
-结果通过项目现有 W&B 接口保存；需要有效的 W&B run。
-兼容 batch_protocol 的返回汇总，默认沿用 FedProto 的 W&B 结果路径，不另写自定义结果文件。
+结果通过项目现有 SwanLab 接口保存；需要有效的 SwanLab run。
+兼容 batch_protocol 的返回汇总，默认沿用 FedProto 的 SwanLab 结果路径，不另写自定义结果文件。
 [批量队列](../../../scripts/README_fedsa.md) 显式开启 `fedsa_batch` 和 `write_metrics_files`，
 启用指标/状态文件和指定评估轮次：默认 300 轮训练中，首轮、每 10 轮及最后 10 轮评估全部客户端。
 未评估轮次不记录旧准确率；最后 10 轮指标使用真实的最后 10 个训练轮次。

@@ -62,11 +62,11 @@ def modules():
         torch.nn.CrossEntropyLoss = lambda: cross_entropy
         torch.nn.functional.cross_entropy = cross_entropy
         torch.nn.functional.mse_loss = lambda x, y: Tensor(((x.a - y.a) ** 2).mean())
-        wandb = types.SimpleNamespace(run=types.SimpleNamespace(summary={}), define_metric=mock.Mock(), log=mock.Mock())
+        tracking = types.SimpleNamespace(run=types.SimpleNamespace(summary={}), define_metric=mock.Mock(), log=mock.Mock())
         config = load_file('fedsc_test_config', ROOT / 'src/algorithms/fedsc/config.py')
         stack.enter_context(mock.patch.dict(sys.modules, {
             'torch': torch, 'torch.nn': torch.nn, 'torch.nn.functional': torch.nn.functional,
-            'wandb': wandb, 'algorithms.BaseServer': types.SimpleNamespace(BaseServer=Base),
+            'experiment_tracker': tracking, 'algorithms.BaseServer': types.SimpleNamespace(BaseServer=Base),
             'algorithms.BaseClientTrainer': types.SimpleNamespace(BaseClientTrainer=object),
             'algorithms.fedsc.config': config,
         }))

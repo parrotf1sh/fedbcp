@@ -191,7 +191,7 @@ def audit():
         assert abs(statistics.mean(perclass)-metrics['macro_accuracy']) < 1e-10
         for group, indices in groups.items():
             assert abs(statistics.mean(perclass[c] for c in indices)-metrics[group]) < 1e-10
-        btr.append(dict(directory=str(path.parent.relative_to(ROOT)),name=cfg['wandb_setups']['name'],
+        btr.append(dict(directory=str(path.parent.relative_to(ROOT)),name=cfg.get('swanlab_setups', {}).get('experiment_name') or cfg.get('wandb_setups', {}).get('name'),
                         train_seed=cfg['train_setups']['seed'],split_sha256=runtime['split_sha256'],
                         data=cfg['data_setups'],train=cfg['train_setups'],
                         groups=groups,global_counts=runtime['global_class_counts'],

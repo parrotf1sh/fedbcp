@@ -2,16 +2,16 @@
 
 import time
 
-import wandb
+import experiment_tracker as tracking
 
 from experiment_logging import flatten_metrics, log_final, log_round, tracking_enabled
 from .measures import local_test_summary
 
 
 def run_experiment(server):
-    run = wandb.run
+    run = tracking.run
     if not tracking_enabled(run):
-        raise ValueError("TinyProto requires an active W&B run to save experiment results")
+        raise ValueError("TinyProto requires an active SwanLab run to save experiment results")
     config = getattr(server, "experiment_config", None)
     metadata = dict(
         algorithm="tinyproto",

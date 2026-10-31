@@ -3,7 +3,7 @@ import torch.nn as nn
 import numpy as np
 import copy
 import time
-import wandb
+import experiment_tracker as tracking
 
 from .measures import *
 
@@ -143,7 +143,7 @@ class BaseServer:
     #         "local_train_acc": np.mean(round_results["train_acc"]),
     #         "local_test_acc": np.mean(round_results["test_acc"]),
     #     }
-    #     wandb.log(local_results, step=round_idx)
+    #     tracking.log(local_results, step=round_idx)
 
     #     return finetune_results
 
@@ -222,19 +222,19 @@ class BaseServer:
 
         print("[Server Stat] Acc - {:2.2f}".format(test_accs))
 
-    def _wandb_logging(self, round_results, round_idx):
-        """Log on the W&B server"""
+    def _tracking_logging(self, round_results, round_idx):
+        """Log on the SwanLab server"""
 
         # Local round results
         local_results = {
             "local_train_acc": np.mean(round_results["train_acc"]),
             "local_test_acc": np.mean(round_results["test_acc"]),
         }
-        wandb.log(local_results, step=round_idx)
+        tracking.log(local_results, step=round_idx)
 
         # Server round results
         server_results = {"server_test_acc": self.server_results["test_accuracy"][-1]}
-        wandb.log(server_results, step=round_idx)
+        tracking.log(server_results, step=round_idx)
 
     def _update_and_evaluate(self, ag_weights, round_results, round_idx, start_time):
         """Evaluate experiment statistics."""
@@ -250,7 +250,7 @@ class BaseServer:
         eval_results = get_round_personalized_acc(
             round_results, self.server_results, self.data_distributed
         )
-        wandb.log(eval_results, step=round_idx)
+        tracking.log(eval_results, step=round_idx)
 
         # Change learning rate
         if self.scheduler is not None:
@@ -259,6 +259,6 @@ class BaseServer:
         round_elapse = time.time() - start_time
 
         # Log and Print
-        self._wandb_logging(round_results, round_idx)
+        self._tracking_logging(round_results, round_idx)
         self._print_stats(round_results, test_acc, round_idx, round_elapse)
         print("-" * 50)

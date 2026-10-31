@@ -141,7 +141,7 @@ simple_scale=True:  global[c] = len(values) * constant_scale_factor
    移植采用固定最终轮，原脚本可选早停、模拟慢客户端和计时休眠不进入本研究协议。
 7. 原脚本未实现的 `diverge`、`calc_proto_distance`、距离/角度统计引用，
    临时整模型文件往返、调试打印和绘图不接入；非有限计算通过明确异常停止。
-   项目统一 W&B 日志负责有效的训练与测试统计。
+   项目统一 SwanLab 日志负责有效的训练与测试统计。
 
 ## 评估与日志
 
@@ -166,17 +166,17 @@ prediction = argmin_c mean((features - restored_global_prototype[c]) ** 2)
 训练损失按 batch 平均，再对当轮参与客户端平均；原型误差是未乘 lambda 的 MSE。
 测试原型 MSE 的缺类样本贡献为零，与训练分母规则一致；缺类测试样本仍计入准确率分母。
 
-结果使用项目 `experiment_logging` 写入 W&B history/summary，要求有效 run。
+结果使用项目 `experiment_logging` 写入 SwanLab history/summary，要求有效 run。
 `tinyproto_runtime` 记录公式、配置、掩码、特征位置、修复和评估定义；
 longtail 记录 split 哈希，legacy 沿用入口已有划分元数据。
 兼容指标 `server_test_acc`、`global/top1` 表示全局测试集范围，不表示存在全局模型。
 最终结果保存在 `tinyproto_final`、`final/*` 及 `batch_summary`。
-不新增 HDF5/CSV 或本地结果文件依赖；可选掩码缓存和 W&B 自身缓存除外。
+不新增 HDF5/CSV 或本地结果文件依赖；可选掩码缓存和 SwanLab 自身缓存除外。
 
 ## 静态验证范围
 
 仅进行 Python 语法/AST、JSON、相对导入与导出、入口注册、配置一致性及关键控制流核对。
 核对范围包括四种 CPS/APS 组合的代码分支、全部 epoch 原型累计、逐类聚合返回位置、
 损失分母、缺类分支、固定 SGD、客户端状态隔离及全类别 MSE 预测。
-不导入执行算法，不运行模型前向/反向、训练、数值测试、数据下载或 W&B 实验。
+不导入执行算法，不运行模型前向/反向、训练、数值测试、数据下载或 SwanLab 实验。
 静态检查不证明运行时数值等价或实验性能。

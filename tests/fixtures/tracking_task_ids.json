@@ -1,0 +1,34 @@
+{
+  "run_fedavg_experiments": {
+    "count": 66,
+    "sha256": "ed4de6f58099425322440313446e472e174f66f01848d035b6227686e989d6f2"
+  },
+  "run_fedhpro_experiments": {
+    "count": 44,
+    "sha256": "efd04c1078d9cf92342002dcaf67e6336527be7a0dd4431ad4d80764e66a0994"
+  },
+  "run_fednh_experiments": {
+    "count": 44,
+    "sha256": "43825e1c3d19f163074843651e4c7ca5fe63e34bc247416098399c519ae1cfc3"
+  },
+  "run_fedproc_experiments": {
+    "count": 44,
+    "sha256": "ed294d0d9bc2cd835f980e93f0b5a1425b03365289f1a413e33412f72bc57362"
+  },
+  "run_fedrcl_experiments": {
+    "count": 44,
+    "sha256": "90866de8934621c9c3f058d4d585d4ae6bf1403c1388529128b0fcebf83f7f63"
+  },
+  "run_fedsa_experiments": {
+    "count": 44,
+    "sha256": "ed8619e3d3faf400ff1e02876218f8e1c1a3b587e2523e0edb0fc0cd7e7ee7c2"
+  },
+  "run_fedsc_experiments": {
+    "count": 44,
+    "sha256": "b8326646c8871f5fbe6cac461308e0a7f7d77ee0c50cf1ab5118d77134ccb64c"
+  },
+  "run_moon_experiments": {
+    "count": 44,
+    "sha256": "37005fdff1aada7a0ab0a9f14a012d97d6c0b98ac357e6ac66f4175dfca36a65"
+  }
+}

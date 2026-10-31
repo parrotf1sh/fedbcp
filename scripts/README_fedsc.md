@@ -1,5 +1,7 @@
 # FedSC 批量对比实验
 
+SwanLab 安装、历史结果迁移与继续训练见 [SwanLab 使用说明](README_swanlab.md)。
+
 在项目根目录、已安装项目依赖的环境中运行：
 
 ```bash
@@ -28,7 +30,7 @@ LDA 最多尝试 128 次，随后按公共规则从充足客户端转移样本�
 每次参与重新建立 SGD 并清空状态。模型聚合保留先乘样本量、求和、再除总样本量的操作顺序。
 原型仅来自最后一个本地 epoch 已有训练前向，不另跑提取过程。
 
-本队列明确标为 `provided_source_behavior_v1`，名称含 `source`，W&B tags 含 `source-behavior`。
+本队列明确标为 `provided_source_behavior_v1`，名称含 `source`，SwanLab tags 含 `source-behavior`。
 保留当前移植的正原型列表异常回退、关系原型临时修正未写回、按类别列表位置使用权重、
 原地改写关系原型等行为。有限特征下 CPDR 为零，RPCL 仍参与训练。
 不能把结果描述成修复这些行为后的 FedSC；详细边界见 [移植说明](../src/algorithms/fedsc/README.md)。
@@ -36,7 +38,7 @@ LDA 最多尝试 128 次，随后按公共规则从充足客户端转移样本�
 
 ## 日志与通信
 
-每次独立训练对应一个 W&B run，项目默认 `Point1`，自动填写名称、tags 和完整 config。
+每次独立训练对应一个 SwanLab run，项目默认 `Point1`，自动填写名称、tags 和完整 config。
 每轮记录全局 Top-1、CE、Macro-F1、最差 20% 类别平均召回、各类别召回；
 训练在线准确率、按实际处理样本数加权的 CE/RPCL/CPDR/总损失，以及时间、通信量。
 训练指标覆盖所有本地 epoch；上传的原型与类别计数仅覆盖最后 epoch。
@@ -68,7 +70,7 @@ Ctrl+C 停止当前训练与队列，之后重启可继续未成功任务。
 # 可选：8 核 CPU 预生成 18 个不同划分，训练队列仍为串行
 python scripts/prepare_partitions.py --source fedsc --workers 8
 
-# 仅生成清单，不训练、不下载、不连接 W&B
+# 仅生成清单，不训练、不下载、不连接 SwanLab
 python scripts/run_fedsc_experiments.py --dry-run
 
 # 数据与结果目录可自定义
@@ -80,5 +82,5 @@ python scripts/run_fedsc_experiments.py --data-root /data --output-root /results
 使用无训练的队列测试、NumPy 张量替身验证指标与调用流程，并检查 Python 语法。
 覆盖任务去重、两种子配对、18 个共享划分、异常继续、成功跳过、损失分项、
 最后 epoch 原型收集、源码回退与失败分支、通信统计和统一指标输出。
-没有运行小规模训练、真实 PyTorch/GPU 前反向、数据下载或 W&B 联网；
+没有运行小规模训练、真实 PyTorch/GPU 前反向、数据下载或 SwanLab 联网；
 这些检查不替代实验机上的完整运行验证。

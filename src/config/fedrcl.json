@@ -69,9 +69,10 @@
         },
         "seed": 2022
     },
-    "wandb_setups": {
+    "swanlab_setups": {
         "project": "FedClsimb",
         "group": "fedrcl",
-        "name": "fedrcl_1"
+        "experiment_name": "fedrcl_1",
+        "workspace": null
     }
 }

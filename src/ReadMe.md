@@ -29,7 +29,7 @@ FedProc 的两训练种子、44 任务队列见 [FedProc 批量运行说明](../
 
 FedProto 的移植说明、总体测试性能定义和输出字段见 [FedProto](algorithms/fedproto/README.md)。
 在 `src` 目录运行 `python main.py --config_path ./config/fedproto.json`。
-主指标是所有客户端在完整测试集上的原型预测准确率均值，实验结果仅保存到 W&B 的 history 和 summary。
+主指标是所有客户端在完整测试集上的原型预测准确率均值，实验结果仅保存到 SwanLab 的 history 和 summary。
 
 FedRCL 的模型层级映射、原始损失分支、等权聚合及学习率适配见
 [FedRCL 移植说明](algorithms/fedrcl/README.md)。在 `src` 目录运行

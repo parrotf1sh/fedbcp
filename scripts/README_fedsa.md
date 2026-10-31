@@ -1,5 +1,7 @@
 # FedSA 两种子批量实验
 
+SwanLab 安装、历史结果迁移与继续训练见 [SwanLab 使用说明](README_swanlab.md)。
+
 在实验机项目根目录、已安装项目依赖的环境中运行：
 
 ```bash
@@ -76,7 +78,7 @@ Macro-F1、逐类召回和最差 20% 类别平均召回先按客户端计算，�
 local_gap 为负无穷的客户端比例及有限值计数。保留负无穷的算法语义，
 只将标志及有限值均值写入日志，不输出非法 JSON 数值。
 
-每次训练独立 W&B run，默认项目 `Point1`；自动记录配置、run 名称、tags、条件分组和划分指纹。
+每次训练独立 SwanLab run，默认项目 `Point1`；自动记录配置、run 名称、tags、条件分组和划分指纹。
 最终汇总包括最终 Top-1、最后 10 轮均值、Macro-F1、最差类召回、训练/评估时间和通信量。
 aggregate.csv 对共同条件的两个种子统计均值及样本标准差，并列出成功/预期次数。
 与三种子 FedAvg 配对比较时使用共同的 2022、2023 两个种子。
@@ -111,9 +113,9 @@ JSONL 每轮追加，成功结束后转换为 CSV，未评估的 CSV 指标单�
 模型、优化器、语义锚点、历史原型均不保存为文件，也不上传模型 artifact；
 划分缓存 NPZ 只有索引与元数据。
 
-新入口同时启用 `fedsa_batch` 和 `write_metrics_files`，让共享 W&B 生命周期写出
+新入口同时启用 `fedsa_batch` 和 `write_metrics_files`，让共享 SwanLab 生命周期写出
 summary.json，供队列判定成功及跳过。原 FedSA 单次入口，以及 FedProto/TinyProto 的
-默认 W&B-only 路径保持不变。
+默认 SwanLab-only 路径保持不变。
 失败任务报错后继续下一项；重跑失败任务从头训练并建立新 attempt/run。
 成功任务默认跳过，Ctrl+C 则停止队列。不要同时运行其他 GPU 队列。
 
@@ -121,7 +123,7 @@ summary.json，供队列判定成功及跳过。原 FedSA 单次入口，以及 
 # 可选：8 核 CPU 预生成或验证 18 份共享划分
 python scripts/prepare_partitions.py --source fedsa --workers 8
 
-# 仅生成清单，不训练、不下载、不连接 W&B
+# 仅生成清单，不训练、不下载、不连接 SwanLab
 python scripts/run_fedsa_experiments.py --dry-run
 
 # 可指定数据、结果目录和实验环境解释器
@@ -132,6 +134,6 @@ python scripts/run_fedsa_experiments.py --data-root /data --output-root /results
 
 非训练测试覆盖 44 个任务、两个训练种子、固定锚点种子、缓存配对、失败继续、
 成功跳过、客户端状态保留、原型等权聚合、全客户端评估、稀疏日志、
-真实最后 10 轮均值、训练/评估通信分离、W&B-only 兼容和本地成功状态文件。
+真实最后 10 轮均值、训练/评估通信分离、SwanLab-only 兼容和本地成功状态文件。
 数值与流程测试使用 NumPy/接口替身，不运行 PyTorch/GPU 前反向。
-未执行数据下载、W&B 联网、实际训练或小规模冒烟训练。
+未执行数据下载、SwanLab 联网、实际训练或小规模冒烟训练。

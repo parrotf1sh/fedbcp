@@ -1,5 +1,6 @@
 import json
 import os
+from tracking_config import tracking_settings
 
 __all__ = ["ConfLoader", "directory_setter", "config_overwriter"]
 
@@ -35,6 +36,8 @@ class ConfLoader:
 
     def __get_opt(self):
         opt = self.__load_conf()
+        opt["swanlab_setups"] = self.DictWithAttributeAccess(tracking_settings(opt))
+        opt.pop("wandb_setups", None)
         opt = self.DictWithAttributeAccess(opt)
 
         return opt
@@ -107,9 +110,9 @@ def config_overwriter(opt, args):
         opt.train_setups.seed = args.seed
 
     if args.group is not None:
-        opt.wandb_setups.group = args.group
+        opt.swanlab_setups.group = args.group
 
     if args.exp_name is not None:
-        opt.wandb_setups.name = args.exp_name
+        opt.swanlab_setups.experiment_name = args.exp_name
 
     return opt

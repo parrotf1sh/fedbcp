@@ -12,10 +12,10 @@ import numpy as np
 import torch
 from torch import nn
 from torch.utils.data import DataLoader, Dataset, TensorDataset
-import wandb
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
+import experiment_tracker as tracking
 
 from algorithms.fedbpc_complete import Server
 from algorithms.fedbpc_complete.config import resolve_config
@@ -308,7 +308,7 @@ class IntegrationTests(unittest.TestCase):
             existing.write_text("previous results\n")
             config = {"batch_protocol": {"output_dir": directory},
                       "train_setups": {"algo": {"name": "fedbpc_complete"}}}
-            with mock.patch("fedavg_batch.wandb.init") as init:
+            with mock.patch("fedavg_batch.tracking.init") as init:
                 with self.assertRaises(FileExistsError):
                     run_tracked(config, lambda _: None)
                 init.assert_not_called()
@@ -336,7 +336,7 @@ class IntegrationTests(unittest.TestCase):
             server.experiment_config = {
                 "batch_protocol": {"output_dir": directory, "save_checkpoints": True},
                 "train_setups": {"seed": 12, "algo": {"name": "fedbpc_complete"}}}
-            run = wandb.init(mode="disabled")
+            run = tracking.init(mode="disabled")
             try:
                 server.run()
             finally:

@@ -45,9 +45,10 @@
         },
         "seed": 2022
     },
-    "wandb_setups": {
+    "swanlab_setups": {
         "project": "FedClsimb",
         "group": "fedproto",
-        "name": "fedproto_cifar10_sharding"
+        "experiment_name": "fedproto_cifar10_sharding",
+        "workspace": null
     }
 }

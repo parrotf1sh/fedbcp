@@ -1,4 +1,4 @@
-"""CSV-friendly W&B metrics; pure-Python helpers accept an explicit run object."""
+"""CSV-friendly SwanLab metrics; pure-Python helpers accept an explicit run object."""
 
 import math
 

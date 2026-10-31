@@ -1,9 +1,9 @@
-"""Shared W&B lifecycle and automatic data preparation for baseline runs."""
+"""Shared SwanLab lifecycle and automatic data preparation for baseline runs."""
 import platform
 from pathlib import Path
 
 import torch
-import wandb
+import experiment_tracker as tracking
 
 from algorithms.fedavg.reporting import write_json
 from fedavg_data import prepare_data, TINY_URL
@@ -23,22 +23,19 @@ def run_tracked(config, train):
         output = Path(config["batch_protocol"]["output_dir"])
         output.mkdir(parents=True, exist_ok=True)
     config["runtime"] = {"python": platform.python_version(), "torch": str(torch.__version__),
-                         "cuda": torch.version.cuda, "wandb": wandb.__version__}
+                         "cuda": torch.version.cuda, "swanlab": tracking.__version__}
     config["batch_protocol"]["tiny_imagenet_url"] = TINY_URL
     if output is not None:
         write_json(output / "config.json", config)
     run = None
     try:
-        run = wandb.init(config=config, **config["wandb_setups"])
+        run = tracking.init(config=config, **config["swanlab_setups"])
         prepare_data(config)
         summary = train(config)
         if not summary:
             raise RuntimeError("Batch training did not return a metrics summary")
-        summary.update(status="success", wandb_run_id=run.id, wandb_url=run.url)
-        if output is None:
-            run.summary.update(summary)
-        else:
-            run.summary["status"] = "success"
+        summary.update(status="success", swanlab_run_id=run.id, swanlab_url=run.url)
+        run.summary.update(summary)
         run.finish(exit_code=0)
         if output is not None:
             write_json(output / "summary.json", summary)

@@ -2,7 +2,7 @@ import copy
 import math
 
 import torch
-import wandb
+import experiment_tracker as tracking
 from torch.utils.data import DataLoader, TensorDataset
 
 from ..BaseServer import BaseServer
@@ -260,14 +260,14 @@ class Server(BaseServer):
             self.hyper_optimizer.step()
         self.prototype_metrics["fedhpro/hyper_matching_loss"] = loss.detach().item()
 
-    def _wandb_logging(self, round_results, round_idx):
-        super()._wandb_logging(round_results, round_idx)
+    def _tracking_logging(self, round_results, round_idx):
+        super()._tracking_logging(round_results, round_idx)
         metrics = dict(self.prototype_metrics)
         metrics.update({
             "fedhpro/" + name: sum(values) / len(values)
             for name, values in round_results.items() if name.endswith("_loss")
         })
-        wandb.log(metrics, step=round_idx)
+        tracking.log(metrics, step=round_idx)
 
     def batch_communication_bytes(self):
         # Common reporter already counts full model up/down and optimizer tensors.

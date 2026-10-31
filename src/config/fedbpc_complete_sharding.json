@@ -49,11 +49,12 @@
         },
         "seed": 2022
     },
-    "wandb_setups": {
+    "swanlab_setups": {
         "project": "FedClsimb",
         "group": "fedbpc_complete",
-        "name": "fedbpc_complete_sharding_seed2022",
-        "mode": "offline"
+        "experiment_name": "fedbpc_complete_sharding_seed2022",
+        "mode": "offline",
+        "workspace": null
     },
     "batch_protocol": {
         "output_dir": "../fedbpc_complete_experiments/sharding_seed2022",

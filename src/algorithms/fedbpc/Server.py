@@ -7,7 +7,7 @@ import sys
 
 import numpy as np
 import torch
-import wandb
+import experiment_tracker as tracking
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.getcwd(), "../../")))
 
@@ -185,11 +185,11 @@ class Server(BaseServer):
 
         return copy.deepcopy(w_avg)
 
-    def _wandb_logging(self, round_results, round_idx):
-        super()._wandb_logging(round_results, round_idx)
-        wandb.log(self.prototype_metrics, step=round_idx)
+    def _tracking_logging(self, round_results, round_idx):
+        super()._tracking_logging(round_results, round_idx)
+        tracking.log(self.prototype_metrics, step=round_idx)
         if self.head_agg_metrics:
-            wandb.log(self.head_agg_metrics, step=round_idx)
+            tracking.log(self.head_agg_metrics, step=round_idx)
         if self.diagnostic_params["enabled"]:
             diagnostic_metrics = self._collect_diagnostic_metrics(round_results)
             prototype_alignment_metrics = (
@@ -198,7 +198,7 @@ class Server(BaseServer):
             shadow_metrics = self._evaluate_shadow_counterfactual(round_idx)
             diagnostic_metrics.update(prototype_alignment_metrics)
             diagnostic_metrics.update(shadow_metrics)
-            wandb.log(diagnostic_metrics, step=round_idx)
+            tracking.log(diagnostic_metrics, step=round_idx)
 
     def _validate_feature_interface(self, model):
         forward_signature = inspect.signature(model.forward)

@@ -22,7 +22,7 @@ def modules():
     config = load_file('fedsa_metrics_config', ROOT / 'src/algorithms/fedsa/config.py')
     logging = load_file('fedsa_logging_test', ROOT / 'src/experiment_logging.py')
     stubs = {'torch': torch, 'torch.nn': torch.nn, 'torch.nn.functional': torch.nn.functional,
-             'wandb': types.SimpleNamespace(run=run), 'experiment_logging': logging,
+             'experiment_tracker': types.SimpleNamespace(run=run), 'experiment_logging': logging,
              'longtail_metrics': types.SimpleNamespace(groups_from_counts=mock.Mock()),
              'algorithms.BaseServer': types.SimpleNamespace(BaseServer=Base),
              'algorithms.fedsa.ClientTrainer': types.SimpleNamespace(ClientTrainer=object),
@@ -166,7 +166,7 @@ class FedSAMetricsTests(unittest.TestCase):
             self.assertEqual(run.log.call_count, 300)
             self.assertEqual(lines[1]['train/total_loss'], 2.)  # Existing equal-client logging.
 
-    def test_legacy_report_stays_every_round_and_wandb_only(self):
+    def test_legacy_report_stays_every_round_and_tracking_only(self):
         with modules() as (config, _, __, reporting, ___, ____, run):
             server = types.SimpleNamespace(n_rounds=2, n_clients=1, num_classes=2, device='cpu', groups={},
                 cfg=config.resolve_config({}), semantic_anchors=Tensor([[1., 0.], [0., 1.]]),

@@ -73,7 +73,7 @@ class ClientTrainer(BaseClientTrainer):
         local_results = {key: sum(values) / len(values) for key, values in loss_results.items()}
         local_results["global_gap"] = float(global_margin)
         local_results["effective_gap"] = float(max(local_margin, global_margin))
-        # Keep -inf in the actual computation, but not in JSON/W&B metrics.
+        # Keep -inf in the actual computation, but not in JSON/SwanLab metrics.
         local_results["local_gap_is_negative_infinity"] = float(local_margin == float("-inf"))
         if local_margin != float("-inf"):
             local_results["local_gap"] = float(local_margin)

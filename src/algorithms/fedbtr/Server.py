@@ -9,7 +9,7 @@ from contextlib import nullcontext
 
 import numpy as np
 import torch
-import wandb
+import experiment_tracker as tracking
 
 from experiment_logging import configure_tracking, log_final, log_round, tracking_enabled
 
@@ -96,10 +96,10 @@ class Server(BaseServer):
                 cohort="global wrong and calibrated teacher correct, fixed at origin round",
                 shadows="same global/optimizer state and replayed RNG; selected clients only; never aggregated",
                 followups="endpoint observations, not proof of uninterrupted correctness",
-                privacy="Simulation-only central evaluation of local/shadow models; no raw records uploaded to W&B",
+                privacy="Simulation-only central evaluation of local/shadow models; no raw records uploaded to SwanLab",
             )
         self.set_experiment_config(None)
-        configure_tracking(wandb.run, self.run_metadata)
+        configure_tracking(tracking.run, self.run_metadata)
         print(">>> FedBTR results: {}".format(self.output_dir))
 
     def set_experiment_config(self, experiment):
@@ -131,15 +131,15 @@ class Server(BaseServer):
         if handle is not None:
             handle.write(json.dumps(record, allow_nan=False) + "\n")
             handle.flush()
-        log_round(wandb.run, record)
+        log_round(tracking.run, record)
 
     def run(self):
         model_bytes = tensor_bytes(self.model.state_dict())
         total_uplink = total_downlink = 0
         metrics_path = os.path.join(self.output_dir, "rounds.jsonl")
-        # W&B offline mode already keeps its own local history. Only fall back
+        # SwanLab offline mode already keeps its own local history. Only fall back
         # to JSONL when tracking is absent/disabled, or explicitly requested.
-        local_history = self.cfg["save_local_history"] or not tracking_enabled(wandb.run)
+        local_history = self.cfg["save_local_history"] or not tracking_enabled(tracking.run)
         history_context = open(metrics_path, "w", encoding="utf-8") if local_history else nullcontext(None)
         with history_context as handle:
             for round_idx in range(self.n_rounds):
@@ -339,5 +339,5 @@ class Server(BaseServer):
             self.last_teacher.cpu()
             self._checkpoint("last_teacher.pt", cpu_state(self.last_teacher), self.n_rounds, None)
         self._write_json("final.json", final)
-        log_final(wandb.run, final)
+        log_final(tracking.run, final)
         print(">>> FedBTR complete: {}".format(self.output_dir))
